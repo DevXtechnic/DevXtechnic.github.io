@@ -1885,6 +1885,9 @@ kbd {
 .contact-item p {
   margin-top: 0;
   font-size: 0.82rem;
+  overflow-wrap: anywhere;
+  word-break: break-word;
+  line-height: 1.38;
 }
 
 .repo-meta {
@@ -1896,7 +1899,39 @@ kbd {
 .contact-item {
   text-decoration: none;
   color: var(--ink);
+  min-width: 0;
   transition: transform 145ms ease, background 145ms ease;
+}
+
+.contact-title {
+  display: flex;
+  align-items: center;
+  gap: 0.38rem;
+}
+
+.contact-logo {
+  width: 1.05rem;
+  height: 1.05rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid var(--border);
+  border-radius: 7px;
+  background: rgba(12, 22, 42, 0.55);
+  color: var(--blue-2);
+  flex: 0 0 auto;
+}
+
+.contact-logo svg {
+  width: 0.72rem;
+  height: 0.72rem;
+  display: block;
+  fill: currentColor;
+}
+
+.contact-item:hover .contact-logo {
+  border-color: rgba(163, 207, 255, 0.6);
+  background: rgba(27, 47, 79, 0.8);
 }
 
 .contact-item:hover {
