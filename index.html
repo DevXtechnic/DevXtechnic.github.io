@@ -1,0 +1,200 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Neo | Aura Farmer</title>
+  <meta name="description" content="Bikram Gole - Aura Farmer from Gongabu, KTM. Chaotic fun personal site around AI, open source, crypto, and philosophy." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=Syne:wght@700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body data-page="home">
+  <script>
+    (() => {
+      try {
+        const params = new URLSearchParams(window.location.search);
+        const urlTheme = params.get("theme");
+        const savedTheme = window.localStorage.getItem("neoThemeVariant.v1");
+        if (savedTheme) {
+          document.body.dataset.theme = savedTheme;
+        } else if (urlTheme) {
+          document.body.dataset.theme = urlTheme;
+        }
+      } catch (error) {
+        // ignore
+      }
+    })();
+  </script>
+  <canvas id="starfield" aria-hidden="true"></canvas>
+  <div class="noise" aria-hidden="true"></div>
+
+  <header class="site-header">
+    <a class="brand-name" href="index.html">Neo</a>
+    <nav>
+      <a href="index.html" data-nav="home">Home</a>
+      <a href="about.html" data-nav="about">About</a>
+      <a href="contact.html" data-nav="contact">Contact</a>
+    </nav>
+    <div class="header-tools">
+      <label for="header-theme-select" class="theme-top-label">Theme</label>
+      <select id="header-theme-select" class="theme-top-select" aria-label="Theme switcher">
+        <option value="neo">Neo Blue</option>
+        <option value="mint">Mint Matrix</option>
+        <option value="sunset">Sunset Warp</option>
+        <option value="midnight">Midnight Ice</option>
+        <option value="ember">Ember Core</option>
+        <option value="arctic">Arctic Pulse</option>
+        <option value="grape">Grape Nebula</option>
+        <option value="toxic">Toxic Lime</option>
+        <option value="ocean">Ocean Drift</option>
+        <option value="bloodmoon">Blood Moon</option>
+        <option value="liquidglass">Liquid Glass</option>
+        <option value="paper">Paper Link</option>
+        <option value="blackflag">Black Flag Uprising</option>
+      </select>
+      <button id="theme-cycle-btn" class="theme-cycle-btn" type="button" aria-label="Cycle theme">↻</button>
+    </div>
+  </header>
+
+  <main>
+    <section id="hero-zone" class="hero reveal skew-left">
+      <div class="hero-grid">
+        <div>
+          <p id="hero-tagline" class="tag">Aura Farmer // Chaotic Fun 🚀</p>
+          <h1 id="hero-name" data-name="Bikram Gole">Bikram Gole</h1>
+          <p id="hero-status" class="status-line" aria-live="polite">Debater mode always ready ⚔️</p>
+          <div class="chips">
+            <span>AI</span>
+            <span>Open Source</span>
+            <span>Technology</span>
+            <span>Linux</span>
+            <span>Self Improvement</span>
+          </div>
+          <div class="hero-actions">
+            <a class="btn primary" href="about.html">Full Profile 🧠</a>
+            <a class="btn ghost" href="https://github.com/DevXtechnic" target="_blank" rel="noopener noreferrer">GitHub</a>
+            <button id="launch-btn" class="btn ghost" type="button">Launch Pulse 🌌</button>
+            <button id="palette-open" class="btn ghost" type="button">Ctrl/🐧 + K</button>
+          </div>
+        </div>
+
+        <aside class="avatar-card tilt" aria-label="penguin avatar">
+          <div class="avatar-glow"></div>
+          <div class="penguin-avatar">
+            <div class="penguin-body"></div>
+            <div class="penguin-belly"></div>
+            <div class="penguin-cap"></div>
+            <div class="penguin-cap-brim"></div>
+            <div class="penguin-eye left"></div>
+            <div class="penguin-eye right"></div>
+            <div class="penguin-pupil left"></div>
+            <div class="penguin-pupil right"></div>
+            <div class="penguin-glasses"></div>
+            <div class="penguin-beak"></div>
+            <div class="penguin-wing left"></div>
+            <div class="penguin-wing right"></div>
+            <div class="penguin-foot left"></div>
+            <div class="penguin-foot right"></div>
+          </div>
+        </aside>
+      </div>
+    </section>
+
+    <section id="mission-console" class="panel reveal delay-1 skew-right">
+      <h2>Mission Console 🛰️</h2>
+      <p>Click controls. Watch the page mutate.</p>
+      <div class="control-row">
+        <button id="quote-btn" class="btn primary" type="button">Drop Insight 💡</button>
+      </div>
+      <div id="quote-output" class="terminal" role="status" aria-live="polite">Console ready.</div>
+      <p class="signal-board">Signals launched: <strong id="signal-count">0</strong></p>
+      <p class="signal-board">Pulse chain: 5 = Elon Warp, 10 = Chill Music, 15 = ISTJ Grid, 20 = Matrix Rain.</p>
+      <p class="signal-board">Drop Insight resets the chain.</p>
+    </section>
+
+    <section id="ai-constellation" class="panel reveal delay-2 skew-right">
+      <h2>AI Constellation 🤖</h2>
+      <div class="chaos-grid">
+        <article class="chaos-card tilt c1"><h3>YouTube</h3><p>AI Explained, Matt Wolfe</p></article>
+        <article class="chaos-card tilt c2"><h3>AI Leaders</h3><p>Sam Altman, Dario Amodei, Elon Musk</p></article>
+        <article class="chaos-card tilt c3"><h3>Focus</h3><p>Build practical AI projects and ship consistently.</p></article>
+        <article class="chaos-card tilt c4"><h3>Tagline</h3><p>Aura Farmer</p></article>
+      </div>
+    </section>
+
+    <section id="culture-brain" class="panel reveal delay-3 skew-left">
+      <h2>Culture + Brain Fuel 📚</h2>
+      <div class="favorite-grid tilt-zone">
+        <article class="favorite-card tilt"><h3>Books</h3><p>1984, Can't Hurt Me, Elon Musk, All Tomorrows, I Have No Mouth and I Must Scream</p></article>
+        <article class="favorite-card tilt"><h3>Movies</h3><p>The Matrix, The Monkey King, Robot, 2.0, The Real Jackpot, Nayak, Ready Player One, Squid Game, BFG</p></article>
+        <article class="favorite-card tilt"><h3>Games</h3><p>Black Myth: Wukong, Minecraft, Detroit: Become Human</p></article>
+        <article class="favorite-card tilt"><h3>Anime</h3><p>Death Note, Monster, Psycho-Pass, Attack on Titan, Naruto, My Hero Academia, Classroom of the Elite</p></article>
+      </div>
+    </section>
+
+    <section id="neo-terminal" class="panel reveal delay-3 skew-right">
+      <h2>Neo Terminal ⚡</h2>
+      <p>Type commands and control the page like a mini shell.</p>
+      <div class="mini-terminal">
+        <div class="mini-terminal-head">
+          <p class="omp-row omp-row-top">    Neo     0ms </p>
+          <p class="omp-row omp-row-mid">╭─ </p>
+        </div>
+        <div class="mini-terminal-screen">
+          <div id="mini-terminal-output" class="mini-terminal-output" aria-live="polite"></div>
+          <form id="mini-terminal-form" class="mini-terminal-form">
+            <label for="mini-terminal-input">╰─❯</label>
+            <input id="mini-terminal-input" type="text" placeholder="help" autocomplete="off" />
+          </form>
+        </div>
+        <p class="mini-terminal-hint">Try: help, whoami, skills, quote, launch, matrix, theme mint, crypto</p>
+      </div>
+    </section>
+
+    <section id="persona-quiz" class="panel reveal delay-3 skew-left">
+      <h2>Persona Quiz Game 🧩</h2>
+      <p>Test if people really know my vibe. Questions are based on my actual persona.</p>
+      <div class="quiz-board">
+        <p id="quiz-progress" class="quiz-meta">Ready to start the quiz.</p>
+        <h3 id="quiz-question" class="quiz-question">Hit start and prove your Neo-level awareness.</h3>
+        <div id="quiz-options" class="quiz-options" role="group" aria-label="quiz answers"></div>
+        <div class="quiz-controls">
+          <button id="quiz-start" class="btn primary" type="button">Start Quiz 🚀</button>
+          <button id="quiz-reset" class="btn ghost" type="button">Reset Quiz</button>
+        </div>
+        <p id="quiz-score" class="quiz-score">Score: 0/0</p>
+      </div>
+    </section>
+
+    <section id="github-live" class="panel reveal delay-3 skew-right">
+      <h2>Live GitHub 💻</h2>
+      <p>Auto-fetched from <a href="https://github.com/DevXtechnic" target="_blank" rel="noopener noreferrer">github.com/DevXtechnic</a>.</p>
+      <div id="repo-grid" class="repo-grid tilt-zone" aria-live="polite"></div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <p><span id="page-footer-line" data-text="Primary:">Primary:</span> <a href="mailto:Bikramgole.genius@keemail.me">Bikramgole.genius@keemail.me</a></p>
+  </footer>
+
+  <div id="command-palette" class="command-palette" aria-hidden="true">
+    <button id="command-backdrop" class="command-backdrop" type="button" aria-label="Close command palette"></button>
+    <div class="command-shell" role="dialog" aria-modal="true" aria-labelledby="command-title">
+      <div class="command-head">
+        <div class="command-title-wrap">
+          <span class="linux-mark" aria-hidden="true"></span>
+          <h3 id="command-title">Ctrl/🐧 + K Panel</h3>
+        </div>
+        <span>Neo Ops</span>
+      </div>
+      <input id="command-input" type="text" placeholder="Type command: quiz, github, matrix..." autocomplete="off" />
+      <div id="command-results" class="command-results" role="listbox" aria-label="command results"></div>
+      <p class="command-hint">Tip: <kbd>Ctrl/🐧 + K</kbd> to open, <kbd>Esc</kbd> to close.</p>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>

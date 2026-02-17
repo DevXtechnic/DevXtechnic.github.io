@@ -1,0 +1,108 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>About Neo | Aura Farmer</title>
+  <meta name="description" content="About Bikram Gole from Gongabu, KTM. AI-focused student builder with chaotic fun style." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=Syne:wght@700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body data-page="about">
+  <script>
+    (() => {
+      try {
+        const params = new URLSearchParams(window.location.search);
+        const urlTheme = params.get("theme");
+        const savedTheme = window.localStorage.getItem("neoThemeVariant.v1");
+        if (savedTheme) {
+          document.body.dataset.theme = savedTheme;
+        } else if (urlTheme) {
+          document.body.dataset.theme = urlTheme;
+        }
+      } catch (error) {
+        // ignore
+      }
+    })();
+  </script>
+  <canvas id="starfield" aria-hidden="true"></canvas>
+  <div class="noise" aria-hidden="true"></div>
+
+  <header class="site-header">
+    <a class="brand-name" href="index.html">Neo</a>
+    <nav>
+      <a href="index.html" data-nav="home">Home</a>
+      <a href="about.html" data-nav="about">About</a>
+      <a href="contact.html" data-nav="contact">Contact</a>
+    </nav>
+    <div class="header-tools">
+      <label for="header-theme-select" class="theme-top-label">Theme</label>
+      <select id="header-theme-select" class="theme-top-select" aria-label="Theme switcher">
+        <option value="neo">Neo Blue</option>
+        <option value="mint">Mint Matrix</option>
+        <option value="sunset">Sunset Warp</option>
+        <option value="midnight">Midnight Ice</option>
+        <option value="ember">Ember Core</option>
+        <option value="arctic">Arctic Pulse</option>
+        <option value="grape">Grape Nebula</option>
+        <option value="toxic">Toxic Lime</option>
+        <option value="ocean">Ocean Drift</option>
+        <option value="bloodmoon">Blood Moon</option>
+        <option value="liquidglass">Liquid Glass</option>
+        <option value="paper">Paper Link</option>
+        <option value="blackflag">Black Flag Uprising</option>
+      </select>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero compact reveal skew-left">
+      <p class="tag">About Neo 🐧</p>
+      <h1 id="hero-name" data-name="Aura Farmer Profile">Aura Farmer Profile</h1>
+      <p class="subtitle">From Gongabu, KTM, Nepal. I am building toward AI Engineering with chaotic fun energy.</p>
+      <p class="status-line">Shivapuri Secondary School | Grade 10 | ISTJ-A</p>
+    </section>
+
+    <section class="panel reveal delay-1 skew-right">
+      <h2>Identity Snapshot 🧬</h2>
+      <div class="about-grid tilt-zone">
+        <article class="glass-card tilt"><h3>Name</h3><p>Bikram Gole</p></article>
+        <article class="glass-card tilt"><h3>Age</h3><p>15</p></article>
+        <article class="glass-card tilt"><h3>Height</h3><p>5'7"</p></article>
+        <article class="glass-card tilt"><h3>Base</h3><p>Gongabu, KTM, Nepal</p></article>
+        <article class="glass-card tilt"><h3>Distro</h3><p>Arch + Hyprland</p></article>
+        <article class="glass-card tilt"><h3>Goal</h3><p>Become an AI Engineer</p></article>
+        <article class="glass-card tilt"><h3>Relationship Status</h3><p>Complicated (with code and deadlines).</p></article>
+      </div>
+    </section>
+
+    <section class="panel reveal delay-2 skew-left">
+      <h2>Strengths ⚡</h2>
+      <div class="fact-grid tilt-zone">
+        <article class="fact-card tilt"><h3>Communication</h3><p>Great English speaker.</p></article>
+        <article class="fact-card tilt"><h3>Debate</h3><p>Can debate almost any topic.</p></article>
+        <article class="fact-card tilt"><h3>Mindset</h3><p>Self improvement + consistency.</p></article>
+        <article class="fact-card tilt"><h3>Energy</h3><p>Low sleep, high intensity.</p></article>
+      </div>
+    </section>
+
+    <section class="panel reveal delay-3 skew-right">
+      <h2>AI + Influence Stack 🤖</h2>
+      <div class="favorite-grid tilt-zone">
+        <article class="favorite-card tilt"><h3>YouTube</h3><p>AI Explained, Matt Wolfe, Luke Smith, Mental Outlaw, Linus Tech Tips, IN-Depth Story, HowToMen, The Linux Experiment, Fireship</p></article>
+        <article class="favorite-card tilt"><h3>People</h3><p>Sam Altman, Dario Amodei, Elon Musk, Linus Torvalds, Terry A. Davis</p></article>
+        <article class="favorite-card tilt"><h3>Crypto</h3><p>BTC, Ethereum, Monero, Solana</p></article>
+        <article class="favorite-card tilt"><h3>Ideas</h3><p>Open source, AI tools, Libertarian, Privacy by default, Free speech, Permissionless innovation</p></article>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <p id="page-footer-line" data-text="Aura Farmer: thinking deep, building fast.">Aura Farmer: thinking deep, building fast.</p>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>

@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Contact Neo | Aura Farmer</title>
+  <meta name="description" content="Contact Bikram Gole for AI, Linux, open source, and collaboration." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=Syne:wght@700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body data-page="contact">
+  <script>
+    (() => {
+      try {
+        const params = new URLSearchParams(window.location.search);
+        const urlTheme = params.get("theme");
+        const savedTheme = window.localStorage.getItem("neoThemeVariant.v1");
+        if (savedTheme) {
+          document.body.dataset.theme = savedTheme;
+        } else if (urlTheme) {
+          document.body.dataset.theme = urlTheme;
+        }
+      } catch (error) {
+        // ignore
+      }
+    })();
+  </script>
+  <canvas id="starfield" aria-hidden="true"></canvas>
+  <div class="noise" aria-hidden="true"></div>
+
+  <header class="site-header">
+    <a class="brand-name" href="index.html">Neo</a>
+    <nav>
+      <a href="index.html" data-nav="home">Home</a>
+      <a href="about.html" data-nav="about">About</a>
+      <a href="contact.html" data-nav="contact">Contact</a>
+    </nav>
+    <div class="header-tools">
+      <label for="header-theme-select" class="theme-top-label">Theme</label>
+      <select id="header-theme-select" class="theme-top-select" aria-label="Theme switcher">
+        <option value="neo">Neo Blue</option>
+        <option value="mint">Mint Matrix</option>
+        <option value="sunset">Sunset Warp</option>
+        <option value="midnight">Midnight Ice</option>
+        <option value="ember">Ember Core</option>
+        <option value="arctic">Arctic Pulse</option>
+        <option value="grape">Grape Nebula</option>
+        <option value="toxic">Toxic Lime</option>
+        <option value="ocean">Ocean Drift</option>
+        <option value="bloodmoon">Blood Moon</option>
+        <option value="liquidglass">Liquid Glass</option>
+        <option value="paper">Paper Link</option>
+        <option value="blackflag">Black Flag Uprising</option>
+      </select>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero compact reveal skew-left">
+      <p class="tag">Contact 📡</p>
+      <h1 id="hero-name" data-name="Open Channel ✉️">Open Channel ✉️</h1>
+      <p class="subtitle">For AI ideas, open source builds, Linux setup talk, and serious debates.</p>
+    </section>
+
+    <section class="panel reveal delay-1 skew-right">
+      <h2>Direct Links 🔗</h2>
+      <div class="contact-list tilt-zone">
+        <a class="contact-item tilt" href="mailto:Bikramgole.genius@keemail.me">
+          <h3>Primary Email</h3>
+          <p>Bikramgole.genius@keemail.me</p>
+        </a>
+        <a class="contact-item tilt" href="mailto:Develope.genius@gmail.com">
+          <h3>Backup Email</h3>
+          <p>Develope.genius@gmail.com</p>
+        </a>
+        <a class="contact-item tilt" href="https://github.com/DevXtechnic" target="_blank" rel="noopener noreferrer">
+          <h3>GitHub</h3>
+          <p>github.com/DevXtechnic</p>
+        </a>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <p id="page-footer-line" data-text="Fastest response: keemail.">Fastest response: keemail.</p>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
