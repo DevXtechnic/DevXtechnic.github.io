@@ -847,6 +847,14 @@ a {
   color: var(--blue-2);
 }
 
+.glass-card a,
+.favorite-card a,
+.fact-card a,
+.repo-card a,
+.contact-item a {
+  overflow-wrap: anywhere;
+}
+
 .chips {
   margin-top: 0.45rem;
   display: flex;
