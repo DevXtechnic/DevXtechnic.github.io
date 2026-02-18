@@ -1089,6 +1089,9 @@ kbd {
   font-family: "JetBrainsMono Nerd Font", "FiraCode Nerd Font", "CaskaydiaCove Nerd Font", "Courier New", monospace;
   letter-spacing: 0.01em;
   text-shadow: 0 0 10px rgba(96, 169, 255, 0.18);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .omp-row-top {
@@ -1099,6 +1102,25 @@ kbd {
 .omp-row-mid {
   color: #b6d6f2;
   font-size: 0.8rem;
+}
+
+.omp-fallback {
+  display: none;
+}
+
+body.no-nerd-font .omp-row,
+body.no-nerd-font .mini-terminal-line,
+body.no-nerd-font .mini-terminal-form label,
+body.no-nerd-font .mini-terminal-form input {
+  font-family: "JetBrains Mono", "Fira Mono", "Menlo", "Consolas", "Courier New", monospace;
+}
+
+body.no-nerd-font .omp-nerd {
+  display: none;
+}
+
+body.no-nerd-font .omp-fallback {
+  display: inline;
 }
 
 .mini-terminal-output {
@@ -2258,7 +2280,7 @@ body[data-theme="liquidglass"] .site-footer {
   position: fixed;
   inset: -16%;
   pointer-events: none;
-  z-index: 32;
+  z-index: 52;
   overflow: hidden;
   opacity: 0;
   background:
@@ -2267,7 +2289,6 @@ body[data-theme="liquidglass"] .site-footer {
     radial-gradient(680px 460px at var(--pulse-x, 50%) var(--pulse-y, 35%), rgba(68, 130, 244, 0.26), transparent 78%);
   mix-blend-mode: screen;
   filter: blur(1px) saturate(132%);
-  animation: pulse-bg-wave 840ms cubic-bezier(0.16, 0.82, 0.27, 1) forwards;
 }
 
 .pulse-wave::after {
@@ -2282,6 +2303,13 @@ body[data-theme="liquidglass"] .site-footer {
   box-shadow: 0 0 16px rgba(122, 186, 255, 0.62), 0 0 28px rgba(255, 158, 74, 0.35);
   transform: translate(-50%, -50%) scale(0.34);
   opacity: 0;
+}
+
+.pulse-wave.is-active {
+  animation: pulse-bg-wave 840ms cubic-bezier(0.16, 0.82, 0.27, 1) forwards;
+}
+
+.pulse-wave.is-active::after {
   animation: pulse-ring 840ms ease-out forwards;
 }
 
@@ -2343,25 +2371,69 @@ body.istj-mode .egg-btn {
   color: var(--orange-2);
 }
 
+@media (max-width: 980px) {
+  .site-header,
+  main,
+  .site-footer {
+    width: min(1200px, calc(100vw - 2rem));
+  }
+
+  .hero,
+  .panel {
+    padding: 0.74rem;
+  }
+}
+
 @media (max-width: 760px) {
+  .site-header,
+  main,
+  .site-footer {
+    width: min(1200px, calc(100vw - 1.25rem));
+  }
+
   .site-header {
     top: 0.34rem;
     padding: 0.4rem;
-    flex-direction: column;
-    align-items: flex-start;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.45rem;
+  }
+
+  .brand-name {
+    font-size: 0.9rem;
+  }
+
+  nav a {
+    padding: 0.24rem 0.48rem;
+    font-size: 0.78rem;
   }
 
   nav {
-    width: 100%;
+    width: auto;
+    flex: 1 1 auto;
   }
 
   .header-tools {
-    width: 100%;
-    justify-content: flex-end;
+    width: auto;
+    margin-left: 0;
   }
 
   .hero-grid {
     grid-template-columns: 1fr;
+  }
+
+  .hero,
+  .panel {
+    padding: 0.68rem;
+  }
+
+  h1 {
+    font-size: clamp(1.35rem, 8vw, 1.95rem);
+  }
+
+  .subtitle,
+  .panel p {
+    font-size: 0.8rem;
   }
 
   .btn,
@@ -2390,8 +2462,21 @@ body.istj-mode .egg-btn {
     margin-top: 6vh;
   }
 
-  .mini-terminal-form {
-    grid-template-columns: auto 1fr;
+  .mini-terminal {
+    padding: 0.48rem;
+  }
+
+  .mini-terminal-screen {
+    height: 196px;
+  }
+
+  .mini-terminal-form input,
+  .mini-terminal-line {
+    font-size: 0.74rem;
+  }
+
+  .mini-terminal-hint {
+    font-size: 0.71rem;
   }
 
   .theme-grid {
@@ -2404,5 +2489,35 @@ body.istj-mode .egg-btn {
 
   .quiz-options {
     grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 520px) {
+  .site-header,
+  main,
+  .site-footer {
+    width: calc(100vw - 0.9rem);
+  }
+
+  .site-header {
+    top: 0.24rem;
+    padding: 0.34rem;
+  }
+
+  .theme-top-label {
+    display: none;
+  }
+
+  .theme-top-select {
+    max-width: 10.2rem;
+  }
+
+  .mini-terminal-screen {
+    height: 178px;
+  }
+
+  .hero-actions,
+  .control-row {
+    gap: 0.3rem;
   }
 }

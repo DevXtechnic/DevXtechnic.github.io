@@ -109,6 +109,11 @@ const THEME_STORAGE_KEY = "neoThemeVariant.v1";
 const ACTION_STORAGE_KEY = "neoAutoAction.v1";
 const HERO_TYPED_KEY = "neoHeroTyped.v1";
 const MINI_PROMPT = "╰─❯";
+const NERD_FONT_FAMILIES = [
+  "JetBrainsMono Nerd Font",
+  "FiraCode Nerd Font",
+  "CaskaydiaCove Nerd Font",
+];
 const THEME_OPTIONS = [
   "neo",
   "mint",
@@ -461,7 +466,17 @@ function triggerPulseBackdrop(clientX = null, clientY = null) {
   layer.style.setProperty("--pulse-y", `${Math.round((y / height) * 100)}%`);
 
   document.body.appendChild(layer);
-  layer.addEventListener("animationend", () => layer.remove(), { once: true });
+
+  // Force animation start reliably on slower mobile browsers.
+  requestAnimationFrame(() => {
+    requestAnimationFrame(() => {
+      layer.classList.add("is-active");
+    });
+  });
+
+  const cleanup = () => layer.remove();
+  layer.addEventListener("animationend", cleanup, { once: true });
+  window.setTimeout(cleanup, 1150);
 }
 
 function playPulseSound(pulseCount = 1) {
@@ -510,6 +525,25 @@ function triggerPenguinPowerUp() {
   void penguinAvatar.offsetWidth;
   penguinAvatar.classList.add("power-up");
   window.setTimeout(() => penguinAvatar.classList.remove("power-up"), 620);
+}
+
+function applyTerminalFontFallbackMode() {
+  const hasNerdFont = NERD_FONT_FAMILIES.some((family) => {
+    if (!window?.document?.fonts?.check) return false;
+    return window.document.fonts.check(`12px "${family}"`);
+  });
+  document.body.classList.toggle("no-nerd-font", !hasNerdFont);
+}
+
+function initTerminalFontFallbackMode() {
+  applyTerminalFontFallbackMode();
+  if (window?.document?.fonts?.ready) {
+    window.document.fonts.ready
+      .then(() => applyTerminalFontFallbackMode())
+      .catch(() => {
+        // Ignore font readiness failures.
+      });
+  }
 }
 
 function initPenguinDateBadge() {
@@ -1534,6 +1568,7 @@ initPenguinDateBadge();
 initThemeSwitcher();
 initHeroTypewriters();
 initBlackflagGunfire();
+initTerminalFontFallbackMode();
 initMiniTerminal();
 initCommandPalette();
 initPersonaQuiz();

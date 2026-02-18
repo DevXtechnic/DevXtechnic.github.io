@@ -143,13 +143,22 @@
       <p>Type commands and control the page like a mini shell.</p>
       <div class="mini-terminal">
         <div class="mini-terminal-head">
-          <p class="omp-row omp-row-top">    Neo     0ms </p>
-          <p class="omp-row omp-row-mid">╭─ </p>
+          <p class="omp-row omp-row-top">
+            <span class="omp-nerd">    Neo     0ms </span>
+            <span class="omp-fallback">[arch] Neo | OK | 0ms</span>
+          </p>
+          <p class="omp-row omp-row-mid">
+            <span class="omp-nerd">╭─ </span>
+            <span class="omp-fallback">~/home/neo</span>
+          </p>
         </div>
         <div class="mini-terminal-screen">
           <div id="mini-terminal-output" class="mini-terminal-output" aria-live="polite"></div>
           <form id="mini-terminal-form" class="mini-terminal-form">
-            <label for="mini-terminal-input">╰─❯</label>
+            <label for="mini-terminal-input">
+              <span class="omp-nerd">╰─❯</span>
+              <span class="omp-fallback">$</span>
+            </label>
             <input id="mini-terminal-input" type="text" placeholder="help" autocomplete="off" />
           </form>
         </div>
