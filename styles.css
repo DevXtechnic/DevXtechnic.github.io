@@ -15,12 +15,15 @@
   --clean-glow-cyan: rgba(118, 196, 255, 0.35);
   --clean-glow-orange: rgba(255, 170, 105, 0.22);
   --clean-shadow: 0 14px 34px rgba(2, 10, 28, 0.3);
-  --page-gutter: 2rem;
+  --page-gutter: 1.15rem;
 }
 
 html {
   color-scheme: dark;
-  background: #020305;
+  background:
+    radial-gradient(920px 360px at 14% -12%, rgba(51, 111, 203, 0.3), transparent 62%),
+    radial-gradient(640px 240px at 90% -2%, rgba(255, 150, 64, 0.18), transparent 60%),
+    linear-gradient(160deg, var(--bg-0), var(--bg-1) 45%, var(--bg-2));
 }
 
 body[data-theme="mint"] {
@@ -202,6 +205,8 @@ body {
 body {
   font-family: "Space Grotesk", sans-serif;
   color: var(--ink);
+  min-height: 100dvh;
+  background-color: var(--bg-0);
   background:
     radial-gradient(920px 360px at 14% -12%, rgba(51, 111, 203, 0.36), transparent 62%),
     radial-gradient(640px 240px at 90% -2%, rgba(255, 150, 64, 0.24), transparent 60%),
@@ -768,11 +773,11 @@ main {
 }
 
 .skew-left {
-  transform: rotate(-0.45deg);
+  transform: rotate(-0.32deg);
 }
 
 .skew-right {
-  transform: rotate(0.45deg);
+  transform: rotate(0.32deg);
 }
 
 .hero {
@@ -2380,7 +2385,6 @@ body[data-theme="liquidglass"] .mini-terminal-form input:focus {
 }
 
 body[data-theme="liquidglass"] .site-footer {
-  width: min(1100px, 94vw);
   border: 1px solid rgba(188, 221, 255, 0.2);
   border-radius: 12px;
   background: rgba(10, 18, 34, 0.38);
@@ -2529,18 +2533,24 @@ body.istj-mode .egg-btn {
 
 @media (max-width: 980px) {
   :root {
-    --page-gutter: 1.25rem;
+    --page-gutter: 0.9rem;
   }
 
   .hero,
   .panel {
     padding: 0.74rem;
   }
+
+  .skew-left,
+  .skew-right,
+  .chaos-card {
+    transform: none;
+  }
 }
 
 @media (max-width: 760px) {
   :root {
-    --page-gutter: 0.95rem;
+    --page-gutter: 0.65rem;
   }
 
   .site-header {
@@ -2593,12 +2603,6 @@ body.istj-mode .egg-btn {
     width: 100%;
   }
 
-  .skew-left,
-  .skew-right,
-  .chaos-card {
-    transform: none;
-  }
-
   .chaos-grid {
     grid-template-columns: 1fr;
   }
@@ -2646,7 +2650,7 @@ body.istj-mode .egg-btn {
 
 @media (max-width: 520px) {
   :root {
-    --page-gutter: 0.7rem;
+    --page-gutter: 0.48rem;
   }
 
   .site-header {
