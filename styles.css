@@ -2310,6 +2310,19 @@ body.browser-firefox .pulse-wave {
     radial-gradient(620px 440px at var(--pulse-x, 50%) var(--pulse-y, 35%), rgba(71, 139, 255, 0.28), transparent 78%);
 }
 
+.pulse-core-flash {
+  position: fixed;
+  width: 18px;
+  height: 18px;
+  border-radius: 999px;
+  pointer-events: none;
+  z-index: 54;
+  transform: translate(-50%, -50%);
+  background:
+    radial-gradient(circle, rgba(235, 248, 255, 0.95) 0%, rgba(145, 210, 255, 0.85) 42%, rgba(255, 170, 96, 0.52) 70%, rgba(255, 170, 96, 0) 100%);
+  box-shadow: 0 0 20px rgba(151, 215, 255, 0.82), 0 0 34px rgba(255, 161, 85, 0.5);
+}
+
 .pulse-wave::after {
   content: "";
   position: absolute;

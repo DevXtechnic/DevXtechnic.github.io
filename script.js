@@ -467,12 +467,28 @@ function triggerPulseBackdrop(clientX = null, clientY = null) {
 
   document.body.appendChild(layer);
 
-  // Force animation start reliably on slower mobile browsers.
-  requestAnimationFrame(() => {
-    requestAnimationFrame(() => {
-      layer.classList.add("is-active");
-    });
-  });
+  // Force animation start reliably across restricted browsers.
+  void layer.offsetWidth;
+  layer.classList.add("is-active");
+  requestAnimationFrame(() => layer.classList.add("is-active"));
+
+  // Extra visible fallback flash for browsers that suppress blend/animation effects.
+  const flash = document.createElement("span");
+  flash.className = "pulse-core-flash";
+  flash.style.left = `${x}px`;
+  flash.style.top = `${y}px`;
+  document.body.appendChild(flash);
+  if (typeof flash.animate === "function") {
+    flash.animate(
+      [
+        { transform: "translate(-50%, -50%) scale(0.45)", opacity: 0.9 },
+        { transform: "translate(-50%, -50%) scale(3.6)", opacity: 0 },
+      ],
+      { duration: 420, easing: "cubic-bezier(0.2, 0.7, 0.3, 1)", fill: "forwards" }
+    ).onfinish = () => flash.remove();
+  } else {
+    window.setTimeout(() => flash.remove(), 450);
+  }
 
   const cleanup = () => layer.remove();
   layer.addEventListener("animationend", cleanup, { once: true });
