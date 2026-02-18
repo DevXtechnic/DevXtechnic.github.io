@@ -15,6 +15,7 @@
   --clean-glow-cyan: rgba(118, 196, 255, 0.35);
   --clean-glow-orange: rgba(255, 170, 105, 0.22);
   --clean-shadow: 0 14px 34px rgba(2, 10, 28, 0.3);
+  --page-gutter: 2rem;
 }
 
 html {
@@ -638,7 +639,8 @@ body[data-theme="blackflag"] .penguin-wing.left {
 .site-header,
 main,
 .site-footer {
-  width: min(1200px, calc(100vw - 4rem));
+  width: min(1200px, calc(100% - (var(--page-gutter) * 2)));
+  max-width: 100%;
 }
 
 .site-header,
@@ -1916,7 +1918,7 @@ body.browser-vivaldi .penguin-glasses {
 .contact-list {
   margin-top: 0.48rem;
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(168px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 168px), 1fr));
   gap: 0.42rem;
 }
 
@@ -2526,10 +2528,8 @@ body.istj-mode .egg-btn {
 }
 
 @media (max-width: 980px) {
-  .site-header,
-  main,
-  .site-footer {
-    width: min(1200px, calc(100vw - 2rem));
+  :root {
+    --page-gutter: 1.25rem;
   }
 
   .hero,
@@ -2539,10 +2539,8 @@ body.istj-mode .egg-btn {
 }
 
 @media (max-width: 760px) {
-  .site-header,
-  main,
-  .site-footer {
-    width: min(1200px, calc(100vw - 1.25rem));
+  :root {
+    --page-gutter: 0.95rem;
   }
 
   .site-header {
@@ -2647,10 +2645,8 @@ body.istj-mode .egg-btn {
 }
 
 @media (max-width: 520px) {
-  .site-header,
-  main,
-  .site-footer {
-    width: calc(100vw - 0.9rem);
+  :root {
+    --page-gutter: 0.7rem;
   }
 
   .site-header {
