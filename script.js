@@ -355,6 +355,11 @@ const quotes = [
   "Hard problems make strong engineers.",
 ];
 
+function pickRandomQuote(exclude = "") {
+  const candidates = quotes.filter((line) => line !== exclude);
+  return candidates[Math.floor(Math.random() * candidates.length)] || quotes[0];
+}
+
 const personaQuizQuestions = [
   { question: "Your coding peak time?", options: ["Early morning", "Afternoon", "Late night", "Random"], answer: 1 },
   { question: "When stuck, first move?", options: ["Read docs", "Use ChatGPT/AI", "Ask a friend", "Take a break"], answer: 1 },
@@ -964,9 +969,15 @@ function runTerminalCommand(rawCommand) {
   } else if (action === "launch") {
     launchBtn?.click();
     appendTerminalLine("Launch pulse fired.");
-  } else if (action === "insight" || action === "quote") {
+  } else if (action === "insight") {
     quoteBtn?.click();
     appendTerminalLine("Dropped new insight.");
+  } else if (action === "quote") {
+    const pick = pickRandomQuote();
+    if (quoteOutput) {
+      typeTextTo(quoteOutput, pick, 18, "> ");
+    }
+    appendTerminalLine(`"${pick}"`);
   } else if (action === "matrix") {
     toggleMatrixMode();
     appendTerminalLine("Matrix mode toggled.");
@@ -1628,11 +1639,12 @@ if (pendingAction) {
 
 if (quoteBtn && quoteOutput) {
   quoteBtn.addEventListener("click", () => {
-    const pick = quotes[Math.floor(Math.random() * quotes.length)];
+    const current = quoteOutput.textContent.replace(/^>\s*/, "").trim();
+    const pick = pickRandomQuote(current);
     typeTextTo(quoteOutput, pick, 18, "> ");
     if (heroTagline) {
-      const current = heroTagline.textContent.trim();
-      const candidates = heroTaglineVariants.filter((tag) => tag !== current);
+      const currentTagline = heroTagline.textContent.trim();
+      const candidates = heroTaglineVariants.filter((tag) => tag !== currentTagline);
       const nextTag = candidates[Math.floor(Math.random() * candidates.length)] || heroTaglineVariants[0];
       typeTextTo(heroTagline, nextTag, 22, "");
     }
