@@ -1111,15 +1111,21 @@ kbd {
 body.no-nerd-font .omp-row,
 body.no-nerd-font .mini-terminal-line,
 body.no-nerd-font .mini-terminal-form label,
-body.no-nerd-font .mini-terminal-form input {
+body.no-nerd-font .mini-terminal-form input,
+body.force-terminal-fallback .omp-row,
+body.force-terminal-fallback .mini-terminal-line,
+body.force-terminal-fallback .mini-terminal-form label,
+body.force-terminal-fallback .mini-terminal-form input {
   font-family: "JetBrains Mono", "Fira Mono", "Menlo", "Consolas", "Courier New", monospace;
 }
 
-body.no-nerd-font .omp-nerd {
+body.no-nerd-font .omp-nerd,
+body.force-terminal-fallback .omp-nerd {
   display: none;
 }
 
-body.no-nerd-font .omp-fallback {
+body.no-nerd-font .omp-fallback,
+body.force-terminal-fallback .omp-fallback {
   display: inline;
 }
 
@@ -1505,6 +1511,10 @@ body.no-nerd-font .omp-fallback {
   transform-origin: center 86%;
   animation: penguin-idle 4.6s ease-in-out infinite;
   filter: drop-shadow(0 10px 18px rgba(24, 58, 112, 0.38));
+}
+
+body.browser-not-firefox .penguin-avatar {
+  filter: drop-shadow(0 10px 18px rgba(24, 58, 112, 0.38)) brightness(1.12) saturate(1.06);
 }
 
 .penguin-avatar::before {
@@ -2289,6 +2299,15 @@ body[data-theme="liquidglass"] .site-footer {
     radial-gradient(680px 460px at var(--pulse-x, 50%) var(--pulse-y, 35%), rgba(68, 130, 244, 0.26), transparent 78%);
   mix-blend-mode: screen;
   filter: blur(1px) saturate(132%);
+}
+
+body.browser-firefox .pulse-wave {
+  mix-blend-mode: normal;
+  filter: none;
+  background:
+    radial-gradient(140px 140px at var(--pulse-x, 50%) var(--pulse-y, 35%), rgba(164, 218, 255, 0.85), transparent 66%),
+    radial-gradient(360px 260px at calc(var(--pulse-x, 50%) + 8%) calc(var(--pulse-y, 35%) - 8%), rgba(255, 162, 85, 0.34), transparent 72%),
+    radial-gradient(620px 440px at var(--pulse-x, 50%) var(--pulse-y, 35%), rgba(71, 139, 255, 0.28), transparent 78%);
 }
 
 .pulse-wave::after {

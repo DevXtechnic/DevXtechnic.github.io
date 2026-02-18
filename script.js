@@ -527,7 +527,29 @@ function triggerPenguinPowerUp() {
   window.setTimeout(() => penguinAvatar.classList.remove("power-up"), 620);
 }
 
+function initRuntimeCompatibility() {
+  const apply = () => {
+    const ua = navigator.userAgent || "";
+    const isFirefoxLike = ua.includes("Firefox") || ua.includes("LibreWolf");
+    const isSmallViewport = window.matchMedia?.("(max-width: 820px)")?.matches || false;
+    const isCoarsePointer = window.matchMedia?.("(pointer: coarse)")?.matches || false;
+    const forceTerminalFallback = isSmallViewport || isCoarsePointer;
+
+    document.body.classList.toggle("browser-firefox", isFirefoxLike);
+    document.body.classList.toggle("browser-not-firefox", !isFirefoxLike);
+    document.body.classList.toggle("force-terminal-fallback", forceTerminalFallback);
+  };
+
+  apply();
+  window.addEventListener("resize", apply);
+}
+
 function applyTerminalFontFallbackMode() {
+  if (document.body.classList.contains("force-terminal-fallback")) {
+    document.body.classList.add("no-nerd-font");
+    return;
+  }
+
   const hasNerdFont = NERD_FONT_FAMILIES.some((family) => {
     if (!window?.document?.fonts?.check) return false;
     return window.document.fonts.check(`12px "${family}"`);
@@ -1568,6 +1590,7 @@ initPenguinDateBadge();
 initThemeSwitcher();
 initHeroTypewriters();
 initBlackflagGunfire();
+initRuntimeCompatibility();
 initTerminalFontFallbackMode();
 initMiniTerminal();
 initCommandPalette();
