@@ -2,9 +2,9 @@
 
 Welcome to my personal website 👋, a unique digital space blending cosmic aesthetics, hacker ethos, and controlled dynamism. This site is intentionally dramatic, reflecting my distinctive personal brand.
 
-![Website Screenshot](https://private-us-east-1.manuscdn.com/sessionFile/9cAiiLqihcferJQ4kf8kWy/sandbox/ixnJoNIEkF9T2NG4Kgx1TM-images_1771379203676_na1fn_L2hvbWUvdWJ1bnR1L2Jpa3JhbS1zaXRlL3NjcmVlbnNob3Q.webp?Policy=eyJTdGF0ZW1lbnQiOlt7IlJlc291cmNlIjoiaHR0cHM6Ly9wcml2YXRlLXVzLWVhc3QtMS5tYW51c2Nkbi5jb20vc2Vzc2lvbkZpbGUvOWNBaWlMcWloY2ZlckpRNGtmOGtXeS9zYW5kYm94L2l4bkpvTklFa0Y5VDJORzRLZ3gxVE0taW1hZ2VzXzE3NzEzNzkyMDM2NzZfbmExZm5fTDJodmJXVXZkV0oxYm5SMUwySnBhM0poYlMxemFYUmxMM05qY21WbGJuTm9iM1Eud2VicCIsIkNvbmRpdGlvbiI6eyJEYXRlTGVzc1RoYW4iOnsiQVdTOkVwb2NoVGltZSI6MTc5ODc2MTYwMH19fV19&Key-Pair-Id=K2HSFNDJXOU9YS&Signature=qjvC0UplDb3Fn098ayHf7VOlBs~4F-vI2ePhXH0Pc3xSMa3E8hnpiv0~HwRiomwz4l7i5C837Is1Ir7WrBV6elFVTRHtrIEY4rpRNJCBmNNBpH4IFApHKSOhhgPRcuj7xopduBj0YD-SckcdhEu59XUqCn~I2NYCA0se2W~MR6vPxdT8io8YFzFEdBrx97Bz4BteT1R6ubTUQY~GriMDd0y215hTOu1APeUwEjsSN4yYqnAlNls7kPDp4M4rDhuVKciH9y9qwR6pU5xTu4EGAglsHaSdU0Z~avm2yWRBsZbix~4Wxtx17uHi82vrT4J27S3VlJ-pdpIfOoWp5pyrDw__)
+![Website Screenshot](https://private-us-east-1.manuscdn.com/sessionFile/9cAiiLqihcferJQ4kf8kWy/sandbox/feAJQFX5sNwrtRjFIKt9vW-images_1771472820813_na1fn_L2hvbWUvdWJ1bnR1L2Jpa3JhbS1zaXRlL3NjcmVlbnNob3Q.webp?Policy=eyJTdGF0ZW1lbnQiOlt7IlJlc291cmNlIjoiaHR0cHM6Ly9wcml2YXRlLXVzLWVhc3QtMS5tYW51c2Nkbi5jb20vc2Vzc2lvbkZpbGUvOWNBaWlMcWloY2ZlckpRNGtmOGtXeS9zYW5kYm94L2ZlQUpRRlg1c053cnRSakZJS3Q5dlctaW1hZ2VzXzE3NzE0NzI4MjA4MTNfbmExZm5fTDJodmJXVXZkV0oxYm5SMUwySnBhM0poYlMxemFYUmxMM05qY21WbGJuTm9iM1Eud2VicCIsIkNvbmRpdGlvbiI6eyJEYXRlTGVzc1RoYW4iOnsiQVdTOkVwb2NoVGltZSI6MTc5ODc2MTYwMH19fV19&Key-Pair-Id=K2HSFNDJXOU9YS&Signature=CEaf6Zsjl7AUQTn4fJuLoVLXZO1D63T6Q~3jLED6mpxT5SSL1-AGPQYH231FSQ-UfeXFdPc2Z0KwtNF~myiEWyOqJ7Xiiv47fd9RHoVQUzsJv6SgU7QBlIbV589qMsOXlXHoEe861bFlOlrerJ9KaaS1URJ59dEbaKrUh15CNJWYFA8EM34UnOvYV0rCcf~~Zh822QyUe~AkzrR0OrX-Rk8WSWvaWSyhmSFudTPGh~Y1v6JVWiejKMFY6SyxUS~Auc8CCTOaHp-e5WXCYwkbHNzSOtJLV6fhb3N0uazryh5dI0R6kGo-Yks3382Gg21wNeCzZvL1vXn55QYcsdQ-sw__)
 
-**Live Site:** `https://devxtechnic.github.io/`
+**Live Site:** `https://devxtechnic.github.io/bikram-site/`
 
 ## Motivation
 
@@ -52,8 +52,8 @@ To set up and run my project on your local machine, follow these steps 👇:
 
 1.  **Clone the repository:**
     ```bash
-    git clone https://github.com/DevXtechnic/DevXtechnic.github.io.git
-    cd DevXtechnic.github.io
+    git clone https://github.com/DevXtechnic/bikram-site.git
+    cd bikram-site
     ```
 2.  **Serve the files:**
     You can use a simple Python HTTP server 🐍:
