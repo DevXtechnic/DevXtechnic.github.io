@@ -164,6 +164,7 @@ const THEME_OPTIONS = [
   "ocean",
   "bloodmoon",
   "liquidglass",
+  "material3",
   "paper",
   "blackflag",
 ];
@@ -1434,6 +1435,7 @@ function initCommandPalette() {
     { label: "Theme: Mint Matrix", keywords: "theme mint green", run: () => applyTheme("mint", true) },
     { label: "Theme: Sunset Warp", keywords: "theme sunset orange", run: () => applyTheme("sunset", true) },
     { label: "Theme: Liquid Glass", keywords: "theme liquid glass apple", run: () => applyTheme("liquidglass", true) },
+    { label: "Theme: Material 3", keywords: "theme material3 google", run: () => applyTheme("material3", true) },
     { label: "Theme: Paper Link", keywords: "theme paper", run: () => applyTheme("paper", true) },
     { label: "Theme: Black Flag Uprising", keywords: "theme blackflag anarchy", run: () => applyTheme("blackflag", true) },
     { label: "Mode: Toggle Matrix Rain", keywords: "matrix rain mode", run: () => toggleMatrixMode() },
