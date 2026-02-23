@@ -2930,18 +2930,18 @@ body[data-theme="liquidglass"] {
 
 :root[data-theme="material3"],
 body[data-theme="material3"] {
-  --bg-0: #07121e;
-  --bg-1: #0e1d32;
-  --bg-2: #152942;
-  --ink: #f2f7ff;
-  --muted: #c0d0e6;
-  --blue: #87c6ff;
-  --blue-2: #c6e3ff;
-  --orange: #ffb86a;
-  --orange-2: #ffd6a9;
-  --card: rgba(25, 42, 67, 0.86);
-  --border: rgba(146, 197, 255, 0.36);
-  --header: rgba(14, 30, 50, 0.92);
+  --bg-0: #11131a;
+  --bg-1: #191b24;
+  --bg-2: #1f2230;
+  --ink: #e8e9f1;
+  --muted: #c6c7d2;
+  --blue: #d0bcff;
+  --blue-2: #ebe1ff;
+  --orange: #7ee6c0;
+  --orange-2: #bdf4df;
+  --card: rgba(39, 41, 53, 0.9);
+  --border: rgba(175, 178, 205, 0.3);
+  --header: rgba(34, 36, 46, 0.94);
 }
 
 body[data-theme="liquidglass"] {
@@ -3004,75 +3004,88 @@ body[data-theme="liquidglass"] .egg-btn {
 
 body[data-theme="material3"] {
   background:
-    radial-gradient(900px 320px at 8% -14%, rgba(126, 195, 255, 0.42), transparent 64%),
-    radial-gradient(820px 300px at 92% -6%, rgba(255, 143, 110, 0.3), transparent 66%),
-    radial-gradient(740px 300px at 44% 108%, rgba(99, 255, 186, 0.2), transparent 68%),
-    linear-gradient(158deg, #07121e 0%, #0e1d32 42%, #152942 100%);
+    radial-gradient(860px 320px at 10% -12%, rgba(208, 188, 255, 0.3), transparent 64%),
+    radial-gradient(760px 300px at 92% -8%, rgba(255, 181, 229, 0.22), transparent 66%),
+    radial-gradient(680px 260px at 46% 108%, rgba(126, 230, 192, 0.2), transparent 68%),
+    linear-gradient(156deg, #11131a 0%, #191b24 44%, #1f2230 100%);
+  font-family: "Roboto", "Noto Sans", "Space Grotesk", sans-serif;
 }
 
 body[data-theme="material3"] .noise {
-  opacity: 0.12;
+  opacity: 0.08;
   background-image:
-    radial-gradient(rgba(180, 222, 255, 0.14) 0.6px, transparent 0.6px),
-    radial-gradient(rgba(255, 186, 132, 0.1) 0.5px, transparent 0.5px);
-  background-size: 3px 3px, 4px 4px;
+    radial-gradient(rgba(231, 225, 255, 0.12) 0.55px, transparent 0.55px),
+    radial-gradient(rgba(190, 255, 228, 0.08) 0.45px, transparent 0.45px);
+  background-size: 3px 3px, 5px 5px;
+}
+
+body[data-theme="material3"] h1,
+body[data-theme="material3"] h2,
+body[data-theme="material3"] h3 {
+  font-family: "Google Sans", "Product Sans", "Roboto", "Noto Sans", sans-serif;
+  letter-spacing: 0.01em;
 }
 
 body[data-theme="material3"] .site-header {
-  border-color: rgba(151, 204, 255, 0.42);
-  border-radius: 26px;
+  border-color: rgba(176, 171, 203, 0.38);
+  border-radius: 18px;
   background:
-    linear-gradient(170deg, rgba(23, 48, 76, 0.9), rgba(15, 37, 61, 0.92));
+    linear-gradient(180deg, rgba(53, 54, 70, 0.92), rgba(40, 42, 56, 0.95));
   box-shadow:
-    0 14px 28px rgba(4, 15, 30, 0.42),
-    inset 0 1px 0 rgba(202, 232, 255, 0.2);
+    0 10px 24px rgba(12, 13, 20, 0.45),
+    inset 0 1px 0 rgba(231, 225, 255, 0.16);
 }
 
 body[data-theme="material3"] .brand-name {
-  font-family: "Syne", "Space Grotesk", sans-serif;
-  letter-spacing: 0.02em;
+  font-family: "Google Sans", "Product Sans", "Roboto", "Noto Sans", sans-serif;
+  letter-spacing: 0.01em;
   text-transform: none;
-  text-shadow: 0 0 18px rgba(136, 200, 255, 0.5);
+  text-shadow: 0 0 14px rgba(208, 188, 255, 0.42);
 }
 
 body[data-theme="material3"] nav a {
   border-radius: 999px;
-  border-color: rgba(131, 190, 255, 0.22);
-  background: rgba(38, 71, 107, 0.42);
+  border-color: rgba(186, 187, 212, 0.16);
+  background: rgba(88, 90, 113, 0.42);
+  color: #d6d7e4;
 }
 
 body[data-theme="material3"] nav a:hover,
 body[data-theme="material3"] nav a.active {
-  background: linear-gradient(120deg, rgba(122, 194, 255, 0.34), rgba(103, 235, 186, 0.26));
-  border-color: rgba(162, 216, 255, 0.62);
-  color: #f8fcff;
-  box-shadow: 0 0 0 1px rgba(206, 236, 255, 0.18) inset, 0 0 16px rgba(121, 201, 255, 0.2);
+  background: linear-gradient(120deg, rgba(208, 188, 255, 0.34), rgba(189, 244, 223, 0.25));
+  border-color: rgba(214, 203, 255, 0.52);
+  color: #f7f3ff;
+  box-shadow: 0 0 0 1px rgba(241, 235, 255, 0.2) inset, 0 0 14px rgba(208, 188, 255, 0.22);
 }
 
 body[data-theme="material3"] .theme-top-select,
 body[data-theme="material3"] .theme-cycle-btn {
   border-radius: 999px;
-  border-color: rgba(155, 210, 255, 0.52);
-  background: rgba(31, 63, 97, 0.86);
-  color: #e9f6ff;
+  border-color: rgba(197, 190, 226, 0.5);
+  background: rgba(82, 84, 105, 0.86);
+  color: #f2ecff;
+}
+
+body[data-theme="material3"] .theme-top-label {
+  color: #d3d0e3;
 }
 
 body[data-theme="material3"] .hero,
 body[data-theme="material3"] .panel {
-  border-radius: 28px;
-  border-color: rgba(147, 203, 255, 0.44);
+  border-radius: 20px;
+  border-color: rgba(187, 184, 214, 0.34);
   background:
-    linear-gradient(165deg, rgba(31, 62, 98, 0.86), rgba(19, 41, 66, 0.9));
+    linear-gradient(165deg, rgba(60, 62, 79, 0.9), rgba(45, 47, 62, 0.94));
   box-shadow:
-    0 14px 30px rgba(4, 14, 28, 0.42),
-    inset 0 1px 0 rgba(208, 237, 255, 0.14);
+    0 12px 24px rgba(13, 14, 22, 0.38),
+    inset 0 1px 0 rgba(241, 235, 255, 0.12);
 }
 
 body[data-theme="material3"] .hero {
   background:
-    radial-gradient(480px 210px at 6% 0%, rgba(124, 199, 255, 0.38), transparent 74%),
-    radial-gradient(360px 170px at 96% 100%, rgba(255, 177, 105, 0.24), transparent 74%),
-    linear-gradient(165deg, rgba(31, 62, 98, 0.86), rgba(19, 41, 66, 0.9));
+    radial-gradient(440px 200px at 6% 0%, rgba(208, 188, 255, 0.34), transparent 74%),
+    radial-gradient(320px 160px at 96% 100%, rgba(126, 230, 192, 0.2), transparent 74%),
+    linear-gradient(165deg, rgba(60, 62, 79, 0.9), rgba(45, 47, 62, 0.94));
 }
 
 body[data-theme="material3"] .chaos-card,
@@ -3086,36 +3099,46 @@ body[data-theme="material3"] .mini-terminal,
 body[data-theme="material3"] .mini-terminal-screen,
 body[data-theme="material3"] .quiz-board,
 body[data-theme="material3"] .command-shell {
-  border-radius: 20px;
-  border-color: rgba(145, 201, 255, 0.38);
+  border-radius: 16px;
+  border-color: rgba(186, 183, 212, 0.3);
   background:
-    linear-gradient(150deg, rgba(34, 67, 104, 0.84), rgba(20, 45, 73, 0.88));
-  box-shadow: inset 0 1px 0 rgba(214, 239, 255, 0.12), 0 10px 24px rgba(5, 15, 31, 0.36);
+    linear-gradient(150deg, rgba(72, 74, 92, 0.86), rgba(54, 56, 72, 0.9));
+  box-shadow: inset 0 1px 0 rgba(239, 233, 255, 0.1), 0 8px 20px rgba(10, 12, 19, 0.34);
 }
 
 body[data-theme="material3"] .chips span {
   border-radius: 999px;
-  border-color: rgba(152, 209, 255, 0.42);
-  background: linear-gradient(125deg, rgba(70, 124, 182, 0.74), rgba(49, 101, 158, 0.72));
-  color: #ecf8ff;
+  border-color: rgba(211, 197, 255, 0.4);
+  background: linear-gradient(125deg, rgba(98, 81, 131, 0.78), rgba(76, 63, 106, 0.8));
+  color: #f6f2ff;
 }
 
 body[data-theme="material3"] .btn,
 body[data-theme="material3"] .egg-btn {
   border-radius: 999px;
-  border-color: rgba(164, 216, 255, 0.52);
+  border-color: rgba(208, 195, 255, 0.48);
+  font-weight: 600;
 }
 
 body[data-theme="material3"] .btn.primary {
-  color: #122236;
-  background: linear-gradient(120deg, #89c9ff, #7de7c5 55%, #ffbe74);
+  color: #281d3f;
+  background: linear-gradient(120deg, #d0bcff, #e5d8ff 55%, #bdf4df);
+  box-shadow: 0 8px 20px rgba(59, 49, 79, 0.34);
 }
 
 body[data-theme="material3"] .btn.ghost,
 body[data-theme="material3"] .egg-btn {
-  background: rgba(39, 75, 114, 0.78);
+  background: rgba(88, 90, 113, 0.76);
+  color: #efe8ff;
 }
 
 body[data-theme="material3"] .status-line {
-  color: #d7e9ff;
+  color: #ded9f1;
+}
+
+body[data-theme="material3"] .site-footer {
+  border: 1px solid rgba(186, 181, 212, 0.34);
+  border-radius: 999px;
+  background: rgba(50, 52, 67, 0.8);
+  padding: 0.48rem 0.84rem;
 }
