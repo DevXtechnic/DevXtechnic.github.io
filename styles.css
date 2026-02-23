@@ -768,11 +768,6 @@ nav a.active {
   text-transform: uppercase;
 }
 
-.m3-palette-label,
-.m3-palette-select {
-  display: none;
-}
-
 .theme-top-select {
   border: 1px solid rgba(107, 155, 227, 0.44);
   border-radius: 7px;
@@ -3148,12 +3143,6 @@ body[data-theme="material3"] .site-footer {
   padding: 0.48rem 0.84rem;
 }
 
-/* Material 3 extras: segmented tabs + palette presets. */
-body[data-theme="material3"] .m3-palette-label,
-body[data-theme="material3"] .m3-palette-select {
-  display: inline-flex;
-}
-
 body[data-theme="material3"] nav {
   background: rgba(63, 64, 83, 0.62);
   border: 1px solid rgba(189, 182, 220, 0.28);
@@ -3166,41 +3155,4 @@ body[data-theme="material3"] nav {
 body[data-theme="material3"] nav a {
   min-width: 5.2rem;
   justify-content: center;
-}
-
-body[data-theme="material3"][data-m3-palette="lavender"] {
-  --blue: #d0bcff;
-  --blue-2: #ebe1ff;
-  --orange: #7ee6c0;
-  --orange-2: #bdf4df;
-}
-
-body[data-theme="material3"][data-m3-palette="emerald"] {
-  --blue: #84f7c2;
-  --blue-2: #cfffe9;
-  --orange: #7cdfff;
-  --orange-2: #b8efff;
-}
-
-body[data-theme="material3"][data-m3-palette="sunset"] {
-  --blue: #ffbf8c;
-  --blue-2: #ffe2c7;
-  --orange: #ff8ea9;
-  --orange-2: #ffc8d6;
-}
-
-body[data-theme="material3"][data-m3-palette="emerald"] {
-  background:
-    radial-gradient(860px 320px at 10% -12%, rgba(116, 241, 191, 0.3), transparent 64%),
-    radial-gradient(760px 300px at 92% -8%, rgba(132, 224, 255, 0.22), transparent 66%),
-    radial-gradient(680px 260px at 46% 108%, rgba(145, 255, 211, 0.18), transparent 68%),
-    linear-gradient(156deg, #111a17 0%, #172623 44%, #1d2f2b 100%);
-}
-
-body[data-theme="material3"][data-m3-palette="sunset"] {
-  background:
-    radial-gradient(860px 320px at 10% -12%, rgba(255, 189, 130, 0.32), transparent 64%),
-    radial-gradient(760px 300px at 92% -8%, rgba(255, 141, 172, 0.23), transparent 66%),
-    radial-gradient(680px 260px at 46% 108%, rgba(255, 214, 165, 0.19), transparent 68%),
-    linear-gradient(156deg, #211517 0%, #2b1c22 44%, #33242a 100%);
 }
