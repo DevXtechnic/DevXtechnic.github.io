@@ -131,6 +131,7 @@ const quizStartBtn = document.getElementById("quiz-start");
 const quizResetBtn = document.getElementById("quiz-reset");
 const quizScore = document.getElementById("quiz-score");
 const headerThemeSelect = document.getElementById("header-theme-select");
+const material3PaletteSelect = document.getElementById("m3-palette-select");
 const themeCycleBtn = document.getElementById("theme-cycle-btn");
 const heroName = document.getElementById("hero-name");
 const heroStatus = document.getElementById("hero-status");
@@ -144,6 +145,7 @@ const miniTerminalTheme = document.getElementById("mini-terminal-theme");
 const NEPAL_TIMEZONE = "Asia/Kathmandu";
 const BS_CONVERTER_URL = "https://cdn.jsdelivr.net/npm/nepali-date-library@1.1.9/+esm";
 const THEME_STORAGE_KEY = "neoThemeVariant.v1";
+const M3_PALETTE_STORAGE_KEY = "neoMaterial3Palette.v1";
 const ACTION_STORAGE_KEY = "neoAutoAction.v1";
 const HERO_TYPED_KEY = "neoHeroTyped.v1";
 const MINI_PROMPT = "╰─❯";
@@ -168,6 +170,7 @@ const THEME_OPTIONS = [
   "paper",
   "blackflag",
 ];
+const MATERIAL3_PALETTES = ["lavender", "emerald", "sunset"];
 const MAX_TERMINAL_LINES = 220;
 const TERMINAL_COMMANDS = [
   "help", "whoami", "mission", "status", "clear",
@@ -181,6 +184,7 @@ let launches = 0;
 let adToBsConverter = null;
 let startPersonaQuiz = null;
 let currentTheme = "neo";
+let currentMaterial3Palette = "lavender";
 let terminalHistory = [];
 let terminalHistoryIndex = 0;
 let terminalDraft = "";
@@ -727,6 +731,11 @@ function applyTheme(theme, notify = false) {
     miniTerminalTheme.textContent = `theme: ${selected}`;
   }
 
+  document.body.classList.toggle("m3-palette-active", selected === "material3");
+  if (selected === "material3") {
+    applyMaterial3Palette(currentMaterial3Palette, false);
+  }
+
   try {
     window.localStorage.setItem(THEME_STORAGE_KEY, selected);
   } catch (error) {
@@ -739,33 +748,73 @@ function applyTheme(theme, notify = false) {
   if (notify) showToast(`Theme changed: ${selected}`);
 }
 
+function applyMaterial3Palette(palette, notify = false) {
+  const selected = MATERIAL3_PALETTES.includes(palette) ? palette : "lavender";
+  currentMaterial3Palette = selected;
+  document.documentElement.dataset.m3Palette = selected;
+  document.body.dataset.m3Palette = selected;
+  if (material3PaletteSelect) {
+    material3PaletteSelect.value = selected;
+  }
+
+  try {
+    window.localStorage.setItem(M3_PALETTE_STORAGE_KEY, selected);
+  } catch (error) {
+    // Ignore storage errors.
+  }
+
+  if (notify && currentTheme === "material3") {
+    showToast(`M3 palette: ${selected}`);
+  }
+}
+
 function initThemeSwitcher() {
   let savedTheme = "neo";
   let urlTheme = null;
+  let savedPalette = "lavender";
   try {
     urlTheme = getThemeFromUrl();
     const storedTheme = window.localStorage.getItem(THEME_STORAGE_KEY);
+    const storedPalette = window.localStorage.getItem(M3_PALETTE_STORAGE_KEY);
     savedTheme = storedTheme || urlTheme || "neo";
+    savedPalette = MATERIAL3_PALETTES.includes(storedPalette) ? storedPalette : "lavender";
     if (!storedTheme && urlTheme) {
       window.localStorage.setItem(THEME_STORAGE_KEY, urlTheme);
     }
   } catch (error) {
     savedTheme = "neo";
+    savedPalette = "lavender";
   }
 
+  applyMaterial3Palette(savedPalette, false);
   applyTheme(savedTheme, false);
   window.addEventListener("pageshow", () => {
     let latestTheme = "neo";
+    let latestPalette = "lavender";
     try {
       latestTheme = window.localStorage.getItem(THEME_STORAGE_KEY) || getThemeFromUrl() || "neo";
+      const storedPalette = window.localStorage.getItem(M3_PALETTE_STORAGE_KEY);
+      latestPalette = MATERIAL3_PALETTES.includes(storedPalette) ? storedPalette : "lavender";
     } catch (error) {
       latestTheme = "neo";
+      latestPalette = "lavender";
+    }
+    if (latestPalette !== currentMaterial3Palette) {
+      applyMaterial3Palette(latestPalette, false);
     }
     if (latestTheme !== currentTheme) {
       applyTheme(latestTheme, false);
     }
   });
   window.addEventListener("storage", (event) => {
+    if (event.key === M3_PALETTE_STORAGE_KEY && event.newValue) {
+      if (!MATERIAL3_PALETTES.includes(event.newValue)) return;
+      if (event.newValue !== currentMaterial3Palette) {
+        applyMaterial3Palette(event.newValue, false);
+      }
+      return;
+    }
+
     if (event.key !== THEME_STORAGE_KEY || !event.newValue) return;
     if (!THEME_OPTIONS.includes(event.newValue)) return;
     if (event.newValue !== currentTheme) {
@@ -774,6 +823,10 @@ function initThemeSwitcher() {
   });
   headerThemeSelect?.addEventListener("change", (event) => {
     applyTheme(event.target.value, true);
+  });
+
+  material3PaletteSelect?.addEventListener("change", (event) => {
+    applyMaterial3Palette(event.target.value, true);
   });
 
   themeCycleBtn?.addEventListener("click", () => {
@@ -1436,6 +1489,9 @@ function initCommandPalette() {
     { label: "Theme: Sunset Warp", keywords: "theme sunset orange", run: () => applyTheme("sunset", true) },
     { label: "Theme: Liquid Glass", keywords: "theme liquid glass apple", run: () => applyTheme("liquidglass", true) },
     { label: "Theme: Material 3", keywords: "theme material3 google", run: () => applyTheme("material3", true) },
+    { label: "M3 Palette: Lavender", keywords: "material3 palette lavender", run: () => applyMaterial3Palette("lavender", true) },
+    { label: "M3 Palette: Emerald", keywords: "material3 palette emerald", run: () => applyMaterial3Palette("emerald", true) },
+    { label: "M3 Palette: Sunset", keywords: "material3 palette sunset", run: () => applyMaterial3Palette("sunset", true) },
     { label: "Theme: Paper Link", keywords: "theme paper", run: () => applyTheme("paper", true) },
     { label: "Theme: Black Flag Uprising", keywords: "theme blackflag anarchy", run: () => applyTheme("blackflag", true) },
     { label: "Mode: Toggle Matrix Rain", keywords: "matrix rain mode", run: () => toggleMatrixMode() },
