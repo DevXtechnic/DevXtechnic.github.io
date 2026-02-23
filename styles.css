@@ -2910,3 +2910,212 @@ body.istj-mode .egg-btn {
     gap: 0.3rem;
   }
 }
+
+/* Theme remap pass: Liquid Glass gets the old subtle style, Material 3 gets true colorful Android-inspired UI. */
+:root[data-theme="liquidglass"],
+body[data-theme="liquidglass"] {
+  --bg-0: #0d131f;
+  --bg-1: #141c2b;
+  --bg-2: #1e2737;
+  --ink: #e5ebfb;
+  --muted: #afb9ce;
+  --blue: #b9c6ff;
+  --blue-2: #dde5ff;
+  --orange: #8adbd1;
+  --orange-2: #b5efe8;
+  --card: rgba(28, 36, 52, 0.88);
+  --border: rgba(169, 183, 215, 0.28);
+  --header: rgba(23, 30, 46, 0.94);
+}
+
+:root[data-theme="material3"],
+body[data-theme="material3"] {
+  --bg-0: #07121e;
+  --bg-1: #0e1d32;
+  --bg-2: #152942;
+  --ink: #f2f7ff;
+  --muted: #c0d0e6;
+  --blue: #87c6ff;
+  --blue-2: #c6e3ff;
+  --orange: #ffb86a;
+  --orange-2: #ffd6a9;
+  --card: rgba(25, 42, 67, 0.86);
+  --border: rgba(146, 197, 255, 0.36);
+  --header: rgba(14, 30, 50, 0.92);
+}
+
+body[data-theme="liquidglass"] {
+  background:
+    radial-gradient(740px 260px at 12% -16%, rgba(164, 184, 255, 0.2), transparent 66%),
+    radial-gradient(620px 220px at 90% 2%, rgba(133, 215, 205, 0.18), transparent 68%),
+    linear-gradient(160deg, var(--bg-0), var(--bg-1) 45%, var(--bg-2));
+}
+
+body[data-theme="liquidglass"] .site-header {
+  border-color: rgba(174, 188, 220, 0.34);
+  border-radius: 22px;
+  background:
+    linear-gradient(180deg, rgba(46, 57, 79, 0.34), rgba(29, 37, 54, 0.38)),
+    var(--header);
+  box-shadow: inset 0 1px 0 rgba(232, 239, 255, 0.09), 0 12px 28px rgba(5, 10, 20, 0.35);
+}
+
+body[data-theme="liquidglass"] nav a {
+  border-radius: 999px;
+  padding: 0.3rem 0.72rem;
+  background: transparent;
+}
+
+body[data-theme="liquidglass"] nav a:hover,
+body[data-theme="liquidglass"] nav a.active {
+  background: rgba(189, 201, 255, 0.16);
+  border-color: rgba(176, 192, 225, 0.44);
+  box-shadow: inset 0 1px 0 rgba(232, 239, 255, 0.1);
+}
+
+body[data-theme="liquidglass"] .theme-top-select,
+body[data-theme="liquidglass"] .theme-cycle-btn {
+  border-radius: 999px;
+  border-color: rgba(176, 192, 225, 0.4);
+  background: rgba(36, 46, 65, 0.96);
+}
+
+body[data-theme="liquidglass"] .hero,
+body[data-theme="liquidglass"] .panel {
+  border-radius: 24px;
+  border-color: rgba(170, 184, 215, 0.26);
+  background:
+    linear-gradient(180deg, rgba(42, 52, 72, 0.84), rgba(29, 37, 53, 0.92)),
+    var(--card);
+  box-shadow: inset 0 1px 0 rgba(232, 239, 255, 0.08), 0 10px 24px rgba(5, 10, 20, 0.32);
+}
+
+body[data-theme="liquidglass"] .hero {
+  background:
+    radial-gradient(460px 180px at 0% 0%, rgba(185, 198, 255, 0.18), transparent 72%),
+    radial-gradient(340px 150px at 95% 100%, rgba(138, 219, 209, 0.14), transparent 74%),
+    linear-gradient(180deg, rgba(42, 52, 72, 0.84), rgba(29, 37, 53, 0.92));
+}
+
+body[data-theme="liquidglass"] .btn,
+body[data-theme="liquidglass"] .egg-btn {
+  border-radius: 999px;
+}
+
+body[data-theme="material3"] {
+  background:
+    radial-gradient(900px 320px at 8% -14%, rgba(126, 195, 255, 0.42), transparent 64%),
+    radial-gradient(820px 300px at 92% -6%, rgba(255, 143, 110, 0.3), transparent 66%),
+    radial-gradient(740px 300px at 44% 108%, rgba(99, 255, 186, 0.2), transparent 68%),
+    linear-gradient(158deg, #07121e 0%, #0e1d32 42%, #152942 100%);
+}
+
+body[data-theme="material3"] .noise {
+  opacity: 0.12;
+  background-image:
+    radial-gradient(rgba(180, 222, 255, 0.14) 0.6px, transparent 0.6px),
+    radial-gradient(rgba(255, 186, 132, 0.1) 0.5px, transparent 0.5px);
+  background-size: 3px 3px, 4px 4px;
+}
+
+body[data-theme="material3"] .site-header {
+  border-color: rgba(151, 204, 255, 0.42);
+  border-radius: 26px;
+  background:
+    linear-gradient(170deg, rgba(23, 48, 76, 0.9), rgba(15, 37, 61, 0.92));
+  box-shadow:
+    0 14px 28px rgba(4, 15, 30, 0.42),
+    inset 0 1px 0 rgba(202, 232, 255, 0.2);
+}
+
+body[data-theme="material3"] .brand-name {
+  font-family: "Syne", "Space Grotesk", sans-serif;
+  letter-spacing: 0.02em;
+  text-transform: none;
+  text-shadow: 0 0 18px rgba(136, 200, 255, 0.5);
+}
+
+body[data-theme="material3"] nav a {
+  border-radius: 999px;
+  border-color: rgba(131, 190, 255, 0.22);
+  background: rgba(38, 71, 107, 0.42);
+}
+
+body[data-theme="material3"] nav a:hover,
+body[data-theme="material3"] nav a.active {
+  background: linear-gradient(120deg, rgba(122, 194, 255, 0.34), rgba(103, 235, 186, 0.26));
+  border-color: rgba(162, 216, 255, 0.62);
+  color: #f8fcff;
+  box-shadow: 0 0 0 1px rgba(206, 236, 255, 0.18) inset, 0 0 16px rgba(121, 201, 255, 0.2);
+}
+
+body[data-theme="material3"] .theme-top-select,
+body[data-theme="material3"] .theme-cycle-btn {
+  border-radius: 999px;
+  border-color: rgba(155, 210, 255, 0.52);
+  background: rgba(31, 63, 97, 0.86);
+  color: #e9f6ff;
+}
+
+body[data-theme="material3"] .hero,
+body[data-theme="material3"] .panel {
+  border-radius: 28px;
+  border-color: rgba(147, 203, 255, 0.44);
+  background:
+    linear-gradient(165deg, rgba(31, 62, 98, 0.86), rgba(19, 41, 66, 0.9));
+  box-shadow:
+    0 14px 30px rgba(4, 14, 28, 0.42),
+    inset 0 1px 0 rgba(208, 237, 255, 0.14);
+}
+
+body[data-theme="material3"] .hero {
+  background:
+    radial-gradient(480px 210px at 6% 0%, rgba(124, 199, 255, 0.38), transparent 74%),
+    radial-gradient(360px 170px at 96% 100%, rgba(255, 177, 105, 0.24), transparent 74%),
+    linear-gradient(165deg, rgba(31, 62, 98, 0.86), rgba(19, 41, 66, 0.9));
+}
+
+body[data-theme="material3"] .chaos-card,
+body[data-theme="material3"] .favorite-card,
+body[data-theme="material3"] .fact-card,
+body[data-theme="material3"] .glass-card,
+body[data-theme="material3"] .repo-card,
+body[data-theme="material3"] .contact-item,
+body[data-theme="material3"] .terminal,
+body[data-theme="material3"] .mini-terminal,
+body[data-theme="material3"] .mini-terminal-screen,
+body[data-theme="material3"] .quiz-board,
+body[data-theme="material3"] .command-shell {
+  border-radius: 20px;
+  border-color: rgba(145, 201, 255, 0.38);
+  background:
+    linear-gradient(150deg, rgba(34, 67, 104, 0.84), rgba(20, 45, 73, 0.88));
+  box-shadow: inset 0 1px 0 rgba(214, 239, 255, 0.12), 0 10px 24px rgba(5, 15, 31, 0.36);
+}
+
+body[data-theme="material3"] .chips span {
+  border-radius: 999px;
+  border-color: rgba(152, 209, 255, 0.42);
+  background: linear-gradient(125deg, rgba(70, 124, 182, 0.74), rgba(49, 101, 158, 0.72));
+  color: #ecf8ff;
+}
+
+body[data-theme="material3"] .btn,
+body[data-theme="material3"] .egg-btn {
+  border-radius: 999px;
+  border-color: rgba(164, 216, 255, 0.52);
+}
+
+body[data-theme="material3"] .btn.primary {
+  color: #122236;
+  background: linear-gradient(120deg, #89c9ff, #7de7c5 55%, #ffbe74);
+}
+
+body[data-theme="material3"] .btn.ghost,
+body[data-theme="material3"] .egg-btn {
+  background: rgba(39, 75, 114, 0.78);
+}
+
+body[data-theme="material3"] .status-line {
+  color: #d7e9ff;
+}
