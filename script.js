@@ -20,12 +20,24 @@ const canvas = document.getElementById("starfield");
 const ctx = canvas?.getContext("2d");
 let stars = [];
 let lastStarFrame = 0;
+const runtimeFlags = {
+  isConstrained: false,
+  isFirefoxLike: false,
+  isVivaldi: false,
+};
+
+function computeRuntimeFlags() {
+  const ua = navigator.userAgent || "";
+  const isSmallViewport = window.matchMedia?.("(max-width: 820px)")?.matches || false;
+  const isCoarsePointer = window.matchMedia?.("(pointer: coarse)")?.matches || false;
+  runtimeFlags.isConstrained = isSmallViewport || isCoarsePointer;
+  runtimeFlags.isFirefoxLike = ua.includes("Firefox") || ua.includes("LibreWolf");
+  runtimeFlags.isVivaldi = /vivaldi/i.test(ua);
+}
 
 function getStarFieldProfile() {
   const isLiquidGlass = document.body.dataset.theme === "liquidglass";
-  const isConstrained = window.matchMedia?.("(max-width: 820px)")?.matches
-    || window.matchMedia?.("(pointer: coarse)")?.matches
-    || false;
+  const { isConstrained } = runtimeFlags;
 
   if (isLiquidGlass && isConstrained) return { density: 0.42, frameBudget: 56 };
   if (isLiquidGlass) return { density: 0.55, frameBudget: 46 };
@@ -89,29 +101,43 @@ resizeCanvas();
 window.addEventListener("resize", resizeCanvas);
 requestAnimationFrame(drawStars);
 
-const tiltElements = document.querySelectorAll(".tilt");
-tiltElements.forEach((card) => {
+function attachTiltBehavior(card) {
+  let tiltFrame = null;
+  let lastMouseEvent = null;
   const reset = () => {
     card.style.transform = "rotateX(0deg) rotateY(0deg)";
     card.style.removeProperty("--mx");
     card.style.removeProperty("--my");
+    lastMouseEvent = null;
+    if (tiltFrame) {
+      cancelAnimationFrame(tiltFrame);
+      tiltFrame = null;
+    }
   };
 
   card.addEventListener("mousemove", (event) => {
-    if (document.body.dataset.theme === "liquidglass") {
-      reset();
-      return;
-    }
-    const rect = card.getBoundingClientRect();
-    const dx = (event.clientX - rect.left) / rect.width - 0.5;
-    const dy = (event.clientY - rect.top) / rect.height - 0.5;
-    card.style.transform = `rotateX(${(-dy * 5).toFixed(2)}deg) rotateY(${(dx * 6).toFixed(2)}deg)`;
-    card.style.setProperty("--mx", `${((event.clientX - rect.left) / rect.width) * 100}%`);
-    card.style.setProperty("--my", `${((event.clientY - rect.top) / rect.height) * 100}%`);
+    lastMouseEvent = event;
+    if (tiltFrame) return;
+    tiltFrame = requestAnimationFrame(() => {
+      tiltFrame = null;
+      if (!lastMouseEvent || document.body.dataset.theme === "liquidglass") {
+        reset();
+        return;
+      }
+      const rect = card.getBoundingClientRect();
+      const dx = (lastMouseEvent.clientX - rect.left) / rect.width - 0.5;
+      const dy = (lastMouseEvent.clientY - rect.top) / rect.height - 0.5;
+      card.style.transform = `rotateX(${(-dy * 5).toFixed(2)}deg) rotateY(${(dx * 6).toFixed(2)}deg)`;
+      card.style.setProperty("--mx", `${((lastMouseEvent.clientX - rect.left) / rect.width) * 100}%`);
+      card.style.setProperty("--my", `${((lastMouseEvent.clientY - rect.top) / rect.height) * 100}%`);
+    });
   });
 
   card.addEventListener("mouseleave", reset);
-});
+}
+
+const tiltElements = document.querySelectorAll(".tilt");
+tiltElements.forEach((card) => attachTiltBehavior(card));
 
 const quoteBtn = document.getElementById("quote-btn");
 const launchBtn = document.getElementById("launch-btn");
@@ -188,7 +214,6 @@ let blackflagShotLockUntil = 0;
 let pulseWaveLayer = null;
 let pulseWaveRing = null;
 let pulseCoreFlash = null;
-let sparkBatchId = 0;
 const typewriterTokens = new WeakMap();
 const heroTaglineVariants = [
   "Aura Farmer // Chaotic Fun 🚀",
@@ -507,12 +532,7 @@ function triggerPulseBackdrop(clientX = null, clientY = null) {
   const height = window.innerHeight || 1;
   const x = typeof clientX === "number" && clientX > 0 ? clientX : width * 0.5;
   const y = typeof clientY === "number" && clientY > 0 ? clientY : height * 0.35;
-
-  const isConstrained =
-    window.matchMedia?.("(max-width: 820px)")?.matches
-    || window.matchMedia?.("(pointer: coarse)")?.matches
-    || false;
-  const isFirefoxLike = navigator.userAgent.includes("Firefox") || navigator.userAgent.includes("LibreWolf");
+  const { isConstrained, isFirefoxLike } = runtimeFlags;
 
   if (!pulseWaveLayer) {
     pulseWaveLayer = document.createElement("div");
@@ -619,17 +639,12 @@ function triggerPenguinPowerUp() {
 
 function initRuntimeCompatibility() {
   const apply = () => {
-    const ua = navigator.userAgent || "";
-    const isFirefoxLike = ua.includes("Firefox") || ua.includes("LibreWolf");
-    const isVivaldi = /vivaldi/i.test(ua);
-    const isSmallViewport = window.matchMedia?.("(max-width: 820px)")?.matches || false;
-    const isCoarsePointer = window.matchMedia?.("(pointer: coarse)")?.matches || false;
-    const forceTerminalFallback = isSmallViewport || isCoarsePointer;
-
-    document.body.classList.toggle("browser-firefox", isFirefoxLike);
-    document.body.classList.toggle("browser-not-firefox", !isFirefoxLike);
-    document.body.classList.toggle("browser-vivaldi", isVivaldi);
-    document.body.classList.toggle("force-terminal-fallback", forceTerminalFallback);
+    computeRuntimeFlags();
+    document.body.classList.toggle("browser-firefox", runtimeFlags.isFirefoxLike);
+    document.body.classList.toggle("browser-not-firefox", !runtimeFlags.isFirefoxLike);
+    document.body.classList.toggle("browser-vivaldi", runtimeFlags.isVivaldi);
+    document.body.classList.toggle("force-terminal-fallback", runtimeFlags.isConstrained);
+    resizeCanvas();
   };
 
   apply();
@@ -1767,26 +1782,7 @@ async function loadRepos() {
       )
       .join("");
 
-    document.querySelectorAll(".repo-card.tilt").forEach((card) => {
-      const reset = () => {
-        card.style.transform = "rotateX(0deg) rotateY(0deg)";
-        card.style.removeProperty("--mx");
-        card.style.removeProperty("--my");
-      };
-      card.addEventListener("mousemove", (event) => {
-        if (document.body.dataset.theme === "liquidglass") {
-          reset();
-          return;
-        }
-        const rect = card.getBoundingClientRect();
-        const dx = (event.clientX - rect.left) / rect.width - 0.5;
-        const dy = (event.clientY - rect.top) / rect.height - 0.5;
-        card.style.transform = `rotateX(${(-dy * 5).toFixed(2)}deg) rotateY(${(dx * 6).toFixed(2)}deg)`;
-        card.style.setProperty("--mx", `${((event.clientX - rect.left) / rect.width) * 100}%`);
-        card.style.setProperty("--my", `${((event.clientY - rect.top) / rect.height) * 100}%`);
-      });
-      card.addEventListener("mouseleave", reset);
-    });
+    document.querySelectorAll(".repo-card.tilt").forEach((card) => attachTiltBehavior(card));
   } catch (err) {
     grid.innerHTML = '<p>Could not load live repos now. Visit <a href="https://github.com/DevXtechnic" target="_blank" rel="noopener noreferrer">GitHub profile</a>.</p>';
   }
@@ -1809,29 +1805,25 @@ function showToast(message) {
 }
 
 function spawnSparks(total) {
-  const isConstrained =
-    window.matchMedia?.("(max-width: 820px)")?.matches
-    || window.matchMedia?.("(pointer: coarse)")?.matches
-    || false;
-  const isFirefoxLike = navigator.userAgent.includes("Firefox") || navigator.userAgent.includes("LibreWolf");
+  const { isConstrained, isFirefoxLike } = runtimeFlags;
   const densityScale = isConstrained ? 0.35 : (isFirefoxLike ? 0.55 : 1);
   const batchTotal = Math.max(3, Math.round(total * densityScale));
-  const batchId = `s${Date.now()}-${sparkBatchId += 1}`;
   const fragment = document.createDocumentFragment();
+  const sparkNodes = [];
 
   for (let i = 0; i < batchTotal; i += 1) {
     const spark = document.createElement("span");
     spark.className = "spark";
-    spark.dataset.sparkBatch = batchId;
     spark.style.left = `${Math.random() * 98}vw`;
     spark.style.setProperty("--dx", `${Math.random() * 110 - 55}px`);
     spark.style.setProperty("--spark-delay", `${i * 28}ms`);
     fragment.appendChild(spark);
+    sparkNodes.push(spark);
   }
 
   document.body.appendChild(fragment);
   window.setTimeout(() => {
-    document.querySelectorAll(`[data-spark-batch="${batchId}"]`).forEach((node) => node.remove());
+    sparkNodes.forEach((node) => node.remove());
   }, 1400 + batchTotal * 28);
 }
 
