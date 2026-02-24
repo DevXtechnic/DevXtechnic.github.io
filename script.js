@@ -172,7 +172,8 @@ const BS_CONVERTER_URL = "https://cdn.jsdelivr.net/npm/nepali-date-library@1.1.9
 const THEME_STORAGE_KEY = "neoThemeVariant.v1";
 const ACTION_STORAGE_KEY = "neoAutoAction.v1";
 const HERO_TYPED_KEY = "neoHeroTyped.v1";
-const MINI_PROMPT = "╰─❯";
+const MINI_PROMPT_NERD = "╰─❯";
+const MINI_PROMPT_FALLBACK = "$";
 const NERD_FONT_FAMILIES = [
   "JetBrainsMono Nerd Font",
   "FiraCode Nerd Font",
@@ -214,6 +215,7 @@ let blackflagShotLockUntil = 0;
 let pulseWaveLayer = null;
 let pulseWaveRing = null;
 let pulseCoreFlash = null;
+let pulseFallbackTimeout = 0;
 const typewriterTokens = new WeakMap();
 const heroTaglineVariants = [
   "Aura Farmer // Chaotic Fun 🚀",
@@ -556,37 +558,57 @@ function triggerPulseBackdrop(clientX = null, clientY = null) {
   pulseCoreFlash.style.left = `${x}px`;
   pulseCoreFlash.style.top = `${y}px`;
 
+  pulseWaveLayer.classList.remove("pulse-active");
+  pulseCoreFlash.classList.remove("pulse-active");
+  // Reflow so fallback class animation retriggers on rapid launches.
+  void pulseWaveLayer.offsetWidth;
+  pulseWaveLayer.classList.add("pulse-active");
+  pulseCoreFlash.classList.add("pulse-active");
+  if (pulseFallbackTimeout) window.clearTimeout(pulseFallbackTimeout);
+  pulseFallbackTimeout = window.setTimeout(() => {
+    pulseWaveLayer?.classList.remove("pulse-active");
+    pulseCoreFlash?.classList.remove("pulse-active");
+  }, 920);
+
+  if (typeof pulseWaveLayer.animate !== "function" || typeof pulseCoreFlash.animate !== "function") {
+    return;
+  }
+
   pulseWaveLayer.getAnimations().forEach((animation) => animation.cancel());
   pulseWaveRing?.getAnimations().forEach((animation) => animation.cancel());
   pulseCoreFlash.getAnimations().forEach((animation) => animation.cancel());
 
   const waveDuration = isConstrained ? 640 : 820;
   const waveScaleTo = isConstrained ? 1.12 : 1.2;
-  pulseWaveLayer.animate(
-    [
-      { transform: "scale(0.92)", opacity: 0 },
-      { opacity: isFirefoxLike ? 0.62 : 0.82, offset: 0.18 },
-      { opacity: 0.3, offset: 0.6 },
-      { transform: `scale(${waveScaleTo})`, opacity: 0 },
-    ],
-    { duration: waveDuration, easing: "cubic-bezier(0.16, 0.82, 0.27, 1)", fill: "forwards" }
-  );
+  try {
+    pulseWaveLayer.animate(
+      [
+        { transform: "scale(0.92)", opacity: 0 },
+        { opacity: isFirefoxLike ? 0.62 : 0.82, offset: 0.18 },
+        { opacity: 0.3, offset: 0.6 },
+        { transform: `scale(${waveScaleTo})`, opacity: 0 },
+      ],
+      { duration: waveDuration, easing: "cubic-bezier(0.16, 0.82, 0.27, 1)", fill: "forwards" }
+    );
 
-  pulseWaveRing?.animate(
-    [
-      { transform: "translate(-50%, -50%) scale(0.34)", opacity: 0.95 },
-      { transform: `translate(-50%, -50%) scale(${isConstrained ? 9.5 : 13})`, opacity: 0 },
-    ],
-    { duration: waveDuration, easing: "ease-out", fill: "forwards" }
-  );
+    pulseWaveRing?.animate(
+      [
+        { transform: "translate(-50%, -50%) scale(0.34)", opacity: 0.95 },
+        { transform: `translate(-50%, -50%) scale(${isConstrained ? 9.5 : 13})`, opacity: 0 },
+      ],
+      { duration: waveDuration, easing: "ease-out", fill: "forwards" }
+    );
 
-  pulseCoreFlash.animate(
-    [
-      { transform: "translate(-50%, -50%) scale(0.45)", opacity: 0.9 },
-      { transform: "translate(-50%, -50%) scale(3.4)", opacity: 0 },
-    ],
-    { duration: isConstrained ? 320 : 420, easing: "cubic-bezier(0.2, 0.7, 0.3, 1)", fill: "forwards" }
-  );
+    pulseCoreFlash.animate(
+      [
+        { transform: "translate(-50%, -50%) scale(0.45)", opacity: 0.9 },
+        { transform: "translate(-50%, -50%) scale(3.4)", opacity: 0 },
+      ],
+      { duration: isConstrained ? 320 : 420, easing: "cubic-bezier(0.2, 0.7, 0.3, 1)", fill: "forwards" }
+    );
+  } catch (error) {
+    // Class-based fallback above already guarantees a visible pulse.
+  }
 }
 
 function playPulseSound(pulseCount = 1) {
@@ -786,12 +808,11 @@ function applyTheme(theme, notify = false) {
 
 function initThemeSwitcher() {
   let savedTheme = "neo";
-  let urlTheme = null;
   try {
-    urlTheme = getThemeFromUrl();
+    const urlTheme = getThemeFromUrl();
     const storedTheme = window.localStorage.getItem(THEME_STORAGE_KEY);
-    savedTheme = storedTheme || urlTheme || "neo";
-    if (!storedTheme && urlTheme) {
+    savedTheme = urlTheme || storedTheme || "neo";
+    if (urlTheme && urlTheme !== storedTheme) {
       window.localStorage.setItem(THEME_STORAGE_KEY, urlTheme);
     }
   } catch (error) {
@@ -802,7 +823,7 @@ function initThemeSwitcher() {
   window.addEventListener("pageshow", () => {
     let latestTheme = "neo";
     try {
-      latestTheme = window.localStorage.getItem(THEME_STORAGE_KEY) || getThemeFromUrl() || "neo";
+      latestTheme = getThemeFromUrl() || window.localStorage.getItem(THEME_STORAGE_KEY) || "neo";
     } catch (error) {
       latestTheme = "neo";
     }
@@ -950,6 +971,13 @@ function appendTerminalLine(text, type = "out") {
   miniTerminalOutput.scrollTop = miniTerminalOutput.scrollHeight;
 }
 
+function getMiniPrompt() {
+  if (document.body.classList.contains("no-nerd-font") || document.body.classList.contains("force-terminal-fallback")) {
+    return MINI_PROMPT_FALLBACK;
+  }
+  return MINI_PROMPT_NERD;
+}
+
 function clearTerminalOutput() {
   if (!miniTerminalOutput) return;
   miniTerminalOutput.innerHTML = "";
@@ -1001,7 +1029,7 @@ function runTerminalCommand(rawCommand) {
   const command = rawCommand.trim();
   if (!command) return;
 
-  appendTerminalLine(`${MINI_PROMPT} ${command}`, "cmd");
+  appendTerminalLine(`${getMiniPrompt()} ${command}`, "cmd");
   const [actionRaw, ...rest] = command.split(/\s+/);
   const action = actionRaw.toLowerCase();
   const arg = rest.join(" ");
