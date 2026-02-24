@@ -2642,6 +2642,8 @@ body[data-theme="liquidglass"] .theme-cycle-btn {
   z-index: 50;
   pointer-events: none;
   animation: spark-rise 1100ms linear forwards;
+  animation-delay: var(--spark-delay, 0ms);
+  will-change: transform, opacity;
 }
 
 @keyframes spark-rise {
@@ -2662,6 +2664,7 @@ body[data-theme="liquidglass"] .theme-cycle-btn {
     radial-gradient(680px 460px at var(--pulse-x, 50%) var(--pulse-y, 35%), rgba(68, 130, 244, 0.26), transparent 78%);
   mix-blend-mode: screen;
   filter: blur(1px) saturate(132%);
+  will-change: transform, opacity;
 }
 
 body.browser-firefox .pulse-wave {
@@ -2684,10 +2687,11 @@ body.browser-firefox .pulse-wave {
   background:
     radial-gradient(circle, rgba(235, 248, 255, 0.95) 0%, rgba(145, 210, 255, 0.85) 42%, rgba(255, 170, 96, 0.52) 70%, rgba(255, 170, 96, 0) 100%);
   box-shadow: 0 0 20px rgba(151, 215, 255, 0.82), 0 0 34px rgba(255, 161, 85, 0.5);
+  opacity: 0;
+  will-change: transform, opacity;
 }
 
-.pulse-wave::after {
-  content: "";
+.pulse-wave-ring {
   position: absolute;
   left: var(--pulse-x, 50%);
   top: var(--pulse-y, 35%);
@@ -2698,26 +2702,27 @@ body.browser-firefox .pulse-wave {
   box-shadow: 0 0 16px rgba(122, 186, 255, 0.62), 0 0 28px rgba(255, 158, 74, 0.35);
   transform: translate(-50%, -50%) scale(0.34);
   opacity: 0;
+  will-change: transform, opacity;
 }
 
-.pulse-wave.is-active {
-  animation: pulse-bg-wave 840ms cubic-bezier(0.16, 0.82, 0.27, 1) forwards;
+body.force-terminal-fallback .pulse-wave {
+  inset: -8%;
+  filter: none;
+  background:
+    radial-gradient(140px 140px at var(--pulse-x, 50%) var(--pulse-y, 35%), rgba(164, 218, 255, 0.85), transparent 66%),
+    radial-gradient(360px 260px at calc(var(--pulse-x, 50%) + 8%) calc(var(--pulse-y, 35%) - 8%), rgba(255, 162, 85, 0.34), transparent 72%),
+    radial-gradient(520px 380px at var(--pulse-x, 50%) var(--pulse-y, 35%), rgba(71, 139, 255, 0.26), transparent 78%);
 }
 
-.pulse-wave.is-active::after {
-  animation: pulse-ring 840ms ease-out forwards;
-}
-
-@keyframes pulse-bg-wave {
-  0% { transform: scale(0.88); opacity: 0; }
-  18% { opacity: 0.9; }
-  62% { opacity: 0.35; }
-  100% { transform: scale(1.22); opacity: 0; }
-}
-
-@keyframes pulse-ring {
-  0% { transform: translate(-50%, -50%) scale(0.34); opacity: 0.95; }
-  100% { transform: translate(-50%, -50%) scale(14); opacity: 0; }
+@media (max-width: 820px) {
+  .pulse-wave {
+    inset: -8%;
+    filter: none;
+    background:
+      radial-gradient(140px 140px at var(--pulse-x, 50%) var(--pulse-y, 35%), rgba(164, 218, 255, 0.85), transparent 66%),
+      radial-gradient(360px 260px at calc(var(--pulse-x, 50%) + 8%) calc(var(--pulse-y, 35%) - 8%), rgba(255, 162, 85, 0.34), transparent 72%),
+      radial-gradient(520px 380px at var(--pulse-x, 50%) var(--pulse-y, 35%), rgba(71, 139, 255, 0.26), transparent 78%);
+  }
 }
 
 .matrix-layer {

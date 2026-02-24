@@ -185,6 +185,10 @@ let terminalHistory = [];
 let terminalHistoryIndex = 0;
 let terminalDraft = "";
 let blackflagShotLockUntil = 0;
+let pulseWaveLayer = null;
+let pulseWaveRing = null;
+let pulseCoreFlash = null;
+let sparkBatchId = 0;
 const typewriterTokens = new WeakMap();
 const heroTaglineVariants = [
   "Aura Farmer // Chaotic Fun 🚀",
@@ -504,39 +508,65 @@ function triggerPulseBackdrop(clientX = null, clientY = null) {
   const x = typeof clientX === "number" && clientX > 0 ? clientX : width * 0.5;
   const y = typeof clientY === "number" && clientY > 0 ? clientY : height * 0.35;
 
-  const layer = document.createElement("div");
-  layer.className = "pulse-wave";
-  layer.style.setProperty("--pulse-x", `${Math.round((x / width) * 100)}%`);
-  layer.style.setProperty("--pulse-y", `${Math.round((y / height) * 100)}%`);
+  const isConstrained =
+    window.matchMedia?.("(max-width: 820px)")?.matches
+    || window.matchMedia?.("(pointer: coarse)")?.matches
+    || false;
+  const isFirefoxLike = navigator.userAgent.includes("Firefox") || navigator.userAgent.includes("LibreWolf");
 
-  document.body.appendChild(layer);
-
-  // Force animation start reliably across restricted browsers.
-  void layer.offsetWidth;
-  layer.classList.add("is-active");
-  requestAnimationFrame(() => layer.classList.add("is-active"));
-
-  // Extra visible fallback flash for browsers that suppress blend/animation effects.
-  const flash = document.createElement("span");
-  flash.className = "pulse-core-flash";
-  flash.style.left = `${x}px`;
-  flash.style.top = `${y}px`;
-  document.body.appendChild(flash);
-  if (typeof flash.animate === "function") {
-    flash.animate(
-      [
-        { transform: "translate(-50%, -50%) scale(0.45)", opacity: 0.9 },
-        { transform: "translate(-50%, -50%) scale(3.6)", opacity: 0 },
-      ],
-      { duration: 420, easing: "cubic-bezier(0.2, 0.7, 0.3, 1)", fill: "forwards" }
-    ).onfinish = () => flash.remove();
-  } else {
-    window.setTimeout(() => flash.remove(), 450);
+  if (!pulseWaveLayer) {
+    pulseWaveLayer = document.createElement("div");
+    pulseWaveLayer.className = "pulse-wave";
+    pulseWaveRing = document.createElement("span");
+    pulseWaveRing.className = "pulse-wave-ring";
+    pulseWaveLayer.appendChild(pulseWaveRing);
+    document.body.appendChild(pulseWaveLayer);
   }
 
-  const cleanup = () => layer.remove();
-  layer.addEventListener("animationend", cleanup, { once: true });
-  window.setTimeout(cleanup, 1150);
+  if (!pulseCoreFlash) {
+    pulseCoreFlash = document.createElement("span");
+    pulseCoreFlash.className = "pulse-core-flash";
+    document.body.appendChild(pulseCoreFlash);
+  }
+
+  const px = `${Math.round((x / width) * 100)}%`;
+  const py = `${Math.round((y / height) * 100)}%`;
+  pulseWaveLayer.style.setProperty("--pulse-x", px);
+  pulseWaveLayer.style.setProperty("--pulse-y", py);
+  pulseCoreFlash.style.left = `${x}px`;
+  pulseCoreFlash.style.top = `${y}px`;
+
+  pulseWaveLayer.getAnimations().forEach((animation) => animation.cancel());
+  pulseWaveRing?.getAnimations().forEach((animation) => animation.cancel());
+  pulseCoreFlash.getAnimations().forEach((animation) => animation.cancel());
+
+  const waveDuration = isConstrained ? 640 : 820;
+  const waveScaleTo = isConstrained ? 1.12 : 1.2;
+  pulseWaveLayer.animate(
+    [
+      { transform: "scale(0.92)", opacity: 0 },
+      { opacity: isFirefoxLike ? 0.62 : 0.82, offset: 0.18 },
+      { opacity: 0.3, offset: 0.6 },
+      { transform: `scale(${waveScaleTo})`, opacity: 0 },
+    ],
+    { duration: waveDuration, easing: "cubic-bezier(0.16, 0.82, 0.27, 1)", fill: "forwards" }
+  );
+
+  pulseWaveRing?.animate(
+    [
+      { transform: "translate(-50%, -50%) scale(0.34)", opacity: 0.95 },
+      { transform: `translate(-50%, -50%) scale(${isConstrained ? 9.5 : 13})`, opacity: 0 },
+    ],
+    { duration: waveDuration, easing: "ease-out", fill: "forwards" }
+  );
+
+  pulseCoreFlash.animate(
+    [
+      { transform: "translate(-50%, -50%) scale(0.45)", opacity: 0.9 },
+      { transform: "translate(-50%, -50%) scale(3.4)", opacity: 0 },
+    ],
+    { duration: isConstrained ? 320 : 420, easing: "cubic-bezier(0.2, 0.7, 0.3, 1)", fill: "forwards" }
+  );
 }
 
 function playPulseSound(pulseCount = 1) {
@@ -1779,16 +1809,30 @@ function showToast(message) {
 }
 
 function spawnSparks(total) {
-  for (let i = 0; i < total; i += 1) {
-    window.setTimeout(() => {
-      const spark = document.createElement("span");
-      spark.className = "spark";
-      spark.style.left = `${Math.random() * 98}vw`;
-      spark.style.setProperty("--dx", `${Math.random() * 110 - 55}px`);
-      document.body.appendChild(spark);
-      window.setTimeout(() => spark.remove(), 1200);
-    }, i * 38);
+  const isConstrained =
+    window.matchMedia?.("(max-width: 820px)")?.matches
+    || window.matchMedia?.("(pointer: coarse)")?.matches
+    || false;
+  const isFirefoxLike = navigator.userAgent.includes("Firefox") || navigator.userAgent.includes("LibreWolf");
+  const densityScale = isConstrained ? 0.35 : (isFirefoxLike ? 0.55 : 1);
+  const batchTotal = Math.max(3, Math.round(total * densityScale));
+  const batchId = `s${Date.now()}-${sparkBatchId += 1}`;
+  const fragment = document.createDocumentFragment();
+
+  for (let i = 0; i < batchTotal; i += 1) {
+    const spark = document.createElement("span");
+    spark.className = "spark";
+    spark.dataset.sparkBatch = batchId;
+    spark.style.left = `${Math.random() * 98}vw`;
+    spark.style.setProperty("--dx", `${Math.random() * 110 - 55}px`);
+    spark.style.setProperty("--spark-delay", `${i * 28}ms`);
+    fragment.appendChild(spark);
   }
+
+  document.body.appendChild(fragment);
+  window.setTimeout(() => {
+    document.querySelectorAll(`[data-spark-batch="${batchId}"]`).forEach((node) => node.remove());
+  }, 1400 + batchTotal * 28);
 }
 
 let matrixCanvas = null;
