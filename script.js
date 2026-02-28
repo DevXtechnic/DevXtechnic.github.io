@@ -763,7 +763,7 @@ function initPenguinDateBadge() {
 
   const tick = async () => {
     const adDate = getNepalAdDate();
-    if (adDate === lastAdDate && (penguinBelly?.dataset.day || androidDateBadge?.dataset.bs)) return;
+    if (adDate === lastAdDate && (penguinBelly?.dataset.day || androidDateBadge?.dataset.day)) return;
 
     let bsDate = null;
     const converter = await loadBsConverter();
@@ -782,11 +782,9 @@ function initPenguinDateBadge() {
       penguinBelly.dataset.day = String(bsDate?.day || fallbackDay);
     }
     if (androidDateBadge) {
-      const bsText = bsDate
-        ? `BS ${String(bsDate.year).padStart(4, "0")}/${String(bsDate.month).padStart(2, "0")}/${String(bsDate.day).padStart(2, "0")}`
-        : `BS day ${fallbackDay}`;
-      androidDateBadge.textContent = bsText;
-      androidDateBadge.dataset.bs = bsText;
+      const dayText = String(bsDate?.day || fallbackDay);
+      androidDateBadge.textContent = dayText;
+      androidDateBadge.dataset.day = dayText;
     }
     lastAdDate = adDate;
   };
