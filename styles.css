@@ -2004,6 +2004,10 @@ body.browser-vivaldi .penguin-glasses {
   box-shadow: 0 0 9px rgba(97, 235, 172, 0.4);
 }
 
+.android-date-badge:empty {
+  display: none;
+}
+
 .android-arm,
 .android-leg {
   position: absolute;
@@ -2033,12 +2037,16 @@ body[data-theme="material3"] .avatar-glow {
   background: radial-gradient(circle, rgba(144, 238, 186, 0.46) 0%, rgba(89, 214, 157, 0.17) 58%, transparent 100%);
 }
 
-body[data-theme="material3"] .penguin-avatar {
-  display: none;
+body:not([data-theme="material3"]) .avatar-card .android-avatar {
+  display: none !important;
 }
 
-body[data-theme="material3"] .android-avatar {
-  display: block;
+body[data-theme="material3"] .avatar-card .penguin-avatar {
+  display: none !important;
+}
+
+body[data-theme="material3"] .avatar-card .android-avatar {
+  display: block !important;
 }
 
 @keyframes android-idle {
