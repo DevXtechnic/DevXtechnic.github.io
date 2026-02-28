@@ -29,6 +29,11 @@
           if (selected !== savedTheme) {
             window.localStorage.setItem(themeKey, selected);
           }
+          if (validThemes.has(savedTheme) && selected !== urlTheme) {
+            const url = new URL(window.location.href);
+            url.searchParams.set("theme", selected);
+            window.history.replaceState(null, "", url.toString());
+          }
         }
       } catch (error) {
         // ignore

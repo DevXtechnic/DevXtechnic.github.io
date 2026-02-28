@@ -145,6 +145,7 @@ const quoteOutput = document.getElementById("quote-output");
 const signalCount = document.getElementById("signal-count");
 const penguinAvatar = document.querySelector(".penguin-avatar");
 const penguinBelly = document.querySelector(".penguin-belly");
+const androidDateBadge = document.querySelector(".android-date-badge");
 const paletteOpenBtn = document.getElementById("palette-open");
 let commandPalette = document.getElementById("command-palette");
 let commandBackdrop = document.getElementById("command-backdrop");
@@ -698,7 +699,7 @@ function initTerminalFontFallbackMode() {
 }
 
 function initPenguinDateBadge() {
-  if (!penguinBelly) return;
+  if (!penguinBelly && !androidDateBadge) return;
 
   let lastAdDate = "";
 
@@ -716,14 +717,24 @@ function initPenguinDateBadge() {
     return `${year}-${month}-${day}`;
   };
 
-  const parseBsDay = (value) => {
+  const parseBsDate = (value) => {
     if (typeof value === "string") {
       const match = value.match(/^(\d{4})[-/](\d{1,2})[-/](\d{1,2})$/);
-      if (match) return String(Number.parseInt(match[3], 10));
+      if (match) {
+        return {
+          year: Number.parseInt(match[1], 10),
+          month: Number.parseInt(match[2], 10),
+          day: Number.parseInt(match[3], 10),
+        };
+      }
     }
 
     if (value && typeof value === "object" && "day" in value) {
-      return String(Number.parseInt(value.day, 10));
+      return {
+        year: Number.parseInt(value.year, 10),
+        month: Number.parseInt(value.month, 10),
+        day: Number.parseInt(value.day, 10),
+      };
     }
 
     return null;
@@ -752,21 +763,31 @@ function initPenguinDateBadge() {
 
   const tick = async () => {
     const adDate = getNepalAdDate();
-    if (adDate === lastAdDate && penguinBelly.dataset.day) return;
+    if (adDate === lastAdDate && (penguinBelly?.dataset.day || androidDateBadge?.dataset.bs)) return;
 
-    let bsDay = null;
+    let bsDate = null;
     const converter = await loadBsConverter();
 
     if (converter) {
       try {
         const bsValue = converter(adDate);
-        bsDay = parseBsDay(bsValue);
+        bsDate = parseBsDate(bsValue);
       } catch (error) {
-        bsDay = null;
+        bsDate = null;
       }
     }
 
-    penguinBelly.dataset.day = bsDay || getFallbackDay();
+    const fallbackDay = getFallbackDay();
+    if (penguinBelly) {
+      penguinBelly.dataset.day = String(bsDate?.day || fallbackDay);
+    }
+    if (androidDateBadge) {
+      const bsText = bsDate
+        ? `BS ${String(bsDate.year).padStart(4, "0")}/${String(bsDate.month).padStart(2, "0")}/${String(bsDate.day).padStart(2, "0")}`
+        : `BS day ${fallbackDay}`;
+      androidDateBadge.textContent = bsText;
+      androidDateBadge.dataset.bs = bsText;
+    }
     lastAdDate = adDate;
   };
 
@@ -823,7 +844,8 @@ function initThemeSwitcher() {
   window.addEventListener("pageshow", () => {
     let latestTheme = "neo";
     try {
-      latestTheme = window.localStorage.getItem(THEME_STORAGE_KEY) || getThemeFromUrl() || "neo";
+      const storedTheme = window.localStorage.getItem(THEME_STORAGE_KEY);
+      latestTheme = storedTheme || getThemeFromUrl() || "neo";
     } catch (error) {
       latestTheme = "neo";
     }
@@ -846,6 +868,24 @@ function initThemeSwitcher() {
     const idx = THEME_OPTIONS.indexOf(currentTheme);
     const next = THEME_OPTIONS[(idx + 1 + THEME_OPTIONS.length) % THEME_OPTIONS.length];
     applyTheme(next, true);
+  });
+}
+
+function initNavThemeGuard() {
+  const navLinks = document.querySelectorAll('a[href$=".html"], a[href*=".html?"]');
+  navLinks.forEach((link) => {
+    link.addEventListener("click", () => {
+      try {
+        const theme = THEME_OPTIONS.includes(currentTheme) ? currentTheme : "neo";
+        window.localStorage.setItem(THEME_STORAGE_KEY, theme);
+        const href = link.getAttribute("href");
+        if (href) {
+          link.setAttribute("href", applyThemeToUrl(href, theme));
+        }
+      } catch (error) {
+        // Ignore storage/link update failures.
+      }
+    });
   });
 }
 
@@ -1732,6 +1772,7 @@ function initPersonaQuiz() {
 
 initPenguinDateBadge();
 initThemeSwitcher();
+initNavThemeGuard();
 initHeroTypewriters();
 initBlackflagGunfire();
 initRuntimeCompatibility();

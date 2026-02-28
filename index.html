@@ -29,6 +29,11 @@
           if (selected !== savedTheme) {
             window.localStorage.setItem(themeKey, selected);
           }
+          if (validThemes.has(savedTheme) && selected !== urlTheme) {
+            const url = new URL(window.location.href);
+            url.searchParams.set("theme", selected);
+            window.history.replaceState(null, "", url.toString());
+          }
         }
       } catch (error) {
         // ignore
@@ -89,7 +94,7 @@
           </div>
         </div>
 
-        <aside class="avatar-card tilt" aria-label="penguin avatar">
+        <aside class="avatar-card tilt" aria-label="mascot avatar">
           <div class="avatar-glow"></div>
           <div class="penguin-avatar">
             <div class="penguin-body"></div>
@@ -106,6 +111,21 @@
             <div class="penguin-wing right"></div>
             <div class="penguin-foot left"></div>
             <div class="penguin-foot right"></div>
+          </div>
+          <div class="android-avatar" aria-hidden="true">
+            <div class="android-head">
+              <span class="android-antenna left"></span>
+              <span class="android-antenna right"></span>
+              <span class="android-eye left"></span>
+              <span class="android-eye right"></span>
+            </div>
+            <div class="android-body">
+              <div class="android-date-badge">BS --/--/--</div>
+            </div>
+            <span class="android-arm left"></span>
+            <span class="android-arm right"></span>
+            <span class="android-leg left"></span>
+            <span class="android-leg right"></span>
           </div>
         </aside>
       </div>
