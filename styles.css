@@ -590,8 +590,8 @@ body[data-theme="blackflag"] .penguin-cap-brim {
   background: linear-gradient(90deg, #2b2b2b, #0c0c0c, #2b2b2b);
 }
 
-body[data-theme="blackflag"] .penguin-eye.right,
-body[data-theme="blackflag"] .penguin-pupil.right {
+body[data-theme="blackflag"] .penguin-eye.left,
+body[data-theme="blackflag"] .penguin-pupil.left {
   opacity: 0;
 }
 
