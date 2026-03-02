@@ -2006,7 +2006,7 @@ body.browser-vivaldi .penguin-glasses {
   height: 8px;
   border-radius: 999px;
   background: linear-gradient(170deg, #9acb39 0%, #7cad2d 70%, #648f22 100%);
-  animation: android-eye-blink 5.8s ease-in-out infinite;
+  animation: android-eye-blink 8.4s ease-in-out infinite;
 }
 
 .android-eye.left { left: 22px; }
