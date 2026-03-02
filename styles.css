@@ -2028,12 +2028,13 @@ body.browser-vivaldi .penguin-glasses {
 .android-body::before {
   content: "";
   position: absolute;
-  right: 10px;
-  top: 18px;
-  width: 24px;
-  height: 42px;
-  border-radius: 12px;
-  background: linear-gradient(180deg, rgba(241, 255, 198, 0.22), rgba(241, 255, 198, 0.04));
+  right: 12px;
+  top: 20px;
+  width: 10px;
+  height: 36px;
+  border-radius: 999px;
+  background: linear-gradient(180deg, rgba(241, 255, 198, 0.14), rgba(241, 255, 198, 0.02));
+  filter: blur(0.2px);
 }
 
 .android-head::after {
