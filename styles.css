@@ -1936,72 +1936,129 @@ body.browser-vivaldi .penguin-glasses {
   z-index: 2;
   transform-origin: center 82%;
   animation: android-idle 4.4s ease-in-out infinite;
-  filter: drop-shadow(0 12px 18px rgba(36, 107, 47, 0.32));
+  filter: drop-shadow(0 12px 18px rgba(72, 140, 69, 0.32));
 }
 
 .android-head {
   position: absolute;
-  left: 30px;
-  top: 20px;
-  width: 80px;
-  height: 48px;
-  border-radius: 40px 40px 14px 14px;
-  background: #a4c639;
-  box-shadow: inset 0 1px 0 rgba(237, 255, 192, 0.32), 0 6px 12px rgba(35, 91, 47, 0.24);
+  left: 28px;
+  top: 18px;
+  width: 84px;
+  height: 54px;
+  border-radius: 44px 44px 20px 20px;
+  background: linear-gradient(170deg, #b8d94b 0%, #9fc63b 68%, #88ad2f 100%);
+  box-shadow:
+    inset 0 2px 0 rgba(245, 255, 210, 0.5),
+    inset 0 -4px 8px rgba(78, 113, 35, 0.22),
+    0 8px 16px rgba(55, 102, 42, 0.25);
 }
 
 .android-antenna {
   position: absolute;
-  top: -14px;
+  top: -13px;
   width: 4px;
-  height: 14px;
+  height: 13px;
   border-radius: 999px;
-  background: #a4c639;
+  background: #a9cf3d;
 }
 
-.android-antenna.left { left: 17px; transform: rotate(-26deg); }
-.android-antenna.right { right: 17px; transform: rotate(26deg); }
+.android-antenna.left { left: 15px; transform: rotate(-28deg); }
+.android-antenna.right { right: 15px; transform: rotate(28deg); }
 
 .android-eye {
   position: absolute;
-  top: 19px;
-  width: 6px;
-  height: 6px;
+  top: 20px;
+  width: 10px;
+  height: 12px;
   border-radius: 999px;
   background: #ffffff;
+  box-shadow:
+    inset 0 -2px 0 rgba(163, 208, 255, 0.42),
+    0 1px 0 rgba(72, 106, 30, 0.22);
 }
 
-.android-eye.left { left: 23px; }
-.android-eye.right { right: 23px; }
+.android-eye::after {
+  content: "";
+  position: absolute;
+  right: 2px;
+  top: 2px;
+  width: 3px;
+  height: 3px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.95);
+}
+
+.android-eye.left { left: 18px; }
+.android-eye.right { right: 18px; }
 
 .android-body {
   position: absolute;
-  left: 25px;
-  top: 70px;
-  width: 96px;
-  height: 74px;
-  border-radius: 12px;
-  background: #a4c639;
-  box-shadow: inset 0 1px 0 rgba(237, 255, 192, 0.28), 0 8px 14px rgba(35, 91, 47, 0.24);
+  left: 23px;
+  top: 73px;
+  width: 100px;
+  height: 75px;
+  border-radius: 18px 18px 14px 14px;
+  background: linear-gradient(170deg, #b3d646 0%, #9cc23a 70%, #84ab2d 100%);
+  box-shadow:
+    inset 0 2px 0 rgba(242, 255, 205, 0.42),
+    inset 0 -5px 9px rgba(80, 118, 33, 0.2),
+    0 8px 14px rgba(55, 102, 42, 0.24);
+}
+
+.android-body::before {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 10px;
+  transform: translateX(-50%);
+  width: 52px;
+  height: 9px;
+  border-radius: 999px;
+  background: rgba(237, 255, 195, 0.42);
+}
+
+.android-head::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  bottom: 8px;
+  transform: translateX(-50%);
+  width: 26px;
+  height: 8px;
+  border-radius: 0 0 8px 8px;
+  border-bottom: 2px solid rgba(67, 102, 22, 0.35);
+}
+
+.android-head::before {
+  content: "";
+  position: absolute;
+  left: 8px;
+  top: 27px;
+  width: 68px;
+  height: 11px;
+  border-radius: 999px;
+  box-shadow:
+    -6px 0 0 rgba(255, 172, 182, 0.4),
+    52px 0 0 rgba(255, 172, 182, 0.4);
 }
 
 .android-date-badge {
   position: absolute;
   left: 50%;
-  top: 26px;
+  top: 28px;
   transform: translateX(-50%);
-  min-width: 34px;
+  min-width: 32px;
   text-align: center;
-  border-radius: 8px;
-  border: 1px solid rgba(58, 96, 33, 0.42);
-  background: rgba(236, 255, 197, 0.88);
-  color: #264416;
+  border-radius: 999px;
+  border: 1px solid rgba(81, 121, 35, 0.32);
+  background: rgba(245, 255, 220, 0.9);
+  color: #294a19;
   font-family: "JetBrains Mono", "Fira Mono", "Courier New", monospace;
   font-size: 11px;
   font-weight: 700;
   letter-spacing: 0.01em;
-  padding: 2px 8px;
-  box-shadow: 0 2px 7px rgba(47, 88, 29, 0.2);
+  padding: 2px 7px;
+  box-shadow: 0 2px 8px rgba(70, 111, 33, 0.2);
 }
 
 .android-date-badge:empty {
@@ -2012,29 +2069,29 @@ body.browser-vivaldi .penguin-glasses {
 .android-leg {
   position: absolute;
   border-radius: 999px;
-  background: linear-gradient(175deg, #76dfaf 0%, #35af71 100%);
+  background: linear-gradient(170deg, #add043 0%, #92b831 100%);
 }
 
 .android-arm {
-  top: 74px;
-  width: 14px;
-  height: 52px;
+  top: 75px;
+  width: 15px;
+  height: 54px;
 }
 
-.android-arm.left { left: 6px; }
-.android-arm.right { right: 6px; }
+.android-arm.left { left: 4px; }
+.android-arm.right { right: 4px; }
 
 .android-leg {
-  top: 136px;
-  width: 16px;
+  top: 138px;
+  width: 17px;
   height: 28px;
 }
 
-.android-leg.left { left: 48px; }
-.android-leg.right { left: 82px; }
+.android-leg.left { left: 46px; }
+.android-leg.right { left: 83px; }
 
 body[data-theme="material3"] .avatar-glow {
-  background: radial-gradient(circle, rgba(181, 230, 78, 0.42) 0%, rgba(123, 181, 38, 0.16) 58%, transparent 100%);
+  background: radial-gradient(circle, rgba(204, 235, 115, 0.48) 0%, rgba(136, 190, 47, 0.18) 58%, transparent 100%);
 }
 
 body:not([data-theme="material3"]) .avatar-card .android-avatar {
