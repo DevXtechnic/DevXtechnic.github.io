@@ -1720,8 +1720,20 @@ body.browser-vivaldi .penguin-glasses {
   background: #f2f8ff;
   box-shadow: 0 0 0 1px rgba(8, 15, 30, 0.4) inset;
   z-index: 4;
-  transform-origin: center 60%;
-  animation: penguin-blink 6.2s ease-in-out infinite;
+  overflow: hidden;
+}
+
+.penguin-eye::before {
+  content: "";
+  position: absolute;
+  left: -1px;
+  top: -6px;
+  width: calc(100% + 2px);
+  height: 6px;
+  border-radius: 50%;
+  background: linear-gradient(170deg, #1f3352 0%, #0d1b32 70%, #060c16 100%);
+  animation: penguin-eye-blink 8.1s ease-in-out infinite;
+  z-index: 2;
 }
 
 .penguin-eye::after {
@@ -1751,8 +1763,6 @@ body.browser-vivaldi .penguin-glasses {
   border-radius: 50%;
   background: #05070b;
   z-index: 5;
-  transform-origin: center 60%;
-  animation: penguin-blink 6.2s ease-in-out infinite;
 }
 
 .penguin-pupil.left {
@@ -1879,17 +1889,17 @@ body.browser-vivaldi .penguin-glasses {
   }
 }
 
-@keyframes penguin-blink {
+@keyframes penguin-eye-blink {
   0%,
-  45%,
+  43%,
   47%,
-  49%,
+  51%,
   100% {
-    transform: scaleY(1);
+    transform: translateY(0);
   }
-  46%,
-  48% {
-    transform: scaleY(0.08);
+  44%,
+  50% {
+    transform: translateY(6px);
   }
 }
 
