@@ -1992,9 +1992,9 @@ body.browser-vivaldi .penguin-glasses {
 
 .android-body {
   position: absolute;
-  left: 24px;
+  left: 28px;
   top: 72px;
-  width: 100px;
+  width: 92px;
   height: 76px;
   border-radius: 14px;
   background:
@@ -2012,7 +2012,7 @@ body.browser-vivaldi .penguin-glasses {
   left: 50%;
   top: 10px;
   transform: translateX(-50%);
-  width: 64px;
+  width: 56px;
   height: 10px;
   border-radius: 999px;
   background: rgba(240, 255, 195, 0.26);
@@ -2043,7 +2043,7 @@ body.browser-vivaldi .penguin-glasses {
   left: 50%;
   top: 30px;
   transform: translateX(-50%);
-  min-width: 32px;
+  min-width: 30px;
   text-align: center;
   border-radius: 999px;
   border: 1px solid rgba(66, 106, 40, 0.4);
