@@ -1981,6 +1981,8 @@ body.browser-vivaldi .penguin-glasses {
   border-radius: 999px;
   background: #f4fff2;
   box-shadow: inset 0 -1px 0 rgba(154, 191, 128, 0.28);
+  transform-origin: center 58%;
+  animation: android-blink 7.2s ease-in-out infinite;
 }
 
 .android-eye::after {
@@ -2107,6 +2109,20 @@ body[data-theme="material3"] .avatar-card .android-avatar {
   0%,
   100% { transform: perspective(520px) rotateX(2deg) translateY(0) rotate(0deg); }
   50% { transform: perspective(520px) rotateX(2deg) translateY(-2px) rotate(-0.5deg); }
+}
+
+@keyframes android-blink {
+  0%,
+  44%,
+  46%,
+  48%,
+  100% {
+    transform: scaleY(1);
+  }
+  45%,
+  47% {
+    transform: scaleY(0.12);
+  }
 }
 
 .terminal {
