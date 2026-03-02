@@ -1936,22 +1936,22 @@ body.browser-vivaldi .penguin-glasses {
   z-index: 2;
   transform-origin: center 82%;
   animation: android-idle 4.4s ease-in-out infinite;
-  transform: perspective(520px) rotateX(5deg);
-  filter: drop-shadow(0 14px 20px rgba(35, 81, 59, 0.34));
+  transform: perspective(520px) rotateX(4deg);
+  filter: drop-shadow(0 14px 22px rgba(33, 76, 56, 0.34));
 }
 
 .android-head {
   position: absolute;
-  left: 27px;
-  top: 16px;
-  width: 86px;
-  height: 54px;
-  border-radius: 24px 24px 12px 12px;
-  background: linear-gradient(170deg, #8dbf31 0%, #6ea128 70%, #57831d 100%);
+  left: 29px;
+  top: 17px;
+  width: 82px;
+  height: 52px;
+  border-radius: 36px 36px 14px 14px;
+  background: linear-gradient(170deg, #96c234 0%, #79ab2b 70%, #628e20 100%);
   box-shadow:
-    inset 0 2px 0 rgba(231, 255, 166, 0.22),
-    inset 0 -5px 9px rgba(32, 62, 24, 0.28),
-    0 8px 16px rgba(31, 74, 46, 0.3);
+    inset 0 2px 0 rgba(236, 255, 176, 0.28),
+    inset 0 -5px 8px rgba(41, 73, 29, 0.25),
+    0 8px 14px rgba(34, 74, 50, 0.28);
 }
 
 .android-head,
@@ -1967,87 +1967,77 @@ body.browser-vivaldi .penguin-glasses {
   width: 4px;
   height: 13px;
   border-radius: 999px;
-  background: #7fab2c;
+  background: #86b72e;
 }
 
-.android-antenna.left { left: 14px; transform: rotate(-23deg); }
-.android-antenna.right { right: 14px; transform: rotate(23deg); }
+.android-antenna.left { left: 16px; transform: rotate(-26deg); }
+.android-antenna.right { right: 16px; transform: rotate(26deg); }
 
 .android-eye {
   position: absolute;
-  top: 19px;
-  width: 24px;
+  top: 21px;
+  width: 8px;
   height: 8px;
-  border-radius: 3px;
-  background: linear-gradient(90deg, #8ce6ff 0%, #e3fbff 50%, #8ce6ff 100%);
-  box-shadow: 0 0 8px rgba(110, 225, 255, 0.5);
+  border-radius: 999px;
+  background: #f5fff0;
+  box-shadow: inset 0 -1px 0 rgba(154, 191, 128, 0.45);
 }
 
 .android-eye::after {
   content: "";
   position: absolute;
-  left: 0;
-  top: -4px;
-  width: 100%;
-  height: 3px;
-  border-radius: 3px;
-  background: rgba(29, 52, 21, 0.8);
+  right: 1px;
+  top: 1px;
+  width: 2px;
+  height: 2px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.95);
 }
 
-.android-eye.left { left: 14px; }
-.android-eye.right { right: 14px; }
+.android-eye.left { left: 22px; }
+.android-eye.right { right: 22px; }
 
 .android-body {
   position: absolute;
-  left: 21px;
+  left: 24px;
   top: 72px;
   width: 100px;
-  height: 78px;
-  border-radius: 10px;
+  height: 76px;
+  border-radius: 12px;
   background:
-    linear-gradient(180deg, rgba(160, 204, 65, 0.2), rgba(70, 112, 30, 0.1)),
-    linear-gradient(170deg, #82b62e 0%, #6a9a24 70%, #507719 100%);
+    linear-gradient(180deg, rgba(180, 219, 81, 0.2), rgba(88, 130, 35, 0.1)),
+    linear-gradient(170deg, #8cba31 0%, #6f9f28 70%, #58801e 100%);
   box-shadow:
-    inset 0 2px 0 rgba(223, 255, 146, 0.18),
-    inset 0 -6px 10px rgba(30, 57, 22, 0.25),
-    0 8px 14px rgba(31, 74, 46, 0.28);
+    inset 0 2px 0 rgba(233, 255, 171, 0.24),
+    inset 0 -6px 10px rgba(35, 66, 25, 0.24),
+    0 8px 14px rgba(34, 74, 50, 0.28);
 }
 
 .android-body::after {
   content: "";
   position: absolute;
-  right: 12px;
-  top: 16px;
-  width: 22px;
-  height: 40px;
-  border-radius: 10px;
-  background: linear-gradient(180deg, rgba(231, 255, 165, 0.24), rgba(231, 255, 165, 0.02));
-  transform: skewY(-8deg);
+  left: 50%;
+  top: 10px;
+  transform: translateX(-50%);
+  width: 64px;
+  height: 10px;
+  border-radius: 999px;
+  background: rgba(240, 255, 195, 0.26);
 }
 
 .android-body::before {
   content: "";
   position: absolute;
-  left: 50%;
-  top: 10px;
-  transform: translateX(-50%);
-  width: 68px;
-  height: 2px;
-  border-radius: 2px;
-  background: rgba(201, 246, 114, 0.45);
-  box-shadow: 0 18px 0 rgba(201, 246, 114, 0.25), 0 36px 0 rgba(201, 246, 114, 0.2);
+  right: 10px;
+  top: 18px;
+  width: 24px;
+  height: 42px;
+  border-radius: 12px;
+  background: linear-gradient(180deg, rgba(241, 255, 198, 0.22), rgba(241, 255, 198, 0.04));
 }
 
 .android-head::after {
-  content: "";
-  position: absolute;
-  left: 50%;
-  bottom: 8px;
-  transform: translateX(-50%);
-  width: 40px;
-  height: 10px;
-  border-radius: 0 0 6px 6px;
-  border-bottom: 2px solid rgba(27, 50, 18, 0.55);
+  content: none;
 }
 
 .android-head::before {
@@ -2057,20 +2047,20 @@ body.browser-vivaldi .penguin-glasses {
 .android-date-badge {
   position: absolute;
   left: 50%;
-  top: 28px;
+  top: 30px;
   transform: translateX(-50%);
   min-width: 32px;
   text-align: center;
   border-radius: 999px;
-  border: 1px solid rgba(54, 101, 74, 0.42);
-  background: rgba(12, 37, 43, 0.86);
-  color: #9defff;
+  border: 1px solid rgba(62, 94, 38, 0.42);
+  background: rgba(20, 44, 18, 0.82);
+  color: #d5ffbb;
   font-family: "JetBrains Mono", "Fira Mono", "Courier New", monospace;
   font-size: 11px;
   font-weight: 700;
   letter-spacing: 0.01em;
   padding: 2px 7px;
-  box-shadow: 0 2px 8px rgba(61, 173, 218, 0.24);
+  box-shadow: 0 2px 8px rgba(84, 158, 55, 0.24);
 }
 
 .android-date-badge:empty {
@@ -2081,27 +2071,27 @@ body.browser-vivaldi .penguin-glasses {
 .android-leg {
   position: absolute;
   border-radius: 999px;
-  background: linear-gradient(170deg, #789f2b 0%, #628521 100%);
-  box-shadow: inset 0 2px 2px rgba(223, 255, 143, 0.15), inset 0 -4px 5px rgba(34, 62, 24, 0.22);
+  background: linear-gradient(170deg, #83b32f 0%, #659225 100%);
+  box-shadow: inset 0 2px 2px rgba(229, 255, 152, 0.17), inset 0 -4px 5px rgba(39, 67, 27, 0.22);
 }
 
 .android-arm {
-  top: 75px;
+  top: 74px;
   width: 15px;
-  height: 54px;
+  height: 52px;
 }
 
-.android-arm.left { left: 4px; }
-.android-arm.right { right: 4px; }
+.android-arm.left { left: 7px; }
+.android-arm.right { right: 7px; }
 
 .android-leg {
-  top: 138px;
+  top: 137px;
   width: 17px;
   height: 28px;
 }
 
-.android-leg.left { left: 46px; }
-.android-leg.right { left: 83px; }
+.android-leg.left { left: 49px; }
+.android-leg.right { left: 80px; }
 
 body[data-theme="material3"] .avatar-glow {
   background: radial-gradient(circle, rgba(204, 235, 115, 0.48) 0%, rgba(136, 190, 47, 0.18) 58%, transparent 100%);
