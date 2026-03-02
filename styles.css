@@ -1936,8 +1936,8 @@ body.browser-vivaldi .penguin-glasses {
   z-index: 2;
   transform-origin: center 82%;
   animation: android-idle 4.4s ease-in-out infinite;
-  transform: perspective(520px) rotateX(4deg);
-  filter: drop-shadow(0 14px 22px rgba(33, 76, 56, 0.34));
+  transform: perspective(520px) rotateX(2deg);
+  filter: drop-shadow(0 12px 18px rgba(33, 76, 56, 0.28));
 }
 
 .android-head {
@@ -1946,12 +1946,12 @@ body.browser-vivaldi .penguin-glasses {
   top: 17px;
   width: 82px;
   height: 52px;
-  border-radius: 36px 36px 14px 14px;
+  border-radius: 38px 38px 16px 16px;
   background: linear-gradient(170deg, #96c234 0%, #79ab2b 70%, #628e20 100%);
   box-shadow:
-    inset 0 2px 0 rgba(236, 255, 176, 0.28),
-    inset 0 -5px 8px rgba(41, 73, 29, 0.25),
-    0 8px 14px rgba(34, 74, 50, 0.28);
+    inset 0 2px 0 rgba(236, 255, 176, 0.36),
+    inset 0 -4px 7px rgba(41, 73, 29, 0.2),
+    0 6px 11px rgba(34, 74, 50, 0.22);
 }
 
 .android-head,
@@ -1976,22 +1976,15 @@ body.browser-vivaldi .penguin-glasses {
 .android-eye {
   position: absolute;
   top: 21px;
-  width: 8px;
-  height: 8px;
+  width: 7px;
+  height: 7px;
   border-radius: 999px;
-  background: #f5fff0;
-  box-shadow: inset 0 -1px 0 rgba(154, 191, 128, 0.45);
+  background: #f4fff2;
+  box-shadow: inset 0 -1px 0 rgba(154, 191, 128, 0.28);
 }
 
 .android-eye::after {
-  content: "";
-  position: absolute;
-  right: 1px;
-  top: 1px;
-  width: 2px;
-  height: 2px;
-  border-radius: 999px;
-  background: rgba(255, 255, 255, 0.95);
+  content: none;
 }
 
 .android-eye.left { left: 22px; }
@@ -2003,14 +1996,14 @@ body.browser-vivaldi .penguin-glasses {
   top: 72px;
   width: 100px;
   height: 76px;
-  border-radius: 12px;
+  border-radius: 14px;
   background:
     linear-gradient(180deg, rgba(180, 219, 81, 0.2), rgba(88, 130, 35, 0.1)),
     linear-gradient(170deg, #8cba31 0%, #6f9f28 70%, #58801e 100%);
   box-shadow:
-    inset 0 2px 0 rgba(233, 255, 171, 0.24),
-    inset 0 -6px 10px rgba(35, 66, 25, 0.24),
-    0 8px 14px rgba(34, 74, 50, 0.28);
+    inset 0 2px 0 rgba(233, 255, 171, 0.3),
+    inset 0 -5px 8px rgba(35, 66, 25, 0.2),
+    0 6px 11px rgba(34, 74, 50, 0.22);
 }
 
 .android-body::after {
@@ -2028,12 +2021,12 @@ body.browser-vivaldi .penguin-glasses {
 .android-body::before {
   content: "";
   position: absolute;
-  right: 12px;
+  right: 14px;
   top: 20px;
-  width: 10px;
-  height: 36px;
+  width: 8px;
+  height: 34px;
   border-radius: 999px;
-  background: linear-gradient(180deg, rgba(241, 255, 198, 0.14), rgba(241, 255, 198, 0.02));
+  background: linear-gradient(180deg, rgba(241, 255, 198, 0.11), rgba(241, 255, 198, 0.01));
   filter: blur(0.2px);
 }
 
@@ -2053,15 +2046,15 @@ body.browser-vivaldi .penguin-glasses {
   min-width: 32px;
   text-align: center;
   border-radius: 999px;
-  border: 1px solid rgba(62, 94, 38, 0.42);
-  background: rgba(20, 44, 18, 0.82);
-  color: #d5ffbb;
+  border: 1px solid rgba(66, 106, 40, 0.4);
+  background: rgba(29, 58, 24, 0.78);
+  color: #e4ffc9;
   font-family: "JetBrains Mono", "Fira Mono", "Courier New", monospace;
   font-size: 11px;
   font-weight: 700;
   letter-spacing: 0.01em;
   padding: 2px 7px;
-  box-shadow: 0 2px 8px rgba(84, 158, 55, 0.24);
+  box-shadow: 0 1px 5px rgba(84, 158, 55, 0.2);
 }
 
 .android-date-badge:empty {
@@ -2073,25 +2066,25 @@ body.browser-vivaldi .penguin-glasses {
   position: absolute;
   border-radius: 999px;
   background: linear-gradient(170deg, #83b32f 0%, #659225 100%);
-  box-shadow: inset 0 2px 2px rgba(229, 255, 152, 0.17), inset 0 -4px 5px rgba(39, 67, 27, 0.22);
+  box-shadow: inset 0 2px 2px rgba(229, 255, 152, 0.16), inset 0 -3px 4px rgba(39, 67, 27, 0.2);
 }
 
 .android-arm {
   top: 74px;
-  width: 15px;
-  height: 52px;
+  width: 14px;
+  height: 50px;
 }
 
-.android-arm.left { left: 7px; }
-.android-arm.right { right: 7px; }
+.android-arm.left { left: 8px; }
+.android-arm.right { right: 8px; }
 
 .android-leg {
   top: 137px;
-  width: 17px;
-  height: 28px;
+  width: 16px;
+  height: 26px;
 }
 
-.android-leg.left { left: 49px; }
+.android-leg.left { left: 50px; }
 .android-leg.right { left: 80px; }
 
 body[data-theme="material3"] .avatar-glow {
@@ -2112,8 +2105,8 @@ body[data-theme="material3"] .avatar-card .android-avatar {
 
 @keyframes android-idle {
   0%,
-  100% { transform: perspective(520px) rotateX(5deg) translateY(0) rotate(0deg); }
-  50% { transform: perspective(520px) rotateX(5deg) translateY(-3px) rotate(-1deg); }
+  100% { transform: perspective(520px) rotateX(2deg) translateY(0) rotate(0deg); }
+  50% { transform: perspective(520px) rotateX(2deg) translateY(-2px) rotate(-0.5deg); }
 }
 
 .terminal {
