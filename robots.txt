@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://devxtechnic.github.io/sitemap.xml

@@ -240,6 +240,10 @@ body {
   min-height: 100%;
 }
 
+html {
+  scroll-behavior: smooth;
+}
+
 body {
   font-family: "Space Grotesk", sans-serif;
   color: var(--ink);
@@ -251,6 +255,12 @@ body {
     radial-gradient(640px 240px at 90% -2%, rgba(255, 150, 64, 0.24), transparent 60%),
     linear-gradient(160deg, var(--bg-0), var(--bg-1) 45%, var(--bg-2));
   overflow-x: hidden;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
 }
 
 .skip-link {
@@ -955,6 +965,8 @@ main {
 .panel {
   margin-top: 0.62rem;
   padding: 0.78rem;
+  content-visibility: auto;
+  contain-intrinsic-size: 280px;
 }
 
 .tag {
@@ -2505,6 +2517,18 @@ body[data-theme="material3"] .avatar-card .android-avatar {
   color: var(--muted);
   text-align: center;
   font-size: 0.8rem;
+  content-visibility: auto;
+  contain-intrinsic-size: 120px;
+}
+
+a:focus-visible,
+button:focus-visible,
+select:focus-visible,
+input:focus-visible,
+textarea:focus-visible {
+  outline: 2px solid rgba(142, 206, 255, 0.85);
+  outline-offset: 2px;
+  box-shadow: 0 0 0 3px rgba(73, 140, 255, 0.2);
 }
 
 .reveal {

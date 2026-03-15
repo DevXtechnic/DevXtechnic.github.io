@@ -1,6 +1,9 @@
 const page = document.body.dataset.page;
 const navLink = document.querySelector(`[data-nav="${page}"]`);
-if (navLink) navLink.classList.add("active");
+if (navLink) {
+  navLink.classList.add("active");
+  navLink.setAttribute("aria-current", "page");
+}
 
 const prefersReducedMotion = window.matchMedia?.("(prefers-reduced-motion: reduce)")?.matches || false;
 const revealTargets = new Set([...document.querySelectorAll(".reveal")]);
@@ -63,21 +66,24 @@ const runtimeFlags = {
   isConstrained: false,
   isFirefoxLike: false,
   isVivaldi: false,
+  saveData: false,
 };
 
 function computeRuntimeFlags() {
   const ua = navigator.userAgent || "";
   const isSmallViewport = window.matchMedia?.("(max-width: 820px)")?.matches || false;
   const isCoarsePointer = window.matchMedia?.("(pointer: coarse)")?.matches || false;
-  runtimeFlags.isConstrained = isSmallViewport || isCoarsePointer;
+  runtimeFlags.saveData = navigator.connection?.saveData || false;
+  runtimeFlags.isConstrained = isSmallViewport || isCoarsePointer || runtimeFlags.saveData || prefersReducedMotion;
   runtimeFlags.isFirefoxLike = ua.includes("Firefox") || ua.includes("LibreWolf");
   runtimeFlags.isVivaldi = /vivaldi/i.test(ua);
 }
 
 function getStarFieldProfile() {
   const isLiquidGlass = document.body.dataset.theme === "liquidglass";
-  const { isConstrained } = runtimeFlags;
+  const { isConstrained, saveData } = runtimeFlags;
 
+  if (saveData) return { density: 0.22, frameBudget: 90 };
   if (isLiquidGlass && isConstrained) return { density: 0.42, frameBudget: 56 };
   if (isLiquidGlass) return { density: 0.55, frameBudget: 46 };
   if (isConstrained) return { density: 0.72, frameBudget: 28 };
@@ -1915,6 +1921,9 @@ function showToast(message) {
   if (!toast) {
     toast = document.createElement("div");
     toast.className = "easter-toast";
+    toast.setAttribute("role", "status");
+    toast.setAttribute("aria-live", "polite");
+    toast.setAttribute("aria-atomic", "true");
     document.body.appendChild(toast);
   }
 
