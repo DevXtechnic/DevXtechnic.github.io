@@ -184,6 +184,7 @@ const canvas = document.getElementById("starfield");
 const ctx = canvas?.getContext("2d");
 let stars = [];
 let lastStarFrame = 0;
+let starsAnimation = null;
 const runtimeFlags = {
   isConstrained: false,
   isFirefoxLike: false,
@@ -236,16 +237,15 @@ function resizeCanvas() {
 
 function drawStars(timestamp = 0) {
   if (!canvas || !ctx) return;
+  if (document.hidden) {
+    starsAnimation = null;
+    return;
+  }
   const profile = getStarFieldProfile();
   const elapsed = timestamp - lastStarFrame;
 
-  if (document.hidden) {
-    requestAnimationFrame(drawStars);
-    return;
-  }
-
   if (elapsed < profile.frameBudget) {
-    requestAnimationFrame(drawStars);
+    starsAnimation = requestAnimationFrame(drawStars);
     return;
   }
 
@@ -266,16 +266,28 @@ function drawStars(timestamp = 0) {
     ctx.fill();
   });
 
-  requestAnimationFrame(drawStars);
+  starsAnimation = requestAnimationFrame(drawStars);
 }
 
 resizeCanvas();
 window.addEventListener("resize", resizeCanvas);
 if (!prefersReducedMotion) {
-  requestAnimationFrame(drawStars);
+  starsAnimation = requestAnimationFrame(drawStars);
 }
+document.addEventListener("visibilitychange", () => {
+  if (document.hidden) {
+    if (starsAnimation) cancelAnimationFrame(starsAnimation);
+    starsAnimation = null;
+    return;
+  }
+  if (!prefersReducedMotion && !starsAnimation) {
+    starsAnimation = requestAnimationFrame(drawStars);
+  }
+});
 
 function attachTiltBehavior(card) {
+  if (prefersReducedMotion) return;
+  if (window.matchMedia && !window.matchMedia("(hover: hover)").matches) return;
   let tiltFrame = null;
   let lastMouseEvent = null;
   const reset = () => {
