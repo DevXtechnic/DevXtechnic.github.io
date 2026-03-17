@@ -2222,12 +2222,15 @@ let matrixScrollHandler = null;
 let matrixSize = { width: 0, height: 0, pixelRatio: 1 };
 let matrixVisibilityHandler = null;
 let matrixDraw = null;
+let matrixLocked = false;
 
-function startMatrixRain() {
+function startMatrixRain(lock = false) {
   if (matrixCanvas) {
     document.body.classList.add("matrix-mode");
+    if (lock) matrixLocked = true;
     return;
   }
+  if (lock) matrixLocked = true;
 
   matrixCanvas = document.createElement("canvas");
   matrixCanvas.className = "matrix-layer";
@@ -2236,13 +2239,26 @@ function startMatrixRain() {
 
   matrixResizeHandler = () => {
     if (!matrixCanvas || !matrixContext) return;
+    const vv = window.visualViewport;
     const viewportWidth = Math.max(
       1,
-      Math.floor(Math.max(document.documentElement.clientWidth || 0, window.innerWidth || 0))
+      Math.floor(
+        Math.max(
+          document.documentElement.clientWidth || 0,
+          window.innerWidth || 0,
+          vv?.width || 0
+        )
+      )
     );
     const viewportHeight = Math.max(
       1,
-      Math.floor(Math.max(document.documentElement.clientHeight || 0, window.innerHeight || 0))
+      Math.floor(
+        Math.max(
+          document.documentElement.clientHeight || 0,
+          window.innerHeight || 0,
+          vv?.height || 0
+        )
+      )
     );
     const pixelRatio = Math.max(1, window.devicePixelRatio || 1);
 
@@ -2323,7 +2339,12 @@ function startMatrixRain() {
   document.addEventListener("visibilitychange", matrixVisibilityHandler);
 }
 
-function stopMatrixRain() {
+function stopMatrixRain(force = false) {
+  if (matrixLocked && !force) {
+    showToast("Matrix locked. Drop Insight to reset.");
+    return;
+  }
+  matrixLocked = false;
   document.body.classList.remove("matrix-mode");
   if (matrixAnimation) cancelAnimationFrame(matrixAnimation);
   matrixAnimation = null;
@@ -2513,6 +2534,13 @@ function toggleElonMode() {
 }
 
 function toggleMatrixMode() {
+  if (matrixLocked) {
+    if (!document.body.classList.contains("matrix-mode")) {
+      startMatrixRain(true);
+    }
+    showToast("Matrix locked. Drop Insight to reset.");
+    return;
+  }
   if (document.body.classList.contains("matrix-mode")) {
     stopMatrixRain();
     showToast("Matrix rain disabled.");
@@ -2533,7 +2561,7 @@ function applyPulseMilestone(count) {
     if (!document.body.classList.contains("istj-mode")) toggleISTJMode();
     showToast("15 pulses: ISTJ Grid.");
   } else if (count === 20) {
-    if (!document.body.classList.contains("matrix-mode")) startMatrixRain();
+    if (!document.body.classList.contains("matrix-mode")) startMatrixRain(true);
     showToast("20 pulses: Matrix Rain.");
   }
 }
@@ -2549,8 +2577,9 @@ function resetPulseChain() {
     document.body.classList.remove("istj-mode");
   }
   if (document.body.classList.contains("matrix-mode")) {
-    stopMatrixRain();
+    stopMatrixRain(true);
   }
+  matrixLocked = false;
   if (funkTimer) {
     stopFunkAudio();
   }
