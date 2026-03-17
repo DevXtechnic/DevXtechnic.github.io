@@ -264,7 +264,7 @@ body {
   font-family: "Space Grotesk", sans-serif;
   color: var(--ink);
   min-height: 100dvh;
-  padding-bottom: 1.55rem;
+  padding-bottom: calc(1.55rem + env(safe-area-inset-bottom));
   background-color: var(--bg-0);
   background:
     radial-gradient(920px 360px at 14% -12%, rgba(51, 111, 203, 0.36), transparent 62%),
@@ -975,7 +975,7 @@ nav a.active {
   display: flex;
   gap: 0.38rem;
   z-index: 22;
-  pointer-events: none;
+  pointer-events: auto;
   padding: 0.28rem 0.4rem;
   border-radius: 999px;
   background: rgba(6, 12, 26, 0.65);
@@ -984,6 +984,17 @@ nav a.active {
   box-shadow: 0 8px 20px rgba(4, 10, 20, 0.28);
   max-width: min(92vw, 980px);
   overflow-x: auto;
+  overflow-y: hidden;
+  scroll-snap-type: x proximity;
+  scroll-padding: 0.6rem;
+  overscroll-behavior-x: contain;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.section-rail::-webkit-scrollbar {
+  display: none;
 }
 
 .section-rail a {
@@ -999,6 +1010,7 @@ nav a.active {
   text-decoration: none;
   font-size: 0.72rem;
   letter-spacing: 0.03em;
+  scroll-snap-align: center;
   transition: transform 200ms ease, background 200ms ease, border-color 200ms ease, color 200ms ease;
 }
 
