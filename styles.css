@@ -1191,6 +1191,7 @@ main {
 
 section {
   scroll-margin-top: 6rem;
+  scroll-margin-bottom: 6rem;
 }
 
 .hero,
@@ -1202,12 +1203,26 @@ section {
   transition: border-color var(--motion-base) var(--ease-soft), box-shadow var(--motion-slow) var(--ease-soft), background var(--motion-base) var(--ease-soft);
 }
 
+@supports (content-visibility: auto) {
+  .panel {
+    content-visibility: auto;
+    contain-intrinsic-size: 1px 620px;
+  }
+}
+
 .skew-left {
   transform: rotate(-0.32deg);
 }
 
 .skew-right {
   transform: rotate(0.32deg);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .skew-left,
+  .skew-right {
+    transform: none;
+  }
 }
 
 .hero {
