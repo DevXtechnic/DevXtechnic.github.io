@@ -2681,10 +2681,12 @@ body.browser-vivaldi .penguin-glasses {
   height: 8px;
   border-bottom: 3px solid rgba(100, 70, 39, 0.75);
   border-radius: 0 0 999px 999px;
+  transform-origin: center bottom;
+  animation: zen-blink 7.2s ease-in-out infinite;
 }
 
 .zen-eye.left { left: 13px; }
-.zen-eye.right { right: 13px; }
+.zen-eye.right { right: 13px; animation-delay: 0.4s; }
 
 .zen-mouth {
   position: absolute;
@@ -3298,6 +3300,12 @@ textarea:focus-visible {
   50% { transform: translateX(20%) rotate(6deg); opacity: 0.55; }
 }
 
+@keyframes zen-blink {
+  0%, 92%, 100% { transform: scaleY(1); }
+  95% { transform: scaleY(0.1); }
+  97% { transform: scaleY(1); }
+}
+
 @keyframes zen-panel-flow {
   0%, 100% { transform: translateY(0); opacity: 0.22; }
   50% { transform: translateY(-10px); opacity: 0.34; }
@@ -3370,6 +3378,7 @@ textarea:focus-visible {
   .zen-book::after,
   body[data-theme="zen"] .panel::after,
   .zen-robe,
+  .zen-eye,
   body[data-theme="zen"] .hero::before,
   body[data-theme="zen"] .avatar-card::after {
     animation: none !important;
