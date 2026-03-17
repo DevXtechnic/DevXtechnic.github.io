@@ -4079,6 +4079,21 @@ body.force-terminal-fallback .pulse-wave {
     radial-gradient(520px 380px at var(--pulse-x, 50%) var(--pulse-y, 35%), rgba(71, 139, 255, 0.26), transparent 78%);
 }
 
+body.force-terminal-fallback .hero,
+body.force-terminal-fallback .panel,
+body.force-terminal-fallback .site-header,
+body.force-terminal-fallback .section-rail,
+body.force-terminal-fallback .mini-terminal,
+body.force-terminal-fallback .glass-card,
+body.force-terminal-fallback .repo-card,
+body.force-terminal-fallback .contact-item,
+body.force-terminal-fallback .favorite-card,
+body.force-terminal-fallback .fact-card,
+body.force-terminal-fallback .chaos-card {
+  backdrop-filter: none;
+  box-shadow: 0 8px 18px rgba(3, 12, 28, 0.22);
+}
+
 @media (max-width: 820px) {
   .pulse-wave {
     inset: -8%;

@@ -758,7 +758,12 @@ function triggerPulseBackdrop(clientX = null, clientY = null) {
     pulseCoreFlash?.classList.remove("pulse-active");
   }, 920);
 
-  if (typeof pulseWaveLayer.animate !== "function" || typeof pulseCoreFlash.animate !== "function") {
+  if (
+    isFirefoxLike ||
+    isConstrained ||
+    typeof pulseWaveLayer.animate !== "function" ||
+    typeof pulseCoreFlash.animate !== "function"
+  ) {
     return;
   }
 
