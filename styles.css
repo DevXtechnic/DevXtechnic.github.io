@@ -969,13 +969,21 @@ nav a.active {
 
 .section-rail {
   position: fixed;
-  top: 50%;
-  right: max(0.6rem, env(safe-area-inset-right));
-  transform: translateY(-50%);
-  display: grid;
+  left: 50%;
+  bottom: max(0.7rem, env(safe-area-inset-bottom));
+  transform: translateX(-50%);
+  display: flex;
   gap: 0.38rem;
   z-index: 22;
   pointer-events: none;
+  padding: 0.28rem 0.4rem;
+  border-radius: 999px;
+  background: rgba(6, 12, 26, 0.65);
+  border: 1px solid rgba(109, 146, 219, 0.25);
+  backdrop-filter: blur(8px);
+  box-shadow: 0 8px 20px rgba(4, 10, 20, 0.28);
+  max-width: min(92vw, 980px);
+  overflow-x: auto;
 }
 
 .section-rail a {
@@ -1007,7 +1015,7 @@ nav a.active {
   color: var(--ink);
   border-color: rgba(142, 196, 255, 0.62);
   background: rgba(22, 36, 66, 0.9);
-  transform: translateX(-2px);
+  transform: translateY(-2px);
 }
 
 .section-rail a.active::before {
@@ -1081,6 +1089,31 @@ body[data-theme="liquidglass"] .section-rail a {
 body[data-theme="liquidglass"] .section-rail a::before {
   background: rgba(164, 218, 255, 0.95);
   box-shadow: 0 0 12px rgba(164, 218, 255, 0.5);
+}
+
+body[data-theme="paper"] .section-rail {
+  background: rgba(241, 229, 201, 0.95);
+  border-color: rgba(110, 84, 56, 0.3);
+}
+
+body[data-theme="blackflag"] .section-rail {
+  background: rgba(10, 17, 32, 0.86);
+  border-color: rgba(201, 162, 75, 0.35);
+}
+
+body[data-theme="material3"] .section-rail {
+  background: rgba(22, 30, 44, 0.85);
+  border-color: rgba(186, 204, 235, 0.28);
+}
+
+body[data-theme="liquidglass"] .section-rail {
+  background: rgba(18, 26, 40, 0.8);
+  border-color: rgba(195, 210, 238, 0.22);
+}
+
+body[data-theme="zen"] .section-rail {
+  background: rgba(20, 14, 10, 0.86);
+  border-color: rgba(206, 173, 117, 0.3);
 }
 
 body[data-theme="liquidglass"] .section-rail a.active {
@@ -2644,11 +2677,27 @@ body.browser-vivaldi .penguin-glasses {
   width: 74px;
   height: 74px;
   border-radius: 50%;
-  background: linear-gradient(160deg, #f2c081 0%, #e6a65f 70%, #cf8b4a 100%);
+  background:
+    radial-gradient(12px 10px at 18% 58%, rgba(255, 193, 167, 0.35), transparent 70%),
+    radial-gradient(12px 10px at 82% 58%, rgba(255, 193, 167, 0.35), transparent 70%),
+    linear-gradient(160deg, #f2c081 0%, #e6a65f 70%, #cf8b4a 100%);
   box-shadow:
     inset 0 2px 4px rgba(255, 236, 206, 0.6),
     inset 0 -5px 10px rgba(121, 76, 37, 0.25),
     0 6px 12px rgba(83, 54, 24, 0.24);
+}
+
+.zen-head::before {
+  content: "";
+  position: absolute;
+  left: 12px;
+  top: 10px;
+  width: 28px;
+  height: 18px;
+  border-radius: 999px;
+  background: rgba(255, 235, 208, 0.45);
+  filter: blur(0.4px);
+  opacity: 0.8;
 }
 
 .zen-head::after {
@@ -2673,6 +2722,19 @@ body.browser-vivaldi .penguin-glasses {
   background: linear-gradient(170deg, #f3c88f 0%, #e3a865 70%, #c7884a 100%);
   box-shadow: inset 0 2px 3px rgba(255, 238, 207, 0.6);
 }
+
+.zen-ear {
+  position: absolute;
+  top: 28px;
+  width: 16px;
+  height: 20px;
+  border-radius: 999px;
+  background: linear-gradient(170deg, #f4c689 0%, #e1a35c 100%);
+  box-shadow: inset 0 2px 2px rgba(255, 236, 206, 0.5);
+}
+
+.zen-ear.left { left: -8px; }
+.zen-ear.right { right: -8px; }
 
 .zen-eye {
   position: absolute;
@@ -4185,10 +4247,12 @@ body.istj-mode .egg-btn {
 
   .section-rail {
     top: auto;
-    bottom: 0.9rem;
-    right: 0.6rem;
-    transform: none;
+    bottom: 0.7rem;
+    left: 50%;
+    right: auto;
+    transform: translateX(-50%);
     gap: 0.32rem;
+    padding: 0.22rem 0.34rem;
   }
 
   .section-rail a {
@@ -4228,8 +4292,10 @@ body.istj-mode .egg-btn {
   }
 
   .section-rail {
-    right: 0.4rem;
-    bottom: 0.6rem;
+    left: 50%;
+    right: auto;
+    bottom: 0.55rem;
+    transform: translateX(-50%);
   }
 
   .section-rail a::before {
