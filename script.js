@@ -5,6 +5,108 @@ if (navLink) {
   navLink.setAttribute("aria-current", "page");
 }
 
+const scrollProgressBar = document.querySelector(".scroll-progress-bar");
+let scrollProgressTicking = false;
+const backToTopBtn = document.getElementById("back-to-top");
+let backToTopTicking = false;
+
+function updateScrollProgress() {
+  if (!scrollProgressBar) return;
+  const doc = document.documentElement;
+  const scrollTop = doc.scrollTop || document.body.scrollTop || 0;
+  const scrollHeight = doc.scrollHeight - doc.clientHeight;
+  const progress = scrollHeight > 0 ? (scrollTop / scrollHeight) * 100 : 0;
+  doc.style.setProperty("--scroll-progress", `${progress}%`);
+  scrollProgressTicking = false;
+}
+
+function requestScrollProgressUpdate() {
+  if (!scrollProgressBar || scrollProgressTicking) return;
+  scrollProgressTicking = true;
+  requestAnimationFrame(updateScrollProgress);
+}
+
+if (scrollProgressBar) {
+  updateScrollProgress();
+  window.addEventListener("scroll", requestScrollProgressUpdate, { passive: true });
+  window.addEventListener("resize", updateScrollProgress);
+}
+
+function updateBackToTop() {
+  if (!backToTopBtn) return;
+  const shouldShow = (window.scrollY || document.documentElement.scrollTop || 0) > 520;
+  backToTopBtn.classList.toggle("show", shouldShow);
+  backToTopTicking = false;
+}
+
+function requestBackToTopUpdate() {
+  if (!backToTopBtn || backToTopTicking) return;
+  backToTopTicking = true;
+  requestAnimationFrame(updateBackToTop);
+}
+
+if (backToTopBtn) {
+  updateBackToTop();
+  window.addEventListener("scroll", requestBackToTopUpdate, { passive: true });
+  window.addEventListener("resize", updateBackToTop);
+  backToTopBtn.addEventListener("click", () => {
+    window.scrollTo({ top: 0, behavior: prefersReducedMotion ? "auto" : "smooth" });
+  });
+}
+
+const sectionRailLinks = Array.from(document.querySelectorAll(".section-rail a[data-section]"));
+const railSections = sectionRailLinks
+  .map((link) => {
+    const id = link.dataset.section;
+    const section = id ? document.getElementById(id) : null;
+    if (!section) return null;
+    return { id, link, section };
+  })
+  .filter(Boolean);
+
+let activeRailId = null;
+
+function setActiveRail(id) {
+  if (!id || id === activeRailId) return;
+  activeRailId = id;
+  railSections.forEach(({ id: sectionId, link }) => {
+    const isActive = sectionId === id;
+    link.classList.toggle("active", isActive);
+    if (isActive) {
+      link.setAttribute("aria-current", "true");
+    } else {
+      link.removeAttribute("aria-current");
+    }
+  });
+}
+
+if (railSections.length) {
+  setActiveRail(railSections[0].id);
+  const railObserver = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          setActiveRail(entry.target.id);
+        }
+      });
+    },
+    { rootMargin: "-45% 0px -45% 0px", threshold: 0.01 }
+  );
+  railSections.forEach(({ section }) => railObserver.observe(section));
+  if (window.location.hash) {
+    const hashId = window.location.hash.replace("#", "");
+    if (railSections.some(({ id }) => id === hashId)) {
+      setActiveRail(hashId);
+    }
+  }
+  window.addEventListener("hashchange", () => {
+    const hashId = window.location.hash.replace("#", "");
+    if (railSections.some(({ id }) => id === hashId)) {
+      setActiveRail(hashId);
+    }
+  });
+}
+
 const prefersReducedMotion = window.matchMedia?.("(prefers-reduced-motion: reduce)")?.matches || false;
 const revealTargets = new Set([...document.querySelectorAll(".reveal")]);
 
@@ -243,6 +345,7 @@ const THEME_OPTIONS = [
   "toxic",
   "ocean",
   "bloodmoon",
+  "zen",
   "liquidglass",
   "material3",
   "paper",
@@ -878,26 +981,29 @@ function applyTheme(theme, notify = false) {
 }
 
 function initThemeSwitcher() {
-  let savedTheme = "neo";
+  let savedTheme = "mint";
   try {
     const urlTheme = getThemeFromUrl();
     const storedTheme = window.localStorage.getItem(THEME_STORAGE_KEY);
-    savedTheme = storedTheme || urlTheme || "neo";
+    savedTheme = storedTheme || urlTheme || "mint";
+    if (!storedTheme && !urlTheme) {
+      window.localStorage.setItem(THEME_STORAGE_KEY, savedTheme);
+    }
     if (!storedTheme && urlTheme) {
       window.localStorage.setItem(THEME_STORAGE_KEY, urlTheme);
     }
   } catch (error) {
-    savedTheme = "neo";
+    savedTheme = "mint";
   }
 
   applyTheme(savedTheme, false);
   window.addEventListener("pageshow", () => {
-    let latestTheme = "neo";
+    let latestTheme = "mint";
     try {
       const storedTheme = window.localStorage.getItem(THEME_STORAGE_KEY);
-      latestTheme = storedTheme || getThemeFromUrl() || "neo";
+      latestTheme = storedTheme || getThemeFromUrl() || "mint";
     } catch (error) {
-      latestTheme = "neo";
+      latestTheme = "mint";
     }
     if (latestTheme !== currentTheme) {
       applyTheme(latestTheme, false);
@@ -1864,11 +1970,6 @@ if (quoteBtn && quoteOutput) {
 
 if (launchBtn && quoteOutput && signalCount) {
   launchBtn.addEventListener("click", (event) => {
-    if (document.body.classList.contains("matrix-mode")) {
-      stopMatrixRain();
-      showToast("Pulse override: Matrix rain off.");
-    }
-
     triggerHeroPulse();
     launches += 1;
     signalCount.textContent = String(launches);
@@ -1881,43 +1982,158 @@ if (launchBtn && quoteOutput && signalCount) {
       triggerBlackflagBlast(event?.clientX || window.innerWidth * 0.5, event?.clientY || window.innerHeight * 0.5);
     }
     applyPulseMilestone(launches);
+    if (launches >= 20 && !document.body.classList.contains("matrix-mode")) {
+      startMatrixRain();
+    }
   });
+}
+
+const REPO_BATCH_SIZE = 6;
+let repoStore = [];
+let repoRenderCount = 0;
+
+function computeRepoStats(repos) {
+  const languageCounts = {};
+  repos.forEach((repo) => {
+    if (!repo.language) return;
+    languageCounts[repo.language] = (languageCounts[repo.language] || 0) + 1;
+  });
+  const topLangs = Object.entries(languageCounts)
+    .sort((a, b) => b[1] - a[1])
+    .slice(0, 3)
+    .map(([lang]) => lang);
+  return {
+    total: repos.length,
+    topLangs,
+  };
+}
+
+function renderRepoGrid(reset = false) {
+  const grid = document.getElementById("repo-grid");
+  const toggle = document.getElementById("repo-toggle");
+  const metaLine = document.getElementById("repo-meta-line");
+  if (!grid) return;
+
+  if (reset) {
+    repoRenderCount = Math.min(REPO_BATCH_SIZE, repoStore.length);
+  }
+
+  const slice = repoStore.slice(0, repoRenderCount);
+  grid.innerHTML = slice
+    .map(
+      (repo) => `
+        <article class="repo-card tilt">
+          <h3><a href="${repo.html_url}" target="_blank" rel="noopener noreferrer">${repo.name}</a></h3>
+          <p>${repo.description || "No description yet."}</p>
+          <p class="repo-meta">${repo.language || "Code"} | ${repo.stargazers_count} stars</p>
+        </article>
+      `
+    )
+    .join("");
+
+  document.querySelectorAll(".repo-card.tilt").forEach((card) => attachTiltBehavior(card));
+
+  if (metaLine) {
+    if (repoStore.length) {
+      const stats = computeRepoStats(repoStore);
+      const langText = stats.topLangs.length ? ` • Top languages: ${stats.topLangs.join(", ")}` : "";
+      metaLine.textContent = `Showing ${repoRenderCount} of ${stats.total} repos${langText}`;
+    } else {
+      metaLine.textContent = "No public repos found yet.";
+    }
+  }
+
+  if (toggle) {
+    const hasMore = repoRenderCount < repoStore.length;
+    toggle.textContent = hasMore ? "Show more repos" : "Show fewer repos";
+    toggle.setAttribute("aria-expanded", hasMore ? "false" : "true");
+    toggle.classList.toggle("showing-more", !hasMore);
+    toggle.style.display = repoStore.length > REPO_BATCH_SIZE ? "inline-flex" : "none";
+  }
 }
 
 async function loadRepos() {
   const grid = document.getElementById("repo-grid");
+  const metaLine = document.getElementById("repo-meta-line");
   if (!grid) return;
 
-  grid.innerHTML = "<p>Loading repos...</p>";
+  const skeletonCount = REPO_BATCH_SIZE;
+  grid.setAttribute("aria-busy", "true");
+  if (metaLine) metaLine.textContent = "Fetching latest repos...";
+  grid.innerHTML = Array.from({ length: skeletonCount })
+    .map(
+      () => `
+        <div class="repo-skeleton" aria-hidden="true">
+          <span class="skeleton-line title"></span>
+          <span class="skeleton-line"></span>
+          <span class="skeleton-line short"></span>
+        </div>
+      `
+    )
+    .join("");
   try {
-    const response = await fetch("https://api.github.com/users/DevXtechnic/repos?sort=updated&per_page=6");
+    const response = await fetch("https://api.github.com/users/DevXtechnic/repos?sort=updated&per_page=100");
     if (!response.ok) throw new Error("GitHub API request failed");
 
     const repos = await response.json();
     if (!Array.isArray(repos) || repos.length === 0) {
+      grid.removeAttribute("aria-busy");
       grid.innerHTML = "<p>No public repos found yet. Check back soon.</p>";
+      if (metaLine) metaLine.textContent = "No public repos found yet.";
       return;
     }
 
-    grid.innerHTML = repos
-      .map(
-        (repo) => `
-          <article class="repo-card tilt">
-            <h3><a href="${repo.html_url}" target="_blank" rel="noopener noreferrer">${repo.name}</a></h3>
-            <p>${repo.description || "No description yet."}</p>
-            <p class="repo-meta">${repo.language || "Code"} | ${repo.stargazers_count} stars</p>
-          </article>
-        `
-      )
-      .join("");
-
-    document.querySelectorAll(".repo-card.tilt").forEach((card) => attachTiltBehavior(card));
+    repoStore = repos;
+    repoRenderCount = Math.min(REPO_BATCH_SIZE, repoStore.length);
+    grid.removeAttribute("aria-busy");
+    renderRepoGrid(true);
   } catch (err) {
+    grid.removeAttribute("aria-busy");
     grid.innerHTML = '<p>Could not load live repos now. Visit <a href="https://github.com/DevXtechnic" target="_blank" rel="noopener noreferrer">GitHub profile</a>.</p>';
+    if (metaLine) metaLine.textContent = "Live repo fetch failed. Visit GitHub profile.";
   }
 }
 
-loadRepos();
+function initRepoLazyLoad() {
+  const section = document.getElementById("github-live");
+  const grid = document.getElementById("repo-grid");
+  if (!section || !grid) return;
+  let loaded = false;
+  const toggle = document.getElementById("repo-toggle");
+
+  if (toggle) {
+    toggle.addEventListener("click", () => {
+      if (!repoStore.length) return;
+      const hasMore = repoRenderCount < repoStore.length;
+      repoRenderCount = hasMore ? Math.min(repoRenderCount + REPO_BATCH_SIZE, repoStore.length) : REPO_BATCH_SIZE;
+      renderRepoGrid(false);
+    });
+  }
+
+  const trigger = () => {
+    if (loaded) return;
+    loaded = true;
+    loadRepos();
+  };
+
+  if (!("IntersectionObserver" in window)) {
+    trigger();
+    return;
+  }
+
+  const observer = new IntersectionObserver(
+    (entries) => {
+      if (entries.some((entry) => entry.isIntersecting)) {
+        trigger();
+        observer.disconnect();
+      }
+    },
+    { rootMargin: "0px 0px 260px 0px", threshold: 0.12 }
+  );
+  observer.observe(section);
+}
+
+initRepoLazyLoad();
 initFooterLineTypewriter();
 
 function showToast(message) {
@@ -1965,6 +2181,10 @@ let matrixAnimation = null;
 let matrixDrops = [];
 let matrixResizeHandler = null;
 let matrixViewportResizeHandler = null;
+let matrixScrollHandler = null;
+let matrixSize = { width: 0, height: 0, pixelRatio: 1 };
+let matrixVisibilityHandler = null;
+let matrixDraw = null;
 
 function startMatrixRain() {
   if (matrixCanvas) {
@@ -1981,14 +2201,23 @@ function startMatrixRain() {
     if (!matrixCanvas || !matrixContext) return;
     const viewportWidth = Math.max(
       1,
-      Math.floor(window.visualViewport?.width || window.innerWidth || document.documentElement.clientWidth || 1)
+      Math.floor(Math.max(document.documentElement.clientWidth || 0, window.innerWidth || 0))
     );
     const viewportHeight = Math.max(
       1,
-      Math.floor(window.visualViewport?.height || window.innerHeight || document.documentElement.clientHeight || 1)
+      Math.floor(Math.max(document.documentElement.clientHeight || 0, window.innerHeight || 0))
     );
     const pixelRatio = Math.max(1, window.devicePixelRatio || 1);
 
+    if (
+      matrixSize.width === viewportWidth &&
+      matrixSize.height === viewportHeight &&
+      matrixSize.pixelRatio === pixelRatio
+    ) {
+      return;
+    }
+
+    matrixSize = { width: viewportWidth, height: viewportHeight, pixelRatio };
     matrixCanvas.style.width = `${viewportWidth}px`;
     matrixCanvas.style.height = `${viewportHeight}px`;
     matrixCanvas.width = Math.floor(viewportWidth * pixelRatio);
@@ -2000,11 +2229,21 @@ function startMatrixRain() {
   };
 
   matrixResizeHandler();
+  requestAnimationFrame(matrixResizeHandler);
   window.addEventListener("resize", matrixResizeHandler);
   if (window.visualViewport) {
     matrixViewportResizeHandler = () => matrixResizeHandler?.();
     window.visualViewport.addEventListener("resize", matrixViewportResizeHandler);
   }
+  matrixScrollHandler = () => {
+    if (!matrixCanvas) return;
+    const width = Math.floor(window.innerWidth || 0);
+    const height = Math.floor(window.innerHeight || 0);
+    if (width !== matrixSize.width || height !== matrixSize.height) {
+      matrixResizeHandler?.();
+    }
+  };
+  window.addEventListener("scroll", matrixScrollHandler, { passive: true });
 
   const chars = "01{}[]<>/\\|$#@";
   const draw = () => {
@@ -2031,13 +2270,27 @@ function startMatrixRain() {
   };
 
   document.body.classList.add("matrix-mode");
+  matrixDraw = draw;
   draw();
+
+  matrixVisibilityHandler = () => {
+    if (document.hidden) {
+      if (matrixAnimation) cancelAnimationFrame(matrixAnimation);
+      matrixAnimation = null;
+      return;
+    }
+    if (document.body.classList.contains("matrix-mode") && matrixDraw && !matrixAnimation) {
+      matrixDraw();
+    }
+  };
+  document.addEventListener("visibilitychange", matrixVisibilityHandler);
 }
 
 function stopMatrixRain() {
   document.body.classList.remove("matrix-mode");
   if (matrixAnimation) cancelAnimationFrame(matrixAnimation);
   matrixAnimation = null;
+  matrixDraw = null;
 
   if (matrixResizeHandler) {
     window.removeEventListener("resize", matrixResizeHandler);
@@ -2046,6 +2299,14 @@ function stopMatrixRain() {
   if (window.visualViewport && matrixViewportResizeHandler) {
     window.visualViewport.removeEventListener("resize", matrixViewportResizeHandler);
     matrixViewportResizeHandler = null;
+  }
+  if (matrixScrollHandler) {
+    window.removeEventListener("scroll", matrixScrollHandler);
+    matrixScrollHandler = null;
+  }
+  if (matrixVisibilityHandler) {
+    document.removeEventListener("visibilitychange", matrixVisibilityHandler);
+    matrixVisibilityHandler = null;
   }
 
   if (matrixCanvas) matrixCanvas.remove();
@@ -2235,7 +2496,7 @@ function applyPulseMilestone(count) {
     if (!document.body.classList.contains("istj-mode")) toggleISTJMode();
     showToast("15 pulses: ISTJ Grid.");
   } else if (count === 20) {
-    if (!document.body.classList.contains("matrix-mode")) toggleMatrixMode();
+    if (!document.body.classList.contains("matrix-mode")) startMatrixRain();
     showToast("20 pulses: Matrix Rain.");
   }
 }

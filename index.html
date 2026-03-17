@@ -54,12 +54,12 @@
   <script>
     (() => {
       try {
-        const validThemes = new Set(["neo", "mint", "sunset", "midnight", "ember", "arctic", "grape", "toxic", "ocean", "bloodmoon", "liquidglass", "material3", "paper", "blackflag"]);
+        const validThemes = new Set(["neo", "mint", "sunset", "midnight", "ember", "arctic", "grape", "toxic", "ocean", "bloodmoon", "zen", "liquidglass", "material3", "paper", "blackflag"]);
         const themeKey = "neoThemeVariant.v1";
         const params = new URLSearchParams(window.location.search);
         const urlTheme = params.get("theme");
         const savedTheme = window.localStorage.getItem(themeKey);
-        const selected = validThemes.has(savedTheme) ? savedTheme : (validThemes.has(urlTheme) ? urlTheme : null);
+        const selected = validThemes.has(savedTheme) ? savedTheme : (validThemes.has(urlTheme) ? urlTheme : "mint");
         if (selected) {
           document.documentElement.dataset.theme = selected;
           document.body.dataset.theme = selected;
@@ -90,8 +90,8 @@
     <div class="header-tools">
       <label for="header-theme-select" class="theme-top-label">Theme</label>
       <select id="header-theme-select" class="theme-top-select" aria-label="Theme switcher">
-        <option value="neo">Neo Blue</option>
         <option value="mint">Mint Matrix</option>
+        <option value="neo">Neo Blue</option>
         <option value="sunset">Sunset Warp</option>
         <option value="midnight">Midnight Ice</option>
         <option value="ember">Ember Core</option>
@@ -100,6 +100,7 @@
         <option value="toxic">Toxic Lime</option>
         <option value="ocean">Ocean Drift</option>
         <option value="bloodmoon">Blood Moon</option>
+        <option value="zen">Zen Temple</option>
         <option value="liquidglass">Liquid Glass</option>
         <option value="material3">Material 3</option>
         <option value="paper">Paper Link</option>
@@ -108,6 +109,23 @@
       <button id="theme-cycle-btn" class="theme-cycle-btn" type="button" aria-label="Cycle theme">↻</button>
     </div>
   </header>
+  <div class="scroll-progress" aria-hidden="true">
+    <span class="scroll-progress-bar"></span>
+  </div>
+  <nav class="section-rail" aria-label="Section navigator">
+    <a href="#hero-zone" data-section="hero-zone"><span class="rail-label">Hero</span></a>
+    <a href="#cli-snapshot" data-section="cli-snapshot"><span class="rail-label">Snapshot</span></a>
+    <a href="#mission-console" data-section="mission-console"><span class="rail-label">Console</span></a>
+    <a href="#project-spotlight" data-section="project-spotlight"><span class="rail-label">Spotlight</span></a>
+    <a href="#ai-constellation" data-section="ai-constellation"><span class="rail-label">AI Stack</span></a>
+    <a href="#culture-brain" data-section="culture-brain"><span class="rail-label">Culture</span></a>
+    <a href="#neo-terminal" data-section="neo-terminal"><span class="rail-label">Terminal</span></a>
+    <a href="#persona-quiz" data-section="persona-quiz"><span class="rail-label">Quiz</span></a>
+    <a href="#github-live" data-section="github-live"><span class="rail-label">GitHub</span></a>
+  </nav>
+  <button id="back-to-top" class="back-to-top" type="button" aria-label="Back to top">
+    <span aria-hidden="true">↑</span>
+  </button>
 
   <main id="main-content">
     <section id="hero-zone" class="hero reveal skew-left">
@@ -180,6 +198,20 @@
             <span class="android-leg left"></span>
             <span class="android-leg right"></span>
           </div>
+          <div class="zen-avatar" aria-hidden="true">
+            <div class="zen-head">
+              <span class="zen-bun"></span>
+              <span class="zen-eye left"></span>
+              <span class="zen-eye right"></span>
+              <span class="zen-mouth"></span>
+            </div>
+            <div class="zen-body">
+              <span class="zen-robe"></span>
+              <span class="zen-hands"></span>
+              <span class="zen-book"></span>
+            </div>
+            <span class="zen-base"></span>
+          </div>
         </aside>
       </div>
     </section>
@@ -223,6 +255,7 @@
       </div>
       <div class="spotlight-grid tilt-zone">
         <article class="spotlight-card tilt">
+          <div class="spotlight-swatch" aria-hidden="true"></div>
           <h3>DevXTechnic</h3>
           <p>Personal dev hub and experiments powering this portfolio.</p>
           <div class="chips">
@@ -233,6 +266,7 @@
           <a class="spotlight-link" href="https://github.com/DevXtechnic" target="_blank" rel="noopener noreferrer">Open profile →</a>
         </article>
         <article class="spotlight-card tilt">
+          <div class="spotlight-swatch" aria-hidden="true"></div>
           <h3>Arch Ricing Setup</h3>
           <p>My Arch + Hyprland setup tuned for speed and visuals.</p>
           <div class="chips">
@@ -243,6 +277,7 @@
           <a class="spotlight-link" href="https://github.com/DevXtechnic" target="_blank" rel="noopener noreferrer">See configs →</a>
         </article>
         <article class="spotlight-card tilt">
+          <div class="spotlight-swatch" aria-hidden="true"></div>
           <h3>AI Tools Experiments</h3>
           <p>Rapid prototypes exploring LLM workflows and automations.</p>
           <div class="chips">
@@ -321,7 +356,9 @@
     <section id="github-live" class="panel reveal delay-3 skew-right">
       <h2>Live GitHub 💻</h2>
       <p>Auto-fetched from <a href="https://github.com/DevXtechnic" target="_blank" rel="noopener noreferrer">github.com/DevXtechnic</a>.</p>
+      <p id="repo-meta-line" class="repo-meta-line">Loading repo stats...</p>
       <div id="repo-grid" class="repo-grid tilt-zone" aria-live="polite"></div>
+      <button id="repo-toggle" class="btn ghost repo-toggle" type="button" aria-expanded="false">Show more repos</button>
     </section>
   </main>
 

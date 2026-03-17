@@ -36,12 +36,12 @@
   <script>
     (() => {
       try {
-        const validThemes = new Set(["neo", "mint", "sunset", "midnight", "ember", "arctic", "grape", "toxic", "ocean", "bloodmoon", "liquidglass", "material3", "paper", "blackflag"]);
+        const validThemes = new Set(["neo", "mint", "sunset", "midnight", "ember", "arctic", "grape", "toxic", "ocean", "bloodmoon", "zen", "liquidglass", "material3", "paper", "blackflag"]);
         const themeKey = "neoThemeVariant.v1";
         const params = new URLSearchParams(window.location.search);
         const urlTheme = params.get("theme");
         const savedTheme = window.localStorage.getItem(themeKey);
-        const selected = validThemes.has(savedTheme) ? savedTheme : (validThemes.has(urlTheme) ? urlTheme : null);
+        const selected = validThemes.has(savedTheme) ? savedTheme : (validThemes.has(urlTheme) ? urlTheme : "mint");
         if (selected) {
           document.documentElement.dataset.theme = selected;
           document.body.dataset.theme = selected;
@@ -72,8 +72,8 @@
     <div class="header-tools">
       <label for="header-theme-select" class="theme-top-label">Theme</label>
       <select id="header-theme-select" class="theme-top-select" aria-label="Theme switcher">
-        <option value="neo">Neo Blue</option>
         <option value="mint">Mint Matrix</option>
+        <option value="neo">Neo Blue</option>
         <option value="sunset">Sunset Warp</option>
         <option value="midnight">Midnight Ice</option>
         <option value="ember">Ember Core</option>
@@ -82,6 +82,7 @@
         <option value="toxic">Toxic Lime</option>
         <option value="ocean">Ocean Drift</option>
         <option value="bloodmoon">Blood Moon</option>
+        <option value="zen">Zen Temple</option>
         <option value="liquidglass">Liquid Glass</option>
         <option value="material3">Material 3</option>
         <option value="paper">Paper Link</option>
@@ -89,9 +90,19 @@
       </select>
     </div>
   </header>
+  <div class="scroll-progress" aria-hidden="true">
+    <span class="scroll-progress-bar"></span>
+  </div>
+  <nav class="section-rail" aria-label="Section navigator">
+    <a href="#hero-zone" data-section="hero-zone"><span class="rail-label">Hero</span></a>
+    <a href="#direct-links" data-section="direct-links"><span class="rail-label">Links</span></a>
+  </nav>
+  <button id="back-to-top" class="back-to-top" type="button" aria-label="Back to top">
+    <span aria-hidden="true">↑</span>
+  </button>
 
   <main id="main-content">
-    <section class="hero compact reveal skew-left">
+    <section id="hero-zone" class="hero compact reveal skew-left">
       <span class="hero-pulse" aria-hidden="true"></span>
       <svg class="hero-motif" viewBox="0 0 220 140" aria-hidden="true">
         <path class="motif-line" d="M10 110 L60 40 L120 70 L170 25 L210 60" />
@@ -112,7 +123,7 @@
       <p class="subtitle">For AI ideas, open source builds, Linux setup talk, and serious debates.</p>
     </section>
 
-    <section class="panel reveal delay-1 skew-right">
+    <section id="direct-links" class="panel reveal delay-1 skew-right">
       <h2>Direct Links 🔗</h2>
       <div class="contact-list tilt-zone">
         <a class="contact-item tilt" href="mailto:Bikramgole.genius@keemail.me">
