@@ -386,6 +386,19 @@ body[data-theme="zen"] .hero {
   overflow: hidden;
 }
 
+body[data-theme="zen"] .hero::before {
+  content: "";
+  position: absolute;
+  inset: -26%;
+  pointer-events: none;
+  background:
+    radial-gradient(260px 200px at 25% 18%, rgba(255, 220, 169, 0.18), transparent 70%),
+    radial-gradient(360px 220px at 75% 82%, rgba(151, 209, 184, 0.16), transparent 72%);
+  opacity: 0.4;
+  mix-blend-mode: screen;
+  animation: zen-drift 16.5s ease-in-out infinite;
+}
+
 body[data-theme="zen"] .panel {
   position: relative;
   overflow: hidden;
@@ -456,6 +469,21 @@ body[data-theme="zen"] .btn.primary {
 
 body[data-theme="zen"] .btn.primary:hover {
   transform: translateY(-1px);
+}
+
+body[data-theme="zen"] .avatar-card::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 220px;
+  height: 220px;
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  border: 1px dashed rgba(241, 197, 126, 0.2);
+  opacity: 0.28;
+  pointer-events: none;
+  animation: zen-orbit 24s linear infinite;
 }
 
 body[data-theme="zen"] .hero-motif .motif-line {
@@ -3280,6 +3308,16 @@ textarea:focus-visible {
   50% { transform: translateY(-2px); opacity: 1; }
 }
 
+@keyframes zen-drift {
+  0%, 100% { transform: translateY(0) scale(1); opacity: 0.35; }
+  50% { transform: translateY(-8px) scale(1.03); opacity: 0.55; }
+}
+
+@keyframes zen-orbit {
+  0% { transform: translate(-50%, -50%) rotate(0deg); }
+  100% { transform: translate(-50%, -50%) rotate(360deg); }
+}
+
 @keyframes hero-pulse {
   0% { opacity: 0; transform: scale(0.94); }
   30% { opacity: 0.9; }
@@ -3331,7 +3369,9 @@ textarea:focus-visible {
   .zen-head::after,
   .zen-book::after,
   body[data-theme="zen"] .panel::after,
-  .zen-robe {
+  .zen-robe,
+  body[data-theme="zen"] .hero::before,
+  body[data-theme="zen"] .avatar-card::after {
     animation: none !important;
   }
 
