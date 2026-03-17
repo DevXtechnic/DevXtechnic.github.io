@@ -337,6 +337,8 @@ let commandPalette = document.getElementById("command-palette");
 let commandBackdrop = document.getElementById("command-backdrop");
 let commandInput = document.getElementById("command-input");
 let commandResults = document.getElementById("command-results");
+const themeColorMeta = document.querySelector('meta[name="theme-color"]');
+const colorSchemeMeta = document.querySelector('meta[name="color-scheme"]');
 const quizQuestion = document.getElementById("quiz-question");
 const quizProgress = document.getElementById("quiz-progress");
 const quizOptions = document.getElementById("quiz-options");
@@ -992,6 +994,16 @@ function applyTheme(theme, notify = false) {
   currentTheme = selected;
   document.documentElement.dataset.theme = selected;
   document.body.dataset.theme = selected;
+  const isLightTheme = selected === "paper";
+  const computed = getComputedStyle(document.documentElement);
+  const bgColor = computed.getPropertyValue("--bg-0").trim();
+  if (themeColorMeta && bgColor) {
+    themeColorMeta.setAttribute("content", bgColor);
+  }
+  if (colorSchemeMeta) {
+    colorSchemeMeta.setAttribute("content", isLightTheme ? "light" : "dark");
+  }
+  document.documentElement.style.colorScheme = isLightTheme ? "light" : "dark";
   if (headerThemeSelect) headerThemeSelect.value = selected;
   if (heroName) {
     if (selected === "blackflag" && heroName.textContent.trim().length > 0) {
