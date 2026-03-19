@@ -1614,13 +1614,22 @@ function initNamePronounce() {
 
   const synth = window.speechSynthesis;
   let currentUtterance = null;
+  let cachedVoices = [];
+
+  const syncVoices = () => {
+    cachedVoices = synth.getVoices?.() || [];
+  };
+
+  syncVoices();
+  if (typeof synth.addEventListener === "function") {
+    synth.addEventListener("voiceschanged", syncVoices);
+  }
 
   const pickVoice = () => {
-    const voices = synth.getVoices?.() || [];
-    if (!voices.length) return null;
+    if (!cachedVoices.length) return null;
     return (
-      voices.find((voice) => voice.lang?.toLowerCase() === "en-us") ||
-      voices.find((voice) => voice.lang?.toLowerCase().startsWith("en")) ||
+      cachedVoices.find((voice) => voice.lang?.toLowerCase() === "en-us") ||
+      cachedVoices.find((voice) => voice.lang?.toLowerCase().startsWith("en")) ||
       null
     );
   };
@@ -1640,6 +1649,13 @@ function initNamePronounce() {
 
   const speakName = () => {
     stopSpeech();
+    if (synth.paused) {
+      try {
+        synth.resume();
+      } catch (error) {
+        // ignore
+      }
+    }
     const text = heroName?.dataset.name || heroName?.textContent || "Bikram Gole";
     const utterance = new SpeechSynthesisUtterance(text);
     utterance.lang = "en-US";
@@ -1659,6 +1675,9 @@ function initNamePronounce() {
     if (synth.speaking) {
       stopSpeech();
       return;
+    }
+    if (!cachedVoices.length) {
+      syncVoices();
     }
     speakName();
   });
