@@ -1381,11 +1381,11 @@ h1 {
   box-shadow: 0 8px 18px rgba(8, 16, 32, 0.3);
   cursor: pointer;
   position: absolute;
-  right: -0.32rem;
+  right: -0.5rem;
   top: -0.06rem;
   opacity: 0;
   pointer-events: none;
-  transform: translateY(-0.4em) rotate(-12deg) scale(0.9);
+  transform: translate(0.25em, -0.4em) rotate(-12deg) scale(0.9);
   transform-origin: left bottom;
   z-index: 3;
   transition: opacity var(--motion-fast) var(--ease-out), transform var(--motion-fast) var(--ease-out),
@@ -1396,7 +1396,7 @@ h1 {
 .name-speak.ready {
   opacity: 1;
   pointer-events: auto;
-  transform: translateY(-0.6em) rotate(-12deg) scale(1);
+  transform: translate(0.25em, -0.6em) rotate(-12deg) scale(1);
 }
 
 .name-speak svg {
@@ -1406,7 +1406,7 @@ h1 {
 }
 
 .name-speak:hover {
-  transform: translateY(-0.68em) rotate(-12deg) scale(1.05);
+  transform: translate(0.25em, -0.68em) rotate(-12deg) scale(1.05);
   border-color: rgba(143, 204, 255, 0.85);
   color: var(--orange-2);
   box-shadow: 0 12px 22px rgba(64, 150, 255, 0.22), 0 0 18px rgba(110, 186, 255, 0.32);
@@ -1418,7 +1418,7 @@ h1 {
 }
 
 .name-speak:active {
-  transform: translateY(-0.56em) rotate(-12deg) scale(0.98);
+  transform: translate(0.25em, -0.56em) rotate(-12deg) scale(0.98);
 }
 
 .name-speak.speaking {
@@ -1447,16 +1447,16 @@ h1 {
 
 @media (max-width: 520px) {
   .name-speak {
-    right: -0.24rem;
-    transform: translateY(-0.22em) rotate(-10deg) scale(0.9);
+    right: -0.38rem;
+    transform: translate(0.18em, -0.22em) rotate(-10deg) scale(0.9);
   }
 
   .name-speak:hover {
-    transform: translateY(-0.4em) rotate(-10deg) scale(1.04);
+    transform: translate(0.18em, -0.4em) rotate(-10deg) scale(1.04);
   }
 
   .name-speak:active {
-    transform: translateY(-0.32em) rotate(-10deg) scale(0.98);
+    transform: translate(0.18em, -0.32em) rotate(-10deg) scale(0.98);
   }
 }
 
