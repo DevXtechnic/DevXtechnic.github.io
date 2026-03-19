@@ -349,6 +349,7 @@ const quizScore = document.getElementById("quiz-score");
 const headerThemeSelect = document.getElementById("header-theme-select");
 const themeCycleBtn = document.getElementById("theme-cycle-btn");
 const heroName = document.getElementById("hero-name");
+const nameSpeakBtn = document.getElementById("name-speak");
 const heroStatus = document.getElementById("hero-status");
 const heroTagline = document.getElementById("hero-tagline");
 const pageFooterLine = document.getElementById("page-footer-line");
@@ -1602,6 +1603,72 @@ function initHeroTypewriters() {
   window.setTimeout(loopStatus, 360);
 }
 
+function initNamePronounce() {
+  if (!nameSpeakBtn) return;
+  if (!("speechSynthesis" in window) || typeof SpeechSynthesisUtterance === "undefined") {
+    nameSpeakBtn.disabled = true;
+    nameSpeakBtn.setAttribute("aria-disabled", "true");
+    nameSpeakBtn.title = "Speech not supported on this device.";
+    return;
+  }
+
+  const synth = window.speechSynthesis;
+  let currentUtterance = null;
+
+  const pickVoice = () => {
+    const voices = synth.getVoices?.() || [];
+    if (!voices.length) return null;
+    return (
+      voices.find((voice) => voice.lang?.toLowerCase() === "en-us") ||
+      voices.find((voice) => voice.lang?.toLowerCase().startsWith("en")) ||
+      null
+    );
+  };
+
+  const setSpeakingState = (isSpeaking) => {
+    nameSpeakBtn.classList.toggle("speaking", isSpeaking);
+    nameSpeakBtn.setAttribute("aria-pressed", isSpeaking ? "true" : "false");
+  };
+
+  const stopSpeech = () => {
+    if (synth.speaking || synth.pending) {
+      synth.cancel();
+    }
+    currentUtterance = null;
+    setSpeakingState(false);
+  };
+
+  const speakName = () => {
+    stopSpeech();
+    const text = heroName?.dataset.name || heroName?.textContent || "Bikram Gole";
+    const utterance = new SpeechSynthesisUtterance(text);
+    utterance.lang = "en-US";
+    utterance.rate = 0.92;
+    utterance.pitch = 1;
+    utterance.volume = 1;
+    const voice = pickVoice();
+    if (voice) utterance.voice = voice;
+    utterance.onstart = () => setSpeakingState(true);
+    utterance.onend = () => setSpeakingState(false);
+    utterance.onerror = () => setSpeakingState(false);
+    currentUtterance = utterance;
+    synth.speak(utterance);
+  };
+
+  nameSpeakBtn.addEventListener("click", () => {
+    if (synth.speaking) {
+      stopSpeech();
+      return;
+    }
+    speakName();
+  });
+
+  window.addEventListener("pagehide", stopSpeech);
+  document.addEventListener("visibilitychange", () => {
+    if (document.hidden) stopSpeech();
+  });
+}
+
 function initFooterLineTypewriter() {
   if (!pageFooterLine) return;
   if (page === "about") {
@@ -1985,6 +2052,7 @@ initPenguinDateBadge();
 initThemeSwitcher();
 initNavThemeGuard();
 initHeroTypewriters();
+initNamePronounce();
 initBlackflagGunfire();
 initRuntimeCompatibility();
 initTerminalFontFallbackMode();
