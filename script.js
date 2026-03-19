@@ -1477,6 +1477,9 @@ function initMiniTerminal() {
 function initHeroTypewriters() {
   if (page !== "home") return;
   const fullName = heroName?.dataset.name || heroName?.textContent || "";
+  if (nameSpeakBtn) {
+    nameSpeakBtn.classList.remove("ready");
+  }
   const statusLines = [
     "Debater mode always active ⚔️",
     "Debater mode always ready...",
@@ -1533,6 +1536,7 @@ function initHeroTypewriters() {
         window.setTimeout(() => heroName.classList.add("name-armed"), 80);
       }
       nameFinished = true;
+      window.setTimeout(() => nameSpeakBtn?.classList.add("ready"), 120);
     } else {
       heroName.textContent = "";
       heroName.classList.remove("name-armed");
@@ -1547,12 +1551,14 @@ function initHeroTypewriters() {
             window.setTimeout(() => heroName.classList.add("name-armed"), 120);
           }
           nameFinished = true;
+          window.setTimeout(() => nameSpeakBtn?.classList.add("ready"), 120);
         }
       };
       window.setTimeout(typeName, 120);
     }
   } else {
     nameFinished = true;
+    nameSpeakBtn?.classList.add("ready");
   }
 
   if (!heroStatus) return;

@@ -1380,13 +1380,23 @@ h1 {
   color: var(--blue-2);
   box-shadow: 0 8px 18px rgba(8, 16, 32, 0.3);
   cursor: pointer;
-  margin-left: -0.12rem;
-  transform: translateY(-0.52em) rotate(-12deg);
+  position: absolute;
+  right: -0.12rem;
+  top: -0.18rem;
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(-0.55em) rotate(-12deg) scale(0.9);
   transform-origin: left bottom;
   z-index: 3;
-  transition: transform var(--motion-fast) var(--ease-out), box-shadow var(--motion-base) var(--ease-out),
-    border-color var(--motion-fast) var(--ease-out), color var(--motion-fast) var(--ease-out),
-    background var(--motion-fast) var(--ease-out);
+  transition: opacity var(--motion-fast) var(--ease-out), transform var(--motion-fast) var(--ease-out),
+    box-shadow var(--motion-base) var(--ease-out), border-color var(--motion-fast) var(--ease-out),
+    color var(--motion-fast) var(--ease-out), background var(--motion-fast) var(--ease-out);
+}
+
+.name-speak.ready {
+  opacity: 1;
+  pointer-events: auto;
+  transform: translateY(-0.85em) rotate(-12deg) scale(1);
 }
 
 .name-speak svg {
@@ -1396,7 +1406,7 @@ h1 {
 }
 
 .name-speak:hover {
-  transform: translateY(-0.6em) rotate(-12deg) scale(1.04);
+  transform: translateY(-0.92em) rotate(-12deg) scale(1.05);
   border-color: rgba(143, 204, 255, 0.85);
   color: var(--orange-2);
   box-shadow: 0 12px 22px rgba(64, 150, 255, 0.22), 0 0 18px rgba(110, 186, 255, 0.32);
@@ -1408,7 +1418,7 @@ h1 {
 }
 
 .name-speak:active {
-  transform: translateY(-0.46em) rotate(-12deg) scale(0.98);
+  transform: translateY(-0.78em) rotate(-12deg) scale(0.98);
 }
 
 .name-speak.speaking {
@@ -1437,15 +1447,16 @@ h1 {
 
 @media (max-width: 520px) {
   .name-speak {
-    transform: translateY(-0.4em) rotate(-10deg);
+    right: -0.18rem;
+    transform: translateY(-0.5em) rotate(-10deg) scale(0.9);
   }
 
   .name-speak:hover {
-    transform: translateY(-0.45em) rotate(-10deg) scale(1.03);
+    transform: translateY(-0.7em) rotate(-10deg) scale(1.04);
   }
 
   .name-speak:active {
-    transform: translateY(-0.34em) rotate(-10deg) scale(0.98);
+    transform: translateY(-0.62em) rotate(-10deg) scale(0.98);
   }
 }
 
