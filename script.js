@@ -174,6 +174,7 @@ if (prefersReducedMotion) {
 const heroZone = document.getElementById("hero-zone") || document.querySelector(".hero");
 function triggerHeroPulse() {
   if (!heroZone) return;
+  if (prefersReducedMotion) return;
   heroZone.classList.remove("pulse-hit");
   void heroZone.offsetWidth;
   heroZone.classList.add("pulse-hit");
@@ -846,6 +847,7 @@ function playPulseSound(pulseCount = 1) {
 
 function triggerPenguinPowerUp() {
   if (!penguinAvatar) return;
+  if (prefersReducedMotion) return;
 
   penguinAvatar.classList.remove("power-up");
   // Restart animation if pulses happen quickly.
@@ -2202,7 +2204,8 @@ function showToast(message) {
 }
 
 function spawnSparks(total) {
-  const { isConstrained, isFirefoxLike } = runtimeFlags;
+  const { isConstrained, isFirefoxLike, saveData } = runtimeFlags;
+  if (prefersReducedMotion || saveData) return;
   const densityScale = isConstrained ? 0.35 : (isFirefoxLike ? 0.55 : 1);
   const batchTotal = Math.max(3, Math.round(total * densityScale));
   const fragment = document.createDocumentFragment();
