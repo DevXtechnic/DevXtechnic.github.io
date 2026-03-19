@@ -1633,9 +1633,17 @@ function initNamePronounce() {
 
   const pickVoice = () => {
     if (!cachedVoices.length) return null;
+    const normalized = cachedVoices.map((voice) => ({
+      voice,
+      lang: voice.lang?.toLowerCase() || "",
+      name: voice.name?.toLowerCase() || "",
+    }));
     return (
-      cachedVoices.find((voice) => voice.lang?.toLowerCase() === "en-us") ||
-      cachedVoices.find((voice) => voice.lang?.toLowerCase().startsWith("en")) ||
+      normalized.find((item) => item.lang === "en-in" || item.name.includes("india"))?.voice ||
+      normalized.find((item) => item.lang === "hi-in" || item.name.includes("hindi"))?.voice ||
+      normalized.find((item) => item.lang === "en-gb")?.voice ||
+      normalized.find((item) => item.lang === "en-us")?.voice ||
+      normalized.find((item) => item.lang.startsWith("en"))?.voice ||
       null
     );
   };
@@ -1665,8 +1673,8 @@ function initNamePronounce() {
     const text = heroName?.dataset.name || heroName?.textContent || "Bikram Gole";
     const utterance = new SpeechSynthesisUtterance(text);
     utterance.lang = "en-US";
-    utterance.rate = 0.92;
-    utterance.pitch = 1;
+    utterance.rate = 1.06;
+    utterance.pitch = 0.96;
     utterance.volume = 1;
     const voice = pickVoice();
     if (voice) utterance.voice = voice;
@@ -1686,6 +1694,19 @@ function initNamePronounce() {
       syncVoices();
     }
     speakName();
+  });
+
+  nameSpeakBtn.addEventListener("pointerdown", () => {
+    if (!cachedVoices.length) {
+      syncVoices();
+    }
+    if (synth.paused) {
+      try {
+        synth.resume();
+      } catch (error) {
+        // ignore
+      }
+    }
   });
 
   window.addEventListener("pagehide", stopSpeech);
