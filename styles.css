@@ -3256,22 +3256,22 @@ body[data-theme="paper"] .skeleton-line {
 }
 
 .cli-window {
-  margin-top: 0.4rem;
+  margin-top: 0.3rem;
   border-radius: 12px;
   border: 1px solid rgba(255, 255, 255, 0.08);
   background: #0b0f17;
-  box-shadow: 0 12px 26px rgba(3, 6, 16, 0.45), inset 0 1px 0 rgba(255, 255, 255, 0.03);
+  box-shadow: 0 10px 22px rgba(3, 6, 16, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.03);
   overflow: hidden;
-  width: min(100%, 520px);
+  width: min(100%, 480px);
 }
 
 .cli-block {
   margin: 0;
-  padding: 0.42rem 0.6rem 0.48rem;
+  padding: 0.36rem 0.54rem 0.42rem;
   background: #0a0f18;
   font-family: "JetBrains Mono", "Fira Mono", "Menlo", "Consolas", "Courier New", monospace;
-  font-size: 0.66rem;
-  line-height: 1.4;
+  font-size: 0.62rem;
+  line-height: 1.35;
   color: var(--ink);
   white-space: pre-wrap;
   border: 0;
@@ -3290,7 +3290,7 @@ body[data-theme="paper"] .skeleton-line {
 }
 
 .cli-gap {
-  height: 0.12rem;
+  height: 0.1rem;
 }
 
 .repo-meta {
