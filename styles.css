@@ -3256,21 +3256,22 @@ body[data-theme="paper"] .skeleton-line {
 }
 
 .cli-window {
-  margin-top: 0.6rem;
+  margin-top: 0.4rem;
   border-radius: 12px;
   border: 1px solid rgba(255, 255, 255, 0.08);
   background: #0b0f17;
-  box-shadow: 0 18px 40px rgba(3, 6, 16, 0.55), inset 0 1px 0 rgba(255, 255, 255, 0.04);
+  box-shadow: 0 12px 26px rgba(3, 6, 16, 0.45), inset 0 1px 0 rgba(255, 255, 255, 0.03);
   overflow: hidden;
+  width: min(100%, 520px);
 }
 
 .cli-block {
   margin: 0;
-  padding: 0.52rem 0.7rem 0.6rem;
+  padding: 0.42rem 0.6rem 0.48rem;
   background: #0a0f18;
   font-family: "JetBrains Mono", "Fira Mono", "Menlo", "Consolas", "Courier New", monospace;
-  font-size: 0.7rem;
-  line-height: 1.45;
+  font-size: 0.66rem;
+  line-height: 1.4;
   color: var(--ink);
   white-space: pre-wrap;
   border: 0;
@@ -3281,7 +3282,7 @@ body[data-theme="paper"] .skeleton-line {
 }
 
 .cli-prompt {
-  color: #8fc7ff;
+  color: #86bdf5;
 }
 
 .cli-output {
@@ -3289,7 +3290,7 @@ body[data-theme="paper"] .skeleton-line {
 }
 
 .cli-gap {
-  height: 0.16rem;
+  height: 0.12rem;
 }
 
 .repo-meta {
