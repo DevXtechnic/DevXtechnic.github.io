@@ -3267,11 +3267,11 @@ body[data-theme="paper"] .skeleton-line {
 
 .cli-block {
   margin: 0;
-  padding: 0.38rem 0.58rem 0.42rem;
+  padding: 0.42rem 0.62rem 0.46rem;
   background: #0a0f18;
   font-family: "JetBrains Mono", "Fira Mono", "Menlo", "Consolas", "Courier New", monospace;
-  font-size: 0.64rem;
-  line-height: 1.35;
+  font-size: 0.7rem;
+  line-height: 1.4;
   color: var(--ink);
   white-space: pre-wrap;
   border: 0;
