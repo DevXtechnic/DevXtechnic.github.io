@@ -1194,6 +1194,22 @@ section {
   scroll-margin-bottom: 6rem;
 }
 
+#cli-snapshot.panel {
+  background: transparent;
+  border: 0;
+  box-shadow: none;
+  padding: 0;
+  margin-top: 0.4rem;
+  max-width: 420px;
+  content-visibility: visible;
+  contain: none;
+  contain-intrinsic-size: auto;
+}
+
+#cli-snapshot .cli-window {
+  margin-top: 0;
+}
+
 .hero,
 .panel {
   border: 1px solid var(--border);
@@ -3262,16 +3278,16 @@ body[data-theme="paper"] .skeleton-line {
   background: #0b0f17;
   box-shadow: 0 10px 22px rgba(3, 6, 16, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.03);
   overflow: hidden;
-  width: min(100%, 440px);
+  width: min(100%, 380px);
 }
 
 .cli-block {
   margin: 0;
-  padding: 0.42rem 0.62rem 0.46rem;
+  padding: 0.44rem 0.58rem 0.48rem;
   background: #0a0f18;
   font-family: "JetBrains Mono", "Fira Mono", "Menlo", "Consolas", "Courier New", monospace;
-  font-size: 0.7rem;
-  line-height: 1.4;
+  font-size: 0.78rem;
+  line-height: 1.38;
   color: var(--ink);
   white-space: pre-wrap;
   border: 0;
