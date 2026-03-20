@@ -1200,7 +1200,8 @@ section {
   box-shadow: none;
   padding: 0;
   margin-top: 0.4rem;
-  max-width: 420px;
+  width: fit-content;
+  max-width: 100%;
   content-visibility: visible;
   contain: none;
   contain-intrinsic-size: auto;
@@ -1208,6 +1209,11 @@ section {
 
 #cli-snapshot .cli-window {
   margin-top: 0;
+}
+
+#cli-snapshot::before,
+#cli-snapshot::after {
+  content: none;
 }
 
 .hero,
