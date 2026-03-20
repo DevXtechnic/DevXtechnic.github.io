@@ -3257,71 +3257,20 @@ body[data-theme="paper"] .skeleton-line {
 
 .cli-window {
   margin-top: 0.6rem;
-  border-radius: 14px;
+  border-radius: 12px;
   border: 1px solid rgba(255, 255, 255, 0.08);
   background: #0b0f17;
   box-shadow: 0 18px 40px rgba(3, 6, 16, 0.55), inset 0 1px 0 rgba(255, 255, 255, 0.04);
   overflow: hidden;
 }
 
-.cli-window-head {
-  display: flex;
-  align-items: center;
-  gap: 0.6rem;
-  padding: 0.45rem 0.7rem;
-  background: linear-gradient(180deg, rgba(18, 24, 40, 0.98), rgba(10, 14, 24, 0.98));
-  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-}
-
-.cli-dots {
-  width: 44px;
-  height: 9px;
-  border-radius: 999px;
-  background:
-    radial-gradient(circle at 7px 50%, #ff5f57 3px, transparent 4px),
-    radial-gradient(circle at 22px 50%, #febc2e 3px, transparent 4px),
-    radial-gradient(circle at 37px 50%, #28c840 3px, transparent 4px);
-  flex: 0 0 auto;
-}
-
-.cli-head-text {
-  display: flex;
-  flex-direction: column;
-  gap: 0.08rem;
-}
-
-.cli-title {
-  font-size: 0.68rem;
-  letter-spacing: 0.18em;
-  text-transform: uppercase;
-  color: #dfe9f7;
-}
-
-.cli-sub {
-  font-size: 0.6rem;
-  color: rgba(184, 205, 234, 0.7);
-}
-
-.cli-badge {
-  margin-left: auto;
-  padding: 0.14rem 0.45rem;
-  border-radius: 999px;
-  border: 1px solid rgba(120, 160, 220, 0.45);
-  background: rgba(8, 14, 24, 0.9);
-  font-size: 0.62rem;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  font-family: "JetBrains Mono", "Fira Mono", "Menlo", "Consolas", "Courier New", monospace;
-  color: #bcd3f6;
-}
-
 .cli-block {
   margin: 0;
-  padding: 0.65rem 0.85rem 0.75rem;
+  padding: 0.52rem 0.7rem 0.6rem;
   background: #0a0f18;
   font-family: "JetBrains Mono", "Fira Mono", "Menlo", "Consolas", "Courier New", monospace;
-  font-size: 0.74rem;
-  line-height: 1.5;
+  font-size: 0.7rem;
+  line-height: 1.45;
   color: var(--ink);
   white-space: pre-wrap;
   border: 0;
@@ -3340,7 +3289,7 @@ body[data-theme="paper"] .skeleton-line {
 }
 
 .cli-gap {
-  height: 0.22rem;
+  height: 0.16rem;
 }
 
 .repo-meta {
