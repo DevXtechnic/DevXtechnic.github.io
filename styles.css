@@ -1198,12 +1198,10 @@ section {
   background: transparent;
   border: 0;
   box-shadow: none;
-  padding: 0.2rem 0;
-  margin: 0.4rem auto 0;
-  max-width: min(320px, 90vw);
-  display: flex;
-  justify-content: flex-start;
-  align-items: flex-start;
+  padding: 0.2rem 1.4rem 0;
+  margin: 0.4rem 0 0;
+  width: 100%;
+  display: block;
   content-visibility: visible;
   contain: none;
 }
@@ -1215,7 +1213,8 @@ section {
 
 #cli-snapshot .cli-window {
   margin: 0;
-  width: min(320px, 90vw);
+  width: 100%;
+  max-width: none;
 }
 
 .hero,
