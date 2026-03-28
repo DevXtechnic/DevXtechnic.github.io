@@ -1609,6 +1609,72 @@ function initHeroTypewriters() {
   window.setTimeout(loopStatus, 360);
 }
 
+function initCliSnapshotTypewriter() {
+  if (page !== "home") return;
+  const snapshot = document.getElementById("cli-snapshot");
+  if (!snapshot) return;
+  const lines = Array.from(snapshot.querySelectorAll(".cli-block span"));
+  if (!lines.length) return;
+
+  const originalLines = lines.map((span) => span.textContent || "");
+  if (prefersReducedMotion) {
+    lines.forEach((span, index) => {
+      span.textContent = originalLines[index] || "";
+    });
+    return;
+  }
+
+  let hasStarted = false;
+  const startTyping = () => {
+    if (hasStarted) return;
+    hasStarted = true;
+
+    lines.forEach((span) => {
+      if (span.classList.contains("cli-gap")) {
+        span.textContent = "\u00A0";
+      } else {
+        span.textContent = "";
+      }
+    });
+
+    const typeLine = (index) => {
+      if (index >= lines.length) return;
+      const span = lines[index];
+      const text = originalLines[index] || "";
+
+      if (span.classList.contains("cli-gap")) {
+        span.textContent = "\u00A0";
+        window.setTimeout(() => typeLine(index + 1), 140);
+        return;
+      }
+
+      const speed = span.classList.contains("cli-prompt") ? 18 : 20;
+      typeTextTo(span, text, speed, "");
+      const duration = Math.max(text.length * speed + 120, 200);
+      window.setTimeout(() => typeLine(index + 1), duration);
+    };
+
+    window.setTimeout(() => typeLine(0), 160);
+  };
+
+  if ("IntersectionObserver" in window) {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            startTyping();
+            observer.disconnect();
+          }
+        });
+      },
+      { threshold: 0.2 }
+    );
+    observer.observe(snapshot);
+  } else {
+    startTyping();
+  }
+}
+
 function initNamePronounce() {
   if (!nameSpeakBtn) return;
   if (!("speechSynthesis" in window) || typeof SpeechSynthesisUtterance === "undefined") {
@@ -2098,6 +2164,7 @@ initPenguinDateBadge();
 initThemeSwitcher();
 initNavThemeGuard();
 initHeroTypewriters();
+initCliSnapshotTypewriter();
 initNamePronounce();
 initBlackflagGunfire();
 initRuntimeCompatibility();
