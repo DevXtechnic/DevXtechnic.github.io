@@ -1737,18 +1737,30 @@ function initNamePronounce() {
       }
     }
     const text = heroName?.dataset.name || heroName?.textContent || "Bikram Gole";
-    const utterance = new SpeechSynthesisUtterance(text);
-    utterance.lang = "en-US";
-    utterance.rate = 1.06;
-    utterance.pitch = 0.96;
-    utterance.volume = 1;
     const voice = pickVoice();
-    if (voice) utterance.voice = voice;
-    utterance.onstart = () => setSpeakingState(true);
-    utterance.onend = () => setSpeakingState(false);
-    utterance.onerror = () => setSpeakingState(false);
+    const buildUtterance = () => {
+      const utterance = new SpeechSynthesisUtterance(text);
+      utterance.lang = voice?.lang || "en-US";
+      utterance.rate = 1.06;
+      utterance.pitch = 0.96;
+      utterance.volume = 1;
+      if (voice) utterance.voice = voice;
+      utterance.onstart = () => setSpeakingState(true);
+      utterance.onend = () => setSpeakingState(false);
+      utterance.onerror = () => setSpeakingState(false);
+      return utterance;
+    };
+
+    const utterance = buildUtterance();
     currentUtterance = utterance;
     synth.speak(utterance);
+
+    window.setTimeout(() => {
+      if (synth.speaking || synth.pending) return;
+      const retry = buildUtterance();
+      currentUtterance = retry;
+      synth.speak(retry);
+    }, 240);
   };
 
   nameSpeakBtn.addEventListener("click", () => {
