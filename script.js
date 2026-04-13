@@ -1687,9 +1687,16 @@ function initNamePronounce() {
   const synth = window.speechSynthesis;
   let currentUtterance = null;
   let cachedVoices = [];
+  let pendingSpeak = false;
+  let pendingRetries = 0;
+  let pendingTimer = null;
+  const MAX_SPEAK_RETRIES = 4;
 
   const syncVoices = () => {
     cachedVoices = synth.getVoices?.() || [];
+    if (pendingSpeak && cachedVoices.length) {
+      attemptSpeak(true);
+    }
   };
 
   syncVoices();
@@ -1727,7 +1734,26 @@ function initNamePronounce() {
     setSpeakingState(false);
   };
 
-  const speakName = () => {
+  const clearPending = () => {
+    pendingSpeak = false;
+    pendingRetries = 0;
+    if (pendingTimer) {
+      window.clearTimeout(pendingTimer);
+      pendingTimer = null;
+    }
+  };
+
+  const scheduleRetry = () => {
+    if (!pendingSpeak || pendingRetries >= MAX_SPEAK_RETRIES) return;
+    if (pendingTimer) return;
+    pendingTimer = window.setTimeout(() => {
+      pendingTimer = null;
+      if (!pendingSpeak) return;
+      attemptSpeak(true);
+    }, 420);
+  };
+
+  const attemptSpeak = (isRetry = false) => {
     stopSpeech();
     if (synth.paused) {
       try {
@@ -1738,29 +1764,32 @@ function initNamePronounce() {
     }
     const text = heroName?.dataset.name || heroName?.textContent || "Bikram Gole";
     const voice = pickVoice();
-    const buildUtterance = () => {
-      const utterance = new SpeechSynthesisUtterance(text);
-      utterance.lang = voice?.lang || "en-US";
-      utterance.rate = 1.06;
-      utterance.pitch = 0.96;
-      utterance.volume = 1;
-      if (voice) utterance.voice = voice;
-      utterance.onstart = () => setSpeakingState(true);
-      utterance.onend = () => setSpeakingState(false);
-      utterance.onerror = () => setSpeakingState(false);
-      return utterance;
+    const utterance = new SpeechSynthesisUtterance(text);
+    utterance.lang = voice?.lang || "en-IN";
+    utterance.rate = 0.9;
+    utterance.pitch = 0.92;
+    utterance.volume = 1;
+    if (voice) utterance.voice = voice;
+    utterance.onstart = () => {
+      clearPending();
+      setSpeakingState(true);
     };
-
-    const utterance = buildUtterance();
+    utterance.onend = () => setSpeakingState(false);
+    utterance.onerror = () => setSpeakingState(false);
     currentUtterance = utterance;
     synth.speak(utterance);
 
+    pendingSpeak = true;
+    if (!isRetry) pendingRetries = 0;
     window.setTimeout(() => {
       if (synth.speaking || synth.pending) return;
-      const retry = buildUtterance();
-      currentUtterance = retry;
-      synth.speak(retry);
-    }, 240);
+      if (pendingRetries < MAX_SPEAK_RETRIES) {
+        pendingRetries += 1;
+        scheduleRetry();
+      } else {
+        clearPending();
+      }
+    }, 260);
   };
 
   nameSpeakBtn.addEventListener("click", () => {
@@ -1771,7 +1800,7 @@ function initNamePronounce() {
     if (!cachedVoices.length) {
       syncVoices();
     }
-    speakName();
+    attemptSpeak(false);
   });
 
   nameSpeakBtn.addEventListener("pointerdown", () => {
