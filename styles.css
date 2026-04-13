@@ -973,16 +973,20 @@ nav a.active {
   bottom: max(0.7rem, env(safe-area-inset-bottom));
   transform: translateX(-50%);
   display: flex;
+  align-items: center;
+  justify-content: center;
   gap: 0.38rem;
   z-index: 22;
   pointer-events: auto;
-  padding: 0.28rem 0.4rem;
+  padding: 0.36rem 0.6rem;
+  min-height: 2.4rem;
   border-radius: 999px;
   background: rgba(6, 12, 26, 0.65);
   border: 1px solid rgba(109, 146, 219, 0.25);
   backdrop-filter: blur(8px);
   box-shadow: 0 8px 20px rgba(4, 10, 20, 0.28);
   max-width: min(92vw, 980px);
+  width: fit-content;
   overflow-x: auto;
   overflow-y: hidden;
   scroll-snap-type: x proximity;
@@ -1002,7 +1006,8 @@ nav a.active {
   display: inline-flex;
   align-items: center;
   gap: 0.4rem;
-  padding: 0.3rem 0.52rem;
+  padding: 0.32rem 0.56rem;
+  min-height: 1.8rem;
   border-radius: 999px;
   border: 1px solid var(--border);
   background: rgba(7, 13, 26, 0.72);
@@ -1010,6 +1015,7 @@ nav a.active {
   text-decoration: none;
   font-size: 0.72rem;
   letter-spacing: 0.03em;
+  line-height: 1;
   scroll-snap-align: center;
   transition: transform 200ms ease, background 200ms ease, border-color 200ms ease, color 200ms ease;
 }
@@ -1027,7 +1033,7 @@ nav a.active {
   color: var(--ink);
   border-color: rgba(142, 196, 255, 0.62);
   background: rgba(22, 36, 66, 0.9);
-  transform: translateY(-2px);
+  transform: translateY(-1px);
 }
 
 .section-rail a.active::before {
@@ -4445,11 +4451,13 @@ body.istj-mode .egg-btn {
     right: auto;
     transform: translateX(-50%);
     gap: 0.32rem;
-    padding: 0.22rem 0.34rem;
+    padding: 0.26rem 0.42rem;
+    min-height: 2.15rem;
   }
 
   .section-rail a {
-    padding: 0.28rem;
+    padding: 0.28rem 0.44rem;
+    min-height: 1.6rem;
   }
 
   .section-rail .rail-label {
@@ -4489,6 +4497,7 @@ body.istj-mode .egg-btn {
     right: auto;
     bottom: 0.55rem;
     transform: translateX(-50%);
+    min-height: 2.05rem;
   }
 
   .section-rail a::before {
