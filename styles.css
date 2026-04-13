@@ -1206,7 +1206,6 @@ body[data-theme="liquidglass"] .back-to-top {
 
 main {
   margin: 0.84rem auto 0;
-  counter-reset: panel;
 }
 
 section {
@@ -1528,15 +1527,6 @@ h2 {
   flex-wrap: wrap;
   align-items: center;
   gap: 0.45rem;
-}
-
-.panel h2::before {
-  counter-increment: panel;
-  content: counter(panel, decimal-leading-zero);
-  font-size: 0.7rem;
-  letter-spacing: 0.18em;
-  text-transform: uppercase;
-  color: var(--muted);
 }
 
 .panel h2::after {
