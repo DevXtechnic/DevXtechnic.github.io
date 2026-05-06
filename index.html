@@ -241,18 +241,56 @@
 <span class="cli-output">Linux | Python | C++ | Open Source | AI</span>
 <span class="cli-gap"></span>
 <span class="cli-prompt">neo@arch:~$ projects</span>
-<span class="cli-output">&gt; DevXTechnic</span>
-<span class="cli-output">&gt; Arch Ricing Setup</span>
-<span class="cli-output">&gt; AI Tools Experiments</span>
+<span class="cli-output">&gt; Ytdaily</span>
+<span class="cli-output">&gt; Hyprland Cava Underlay</span>
+<span class="cli-output">&gt; Fish Prompt</span>
         </pre>
       </div>
     </section>
 
     <section id="mission-console" class="panel reveal delay-1 skew-right">
       <h2>Mission Console 🛰️</h2>
-      <p>Click controls. Watch the page mutate.</p>
+      <p>Click controls. Watch the page mutate. The deck below reads live state from the page.</p>
       <div class="control-row">
+        <button id="console-launch-btn" class="btn ghost" type="button">Launch Pulse 🌌</button>
         <button id="quote-btn" class="btn primary" type="button">Drop Insight 💡</button>
+        <button id="console-matrix-btn" class="btn ghost" type="button">Toggle Matrix</button>
+      </div>
+      <div class="ops-grid" aria-label="mission status deck">
+        <article class="ops-card">
+          <span class="ops-label">Theme</span>
+          <strong id="ops-theme">mint</strong>
+        </article>
+        <article class="ops-card">
+          <span class="ops-label">Pulse State</span>
+          <strong id="ops-pulse-state">Cold start</strong>
+        </article>
+        <article class="ops-card">
+          <span class="ops-label">Active Mode</span>
+          <strong id="ops-active-mode">Standard</strong>
+        </article>
+        <article class="ops-card">
+          <span class="ops-label">Last Signal</span>
+          <strong id="ops-last-event">Console ready</strong>
+        </article>
+      </div>
+      <div class="pulse-ladder" aria-label="pulse milestone ladder">
+        <article class="pulse-node" data-target="5">
+          <strong>5</strong>
+          <span>Warp</span>
+        </article>
+        <article class="pulse-node" data-target="10">
+          <strong>10</strong>
+          <span>Chill</span>
+        </article>
+        <article class="pulse-node" data-target="15">
+          <strong>15</strong>
+          <span>Grid</span>
+        </article>
+        <article class="pulse-node" data-target="20">
+          <strong>20</strong>
+          <span>Matrix</span>
+        </article>
       </div>
       <div id="quote-output" class="terminal" role="status" aria-live="polite">Console ready.</div>
       <p class="signal-board">Signals launched: <strong id="signal-count">0</strong></p>
@@ -271,57 +309,174 @@
       <div class="spotlight-grid tilt-zone">
         <article class="spotlight-card tilt">
           <div class="spotlight-swatch" aria-hidden="true"></div>
+          <p class="spotlight-kicker">Workflow Lab</p>
           <h3>Ytdaily</h3>
-          <p>Daily YouTube workflow experiments and automation tinkering.</p>
+          <p>Daily YouTube workflow experiments built to reduce friction and automate the boring parts.</p>
+          <p class="spotlight-meta">Why it matters: this is the kind of tool-first thinking I want to bring into AI engineering.</p>
           <div class="chips">
             <span>Automation</span>
             <span>Workflow</span>
             <span>Scripts</span>
           </div>
+          <p class="spotlight-stat">Mood: useful over flashy</p>
           <a class="spotlight-link" href="https://github.com/DevXtechnic/Ytdaily" target="_blank" rel="noopener noreferrer">Open repo →</a>
         </article>
         <article class="spotlight-card tilt">
           <div class="spotlight-swatch" aria-hidden="true"></div>
+          <p class="spotlight-kicker">Visual Linux</p>
           <h3>Hyprland Cava Underlay</h3>
-          <p>Hyprland visuals with an audio-reactive Cava underlay.</p>
+          <p>Hyprland visuals fused with an audio-reactive Cava underlay for a desktop that feels alive.</p>
+          <p class="spotlight-meta">Why it matters: it shows I care about systems, aesthetics, and how software feels in daily use.</p>
           <div class="chips">
             <span>Linux</span>
             <span>Hyprland</span>
             <span>Audio</span>
           </div>
+          <p class="spotlight-stat">Mood: ricing with signal</p>
           <a class="spotlight-link" href="https://github.com/DevXtechnic/hyprland-cava-underlay" target="_blank" rel="noopener noreferrer">See build →</a>
         </article>
         <article class="spotlight-card tilt">
           <div class="spotlight-swatch" aria-hidden="true"></div>
+          <p class="spotlight-kicker">CLI Identity</p>
           <h3>Fish Prompt</h3>
-          <p>Custom Fish shell prompt theming and CLI polish.</p>
+          <p>Custom Fish shell prompt theming focused on clarity, terminal personality, and day-to-day flow.</p>
+          <p class="spotlight-meta">Why it matters: even tiny interfaces should feel sharp, fast, and unmistakably mine.</p>
           <div class="chips">
             <span>Shell</span>
             <span>Prompt</span>
             <span>CLI</span>
           </div>
+          <p class="spotlight-stat">Mood: minimal but flex-worthy</p>
           <a class="spotlight-link" href="https://github.com/DevXtechnic/fish-prompt" target="_blank" rel="noopener noreferrer">View prompt →</a>
         </article>
       </div>
     </section>
 
     <section id="ai-constellation" class="panel reveal delay-2 skew-right">
-      <h2>AI Constellation 🤖</h2>
-      <div class="chaos-grid">
-        <article class="chaos-card tilt c1"><h3>YouTube</h3><p>AI Explained, Matt Wolfe</p></article>
-        <article class="chaos-card tilt c2"><h3>AI Leaders</h3><p>Sam Altman, Dario Amodei, Elon Musk</p></article>
-        <article class="chaos-card tilt c3"><h3>Focus</h3><p>Build practical AI projects and ship consistently.</p></article>
-        <article class="chaos-card tilt c4"><h3>Tagline</h3><p>Aura Farmer</p></article>
+      <div class="section-head">
+        <div>
+          <h2>AI Constellation 🤖</h2>
+          <p class="subtitle">The people, feeds, and build ideas currently steering the ship.</p>
+        </div>
+      </div>
+      <div class="chaos-grid ai-grid">
+        <article class="chaos-card tilt c1">
+          <p class="chaos-kicker">Feed</p>
+          <h3>YouTube Radar</h3>
+          <p>The channels that keep my model of tech, AI, Linux, and internet culture sharp.</p>
+          <div class="chips chaos-tags">
+            <span>AI Explained</span>
+            <span>Matt Wolfe</span>
+            <span>Mental Outlaw</span>
+            <span>Fireship</span>
+          </div>
+        </article>
+        <article class="chaos-card tilt c2">
+          <p class="chaos-kicker">Operators</p>
+          <h3>People I Watch</h3>
+          <p>I pay attention to builders who shape products, research, and systems at scale.</p>
+          <div class="chips chaos-tags">
+            <span>Sam Altman</span>
+            <span>Dario Amodei</span>
+            <span>Elon Musk</span>
+            <span>Linus Torvalds</span>
+          </div>
+        </article>
+        <article class="chaos-card tilt c3">
+          <p class="chaos-kicker">Build Thesis</p>
+          <h3>What I Actually Want</h3>
+          <p>Useful AI, fast tooling, open systems, and projects that feel good to use every day.</p>
+          <div class="chips chaos-tags">
+            <span>AI Tools</span>
+            <span>Automation</span>
+            <span>Linux</span>
+            <span>Open Source</span>
+          </div>
+        </article>
+        <article class="chaos-card tilt c4">
+          <p class="chaos-kicker">Current Orbit</p>
+          <h3>Locked In On</h3>
+          <ul class="chaos-list">
+            <li>Agent-style workflows that save real time</li>
+            <li>Terminal UX that feels clean and native</li>
+            <li>Making personal branding feel technical, not corporate</li>
+          </ul>
+        </article>
+        <article class="chaos-card tilt c5">
+          <p class="chaos-kicker">Recent Upgrades</p>
+          <h3>Site Changelog</h3>
+          <ul class="chaos-list">
+            <li>Spotlight cards now explain why each repo matters</li>
+            <li>Culture section now scans like cards, not a wall of names</li>
+            <li>Terminal now understands project-aware commands</li>
+          </ul>
+        </article>
+        <article class="chaos-card tilt c6">
+          <p class="chaos-kicker">Next Move</p>
+          <h3>What Gets Sharper Next</h3>
+          <ul class="chaos-list">
+            <li>Smarter terminal flows and repo shortcuts</li>
+            <li>Higher-end motion around scroll and hover states</li>
+            <li>A more premium “live updates” feeling across the page</li>
+          </ul>
+        </article>
       </div>
     </section>
 
     <section id="culture-brain" class="panel reveal delay-3 skew-left">
       <h2>Culture + Brain Fuel 📚</h2>
       <div class="favorite-grid tilt-zone">
-        <article class="favorite-card tilt"><h3>Books</h3><p>1984, Can't Hurt Me, Elon Musk, All Tomorrows, I Have No Mouth and I Must Scream</p></article>
-        <article class="favorite-card tilt"><h3>Movies</h3><p>The Matrix, The Monkey King, Robot, 2.0, The Real Jackpot, Nayak, Ready Player One, Squid Game, BFG</p></article>
-        <article class="favorite-card tilt"><h3>Games</h3><p>Black Myth: Wukong, Minecraft, Detroit: Become Human, God of War</p></article>
-        <article class="favorite-card tilt"><h3>Anime</h3><p>Death Note, Monster, Psycho-Pass, The 7 Deadly Sins, Attack on Titan, Naruto, My Hero Academia, Classroom of the Elite, Baki</p></article>
+        <article class="favorite-card tilt">
+          <h3>Books</h3>
+          <p class="favorite-lead">Dystopia, grit, ambition, and existential damage.</p>
+          <div class="chips favorite-tags">
+            <span>1984</span>
+            <span>Can't Hurt Me</span>
+            <span>Elon Musk</span>
+            <span>All Tomorrows</span>
+            <span>I Have No Mouth and I Must Scream</span>
+          </div>
+        </article>
+        <article class="favorite-card tilt">
+          <h3>Movies</h3>
+          <p class="favorite-lead">Mind-benders, big energy, and pure spectacle.</p>
+          <div class="chips favorite-tags">
+            <span>The Matrix</span>
+            <span>The Monkey King</span>
+            <span>Robot</span>
+            <span>2.0</span>
+            <span>The Real Jackpot</span>
+            <span>Nayak</span>
+            <span>Ready Player One</span>
+            <span>Squid Game</span>
+            <span>BFG</span>
+          </div>
+        </article>
+        <article class="favorite-card tilt">
+          <h3>Games</h3>
+          <p class="favorite-lead">My rotation is a mix of myth, creativity, and story-heavy chaos.</p>
+          <div class="chips favorite-tags">
+            <span>Black Myth: Wukong</span>
+            <span>Minecraft</span>
+            <span>Detroit: Become Human</span>
+            <span>God of War</span>
+          </div>
+        </article>
+        <article class="favorite-card tilt">
+          <h3>Anime</h3>
+          <p class="favorite-lead">Psychological pressure, power systems, and strategic monsters.</p>
+          <div class="chips favorite-tags">
+            <span>Death Note</span>
+            <span>Monster</span>
+            <span>Psycho-Pass</span>
+            <span>The 7 Deadly Sins</span>
+            <span>Attack on Titan</span>
+            <span>Naruto</span>
+            <span>My Hero Academia</span>
+            <span>Classroom of the Elite</span>
+            <span>Baki</span>
+          </div>
+        </article>
       </div>
     </section>
 
@@ -349,7 +504,7 @@
             <input id="mini-terminal-input" type="text" placeholder="help" autocomplete="off" />
           </form>
         </div>
-        <p class="mini-terminal-hint">Try: help, whoami, skills, quote, launch, matrix, theme mint, crypto</p>
+        <p class="mini-terminal-hint">Try: help, now, buildlog, projects, repo ytdaily, culture, quote, matrix</p>
       </div>
     </section>
 
@@ -372,6 +527,24 @@
       <h2>Live GitHub 💻</h2>
       <p>Auto-fetched from <a href="https://github.com/DevXtechnic" target="_blank" rel="noopener noreferrer">github.com/DevXtechnic</a>.</p>
       <p id="repo-meta-line" class="repo-meta-line">Loading repo stats...</p>
+      <div id="repo-overview" class="repo-overview" aria-live="polite">
+        <article class="repo-stat">
+          <span class="repo-stat-label">Repos</span>
+          <strong id="repo-total-stat">--</strong>
+        </article>
+        <article class="repo-stat">
+          <span class="repo-stat-label">Stars</span>
+          <strong id="repo-star-stat">--</strong>
+        </article>
+        <article class="repo-stat">
+          <span class="repo-stat-label">Top Stack</span>
+          <strong id="repo-top-stat">Loading</strong>
+        </article>
+        <article class="repo-stat">
+          <span class="repo-stat-label">Freshest Repo</span>
+          <strong id="repo-fresh-stat">Loading</strong>
+        </article>
+      </div>
       <div id="repo-grid" class="repo-grid tilt-zone" aria-live="polite"></div>
       <button id="repo-toggle" class="btn ghost repo-toggle" type="button" aria-expanded="false">Show more repos</button>
     </section>

@@ -328,8 +328,15 @@ tiltElements.forEach((card) => attachTiltBehavior(card));
 
 const quoteBtn = document.getElementById("quote-btn");
 const launchBtn = document.getElementById("launch-btn");
+const consoleLaunchBtn = document.getElementById("console-launch-btn");
+const consoleMatrixBtn = document.getElementById("console-matrix-btn");
 const quoteOutput = document.getElementById("quote-output");
 const signalCount = document.getElementById("signal-count");
+const opsTheme = document.getElementById("ops-theme");
+const opsPulseState = document.getElementById("ops-pulse-state");
+const opsActiveMode = document.getElementById("ops-active-mode");
+const opsLastEvent = document.getElementById("ops-last-event");
+const pulseNodes = Array.from(document.querySelectorAll(".pulse-node"));
 const penguinAvatar = document.querySelector(".penguin-avatar");
 const penguinBelly = document.querySelector(".penguin-belly");
 const androidDateBadge = document.querySelector(".android-date-badge");
@@ -387,11 +394,29 @@ const THEME_OPTIONS = [
   "paper",
   "blackflag",
 ];
+const THEME_LABELS = {
+  neo: "Neo Blue",
+  mint: "Mint Matrix",
+  sunset: "Sunset Burn",
+  midnight: "Midnight",
+  ember: "Ember",
+  arctic: "Arctic",
+  grape: "Grape Signal",
+  toxic: "Toxic",
+  ocean: "Ocean",
+  bloodmoon: "Blood Moon",
+  zen: "Zen",
+  liquidglass: "Liquid Glass",
+  material3: "Material 3",
+  paper: "Paper",
+  blackflag: "Black Flag",
+};
 const MAX_TERMINAL_LINES = 220;
 const TERMINAL_COMMANDS = [
   "help", "whoami", "mission", "status", "clear",
   "stack", "skills", "age", "location", "school", "goal", "motto",
-  "books", "movies", "games", "anime", "crypto", "people", "youtube",
+  "books", "movies", "games", "anime", "culture", "crypto", "people", "youtube",
+  "projects", "repo", "now", "buildlog",
   "launch", "insight", "quote", "matrix", "music", "elon", "istj", "reset", "quiz",
   "theme", "home", "about", "contact", "github",
   "ls", "pwd", "uname", "nepal", "date", "time", "pulse", "echo",
@@ -1029,6 +1054,7 @@ function applyTheme(theme, notify = false) {
   setThemeInUrl(selected);
   updateInternalLinks();
   resizeCanvas();
+  updateOpsDeck(notify ? `Theme set to ${selected}` : lastOpsEvent);
   if (notify) showToast(`Theme changed: ${selected}`);
 }
 
@@ -1291,10 +1317,12 @@ function runTerminalCommand(rawCommand) {
     appendTerminalLine("Commands:");
     appendTerminalLine("core: help, whoami, mission, status, clear");
     appendTerminalLine("profile: stack, skills, age, location, school, goal, motto");
-    appendTerminalLine("media: books, movies, games, anime, crypto, people, youtube");
+    appendTerminalLine("media: books, movies, games, anime, culture, crypto, people, youtube");
     appendTerminalLine("actions: launch, insight, quote, matrix, music, elon, istj, reset, quiz");
     appendTerminalLine(`theme: theme, theme <name> (${THEME_OPTIONS.join(", ")})`);
     appendTerminalLine("nav: home, about, contact, github");
+    appendTerminalLine("projects: projects, repo <ytdaily|cava|prompt>");
+    appendTerminalLine("live: now, buildlog");
     appendTerminalLine("shell fun: ls, pwd, uname, nepal, date, time, pulse, echo <text>");
   } else if (action === "whoami") {
     appendTerminalLine("Bikram Gole | Aura Farmer");
@@ -1319,9 +1347,38 @@ function runTerminalCommand(rawCommand) {
   } else if (action === "movies") {
     appendTerminalLine("Movies: The Matrix, The Monkey King, Robot, 2.0, The Real Jackpot, Nayak, Ready Player One, Squid Game, BFG.");
   } else if (action === "games") {
-    appendTerminalLine("Games: Black Myth: Wukong, Minecraft, Detroit: Become Human.");
+    appendTerminalLine("Games: Black Myth: Wukong, Minecraft, Detroit: Become Human, God of War.");
   } else if (action === "anime") {
-    appendTerminalLine("Anime: Death Note, Monster, Psycho-Pass, Attack on Titan, Naruto, My Hero Academia, Classroom of the Elite.");
+    appendTerminalLine("Anime: Death Note, Monster, Psycho-Pass, The 7 Deadly Sins, Attack on Titan, Naruto, My Hero Academia, Classroom of the Elite, Baki.");
+  } else if (action === "culture") {
+    appendTerminalLine("Culture: dystopia books, mind-bending movies, story-heavy games, psychological anime.");
+  } else if (action === "projects") {
+    appendTerminalLine("Projects:");
+    appendTerminalLine("> ytdaily - automation and workflow experiments");
+    appendTerminalLine("> cava - Hyprland Cava Underlay");
+    appendTerminalLine("> prompt - Fish prompt polish");
+  } else if (action === "now") {
+    appendTerminalLine("Now orbiting: useful AI, cleaner terminal UX, Linux-native aesthetics, sharper project storytelling.");
+  } else if (action === "buildlog") {
+    appendTerminalLine("Recent upgrades:");
+    appendTerminalLine("> spotlight cards now explain why the projects matter");
+    appendTerminalLine("> culture section now scans as cards and tags");
+    appendTerminalLine("> terminal now has project-aware commands");
+  } else if (action === "repo") {
+    if (!argLower) {
+      appendTerminalLine("Use: repo ytdaily | repo cava | repo prompt", "warn");
+    } else if (argLower === "ytdaily") {
+      window.open("https://github.com/DevXtechnic/Ytdaily", "_blank", "noopener,noreferrer");
+      appendTerminalLine("Opened Ytdaily.");
+    } else if (argLower === "cava" || argLower === "hyprland-cava-underlay") {
+      window.open("https://github.com/DevXtechnic/hyprland-cava-underlay", "_blank", "noopener,noreferrer");
+      appendTerminalLine("Opened Hyprland Cava Underlay.");
+    } else if (argLower === "prompt" || argLower === "fish-prompt") {
+      window.open("https://github.com/DevXtechnic/fish-prompt", "_blank", "noopener,noreferrer");
+      appendTerminalLine("Opened Fish Prompt.");
+    } else {
+      appendTerminalLine("Unknown repo. Use: ytdaily, cava, prompt.", "warn");
+    }
   } else if (action === "crypto") {
     appendTerminalLine("Crypto: BTC, Ethereum, Monero, Solana.");
   } else if (action === "people") {
@@ -1687,16 +1744,10 @@ function initNamePronounce() {
   const synth = window.speechSynthesis;
   let currentUtterance = null;
   let cachedVoices = [];
-  let pendingSpeak = false;
-  let pendingRetries = 0;
-  let pendingTimer = null;
-  const MAX_SPEAK_RETRIES = 4;
+  let fallbackTimer = null;
 
   const syncVoices = () => {
     cachedVoices = synth.getVoices?.() || [];
-    if (pendingSpeak && cachedVoices.length) {
-      attemptSpeak(true);
-    }
   };
 
   syncVoices();
@@ -1726,7 +1777,15 @@ function initNamePronounce() {
     nameSpeakBtn.setAttribute("aria-pressed", isSpeaking ? "true" : "false");
   };
 
+  const clearFallbackTimer = () => {
+    if (fallbackTimer) {
+      window.clearTimeout(fallbackTimer);
+      fallbackTimer = null;
+    }
+  };
+
   const stopSpeech = () => {
+    clearFallbackTimer();
     if (synth.speaking || synth.pending) {
       synth.cancel();
     }
@@ -1734,27 +1793,8 @@ function initNamePronounce() {
     setSpeakingState(false);
   };
 
-  const clearPending = () => {
-    pendingSpeak = false;
-    pendingRetries = 0;
-    if (pendingTimer) {
-      window.clearTimeout(pendingTimer);
-      pendingTimer = null;
-    }
-  };
-
-  const scheduleRetry = () => {
-    if (!pendingSpeak || pendingRetries >= MAX_SPEAK_RETRIES) return;
-    if (pendingTimer) return;
-    pendingTimer = window.setTimeout(() => {
-      pendingTimer = null;
-      if (!pendingSpeak) return;
-      attemptSpeak(true);
-    }, 420);
-  };
-
-  const attemptSpeak = (isRetry = false) => {
-    stopSpeech();
+  const primeSpeech = () => {
+    syncVoices();
     if (synth.paused) {
       try {
         synth.resume();
@@ -1762,58 +1802,61 @@ function initNamePronounce() {
         // ignore
       }
     }
+    return cachedVoices.length > 0;
+  };
+
+  const speakWithVoice = (voice = null) => {
     const text = heroName?.dataset.name || heroName?.textContent || "Bikram Gole";
-    const voice = pickVoice();
     const utterance = new SpeechSynthesisUtterance(text);
     utterance.lang = voice?.lang || "en-IN";
-    utterance.rate = 0.9;
-    utterance.pitch = 0.92;
+    utterance.rate = 0.82;
+    utterance.pitch = 0.9;
     utterance.volume = 1;
     if (voice) utterance.voice = voice;
     utterance.onstart = () => {
-      clearPending();
+      clearFallbackTimer();
       setSpeakingState(true);
+      nameSpeakBtn.title = "Speaking name";
     };
-    utterance.onend = () => setSpeakingState(false);
-    utterance.onerror = () => setSpeakingState(false);
+    utterance.onend = () => {
+      currentUtterance = null;
+      setSpeakingState(false);
+      nameSpeakBtn.title = "Hear my name";
+    };
+    utterance.onerror = () => {
+      currentUtterance = null;
+      setSpeakingState(false);
+      nameSpeakBtn.title = "Speech failed on this browser.";
+    };
     currentUtterance = utterance;
     synth.speak(utterance);
+  };
 
-    pendingSpeak = true;
-    if (!isRetry) pendingRetries = 0;
-    window.setTimeout(() => {
-      if (synth.speaking || synth.pending) return;
-      if (pendingRetries < MAX_SPEAK_RETRIES) {
-        pendingRetries += 1;
-        scheduleRetry();
-      } else {
-        clearPending();
-      }
-    }, 260);
+  const attemptSpeak = () => {
+    stopSpeech();
+    primeSpeech();
+
+    const preferredVoice = pickVoice();
+    speakWithVoice(preferredVoice);
+
+    fallbackTimer = window.setTimeout(() => {
+      if (synth.speaking || synth.pending || currentUtterance === null) return;
+      stopSpeech();
+      primeSpeech();
+      speakWithVoice(pickVoice());
+    }, 900);
   };
 
   nameSpeakBtn.addEventListener("click", () => {
-    if (synth.speaking) {
+    if (synth.speaking || synth.pending) {
       stopSpeech();
       return;
     }
-    if (!cachedVoices.length) {
-      syncVoices();
-    }
-    attemptSpeak(false);
+    attemptSpeak();
   });
 
   nameSpeakBtn.addEventListener("pointerdown", () => {
-    if (!cachedVoices.length) {
-      syncVoices();
-    }
-    if (synth.paused) {
-      try {
-        synth.resume();
-      } catch (error) {
-        // ignore
-      }
-    }
+    primeSpeech();
   });
 
   window.addEventListener("pagehide", stopSpeech);
@@ -1967,14 +2010,17 @@ function initCommandPalette() {
   const commands = [
     { label: "Go: Hero", keywords: "home hero top", run: () => runOrNavigate("hero-zone") },
     { label: "Go: Mission Console", keywords: "mission pulse console", run: () => runOrNavigate("mission-console") },
-    { label: "Go: AI Constellation", keywords: "ai constellation leaders", run: () => runOrNavigate("ai-constellation") },
+    { label: "Go: AI Constellation", keywords: "ai constellation leaders build log current orbit", run: () => runOrNavigate("ai-constellation") },
     { label: "Go: Culture + Brain Fuel", keywords: "movies games anime books", run: () => runOrNavigate("culture-brain") },
     { label: "Go: Neo Terminal", keywords: "terminal shell commands", run: () => runOrNavigate("neo-terminal") },
     { label: "Go: Persona Quiz", keywords: "quiz game persona", run: () => runOrNavigate("persona-quiz") },
     { label: "Go: Live GitHub", keywords: "github repos projects", run: () => runOrNavigate("github-live") },
+    { label: "Action: Current Orbit", keywords: "now current orbit focus", run: () => runOrNavigate("ai-constellation") },
     { label: "Action: Launch Pulse", keywords: "pulse launch aura", run: () => runOrNavigate("mission-console", "launch") },
     { label: "Action: Drop Insight", keywords: "insight quote drop", run: () => runOrNavigate("mission-console", "insight") },
     { label: "Action: Start Persona Quiz", keywords: "quiz start challenge", run: () => runOrNavigate("persona-quiz", "quiz") },
+    { label: "Open: Ytdaily Repo", keywords: "repo ytdaily project", run: () => window.open("https://github.com/DevXtechnic/Ytdaily", "_blank", "noopener,noreferrer") },
+    { label: "Open: Fish Prompt Repo", keywords: "repo prompt shell project", run: () => window.open("https://github.com/DevXtechnic/fish-prompt", "_blank", "noopener,noreferrer") },
     { label: "Theme: Neo Blue", keywords: "theme neo blue", run: () => applyTheme("neo", true) },
     { label: "Theme: Mint Matrix", keywords: "theme mint green", run: () => applyTheme("mint", true) },
     { label: "Theme: Sunset Warp", keywords: "theme sunset orange", run: () => applyTheme("sunset", true) },
@@ -2238,6 +2284,7 @@ if (quoteBtn && quoteOutput) {
       triggerBlackflagBlast(rect.left + rect.width * 0.5, rect.top + rect.height * 0.5);
     }
     resetPulseChain();
+    updateOpsDeck("Insight dropped");
   });
 }
 
@@ -2258,16 +2305,83 @@ if (launchBtn && quoteOutput && signalCount) {
     if (launches >= 20 && !document.body.classList.contains("matrix-mode")) {
       startMatrixRain();
     }
+    updateOpsDeck(`Pulse ${launches} launched`);
   });
 }
+
+consoleLaunchBtn?.addEventListener("click", () => launchBtn?.click());
+consoleMatrixBtn?.addEventListener("click", () => toggleMatrixMode());
 
 const REPO_BATCH_SIZE = 6;
 let repoStore = [];
 let repoRenderCount = 0;
+let lastOpsEvent = "Console ready";
+
+function derivePulseState(count) {
+  if (count <= 0) return "Cold start";
+  if (count < 5) return "Warming";
+  if (count < 10) return "Charged";
+  if (count < 15) return "Audio online";
+  if (count < 20) return "Warp grid";
+  return "Matrix locked";
+}
+
+function deriveActiveMode() {
+  if (document.body.classList.contains("matrix-mode")) return "Matrix Rain";
+  if (document.body.classList.contains("elon-mode") && document.body.classList.contains("istj-mode")) return "Warp + Grid";
+  if (document.body.classList.contains("elon-mode")) return "Elon Warp";
+  if (document.body.classList.contains("istj-mode")) return "ISTJ Grid";
+  if (document.body.classList.contains("funk-mode")) return "Chill Music";
+  return "Standard";
+}
+
+function updatePulseLadder(count) {
+  if (!pulseNodes.length) return;
+
+  pulseNodes.forEach((node) => {
+    const target = Number(node.dataset.target || "0");
+    let state = "idle";
+    if (count >= target) {
+      state = "active";
+    } else if (target - count <= 5) {
+      state = "arming";
+    }
+    node.dataset.state = state;
+  });
+}
+
+function updateOpsDeck(eventText = lastOpsEvent) {
+  lastOpsEvent = eventText || lastOpsEvent;
+  if (opsTheme) opsTheme.textContent = THEME_LABELS[currentTheme] || currentTheme;
+  if (opsPulseState) opsPulseState.textContent = derivePulseState(launches);
+  if (opsActiveMode) opsActiveMode.textContent = deriveActiveMode();
+  if (opsLastEvent) opsLastEvent.textContent = lastOpsEvent;
+  updatePulseLadder(launches);
+}
+
+function formatRelativeRepoUpdate(updatedAt) {
+  if (!updatedAt) return "Unknown";
+  const time = new Date(updatedAt).getTime();
+  if (Number.isNaN(time)) return "Unknown";
+
+  const diffMs = Date.now() - time;
+  const diffDays = Math.max(0, Math.floor(diffMs / 86400000));
+  if (diffDays === 0) return "Updated today";
+  if (diffDays === 1) return "Updated 1 day ago";
+  if (diffDays < 30) return `Updated ${diffDays} days ago`;
+
+  const diffWeeks = Math.floor(diffDays / 7);
+  if (diffWeeks < 8) return `Updated ${diffWeeks} week${diffWeeks === 1 ? "" : "s"} ago`;
+
+  const diffMonths = Math.floor(diffDays / 30);
+  return `Updated ${diffMonths} month${diffMonths === 1 ? "" : "s"} ago`;
+}
 
 function computeRepoStats(repos) {
   const languageCounts = {};
+  let totalStars = 0;
   repos.forEach((repo) => {
+    totalStars += repo.stargazers_count || 0;
     if (!repo.language) return;
     languageCounts[repo.language] = (languageCounts[repo.language] || 0) + 1;
   });
@@ -2278,7 +2392,21 @@ function computeRepoStats(repos) {
   return {
     total: repos.length,
     topLangs,
+    totalStars,
+    freshest: repos[0]?.name || "Unknown",
   };
+}
+
+function updateRepoOverview(stats) {
+  const totalStat = document.getElementById("repo-total-stat");
+  const starStat = document.getElementById("repo-star-stat");
+  const topStat = document.getElementById("repo-top-stat");
+  const freshStat = document.getElementById("repo-fresh-stat");
+
+  if (totalStat) totalStat.textContent = stats ? String(stats.total) : "--";
+  if (starStat) starStat.textContent = stats ? String(stats.totalStars) : "--";
+  if (topStat) topStat.textContent = stats?.topLangs?.length ? stats.topLangs.join(" / ") : "Mixed";
+  if (freshStat) freshStat.textContent = stats?.freshest || "Unknown";
 }
 
 function renderRepoGrid(reset = false) {
@@ -2298,7 +2426,12 @@ function renderRepoGrid(reset = false) {
         <article class="repo-card tilt">
           <h3><a href="${repo.html_url}" target="_blank" rel="noopener noreferrer">${repo.name}</a></h3>
           <p>${repo.description || "No description yet."}</p>
-          <p class="repo-meta">${repo.language || "Code"} | ${repo.stargazers_count} stars</p>
+          <div class="repo-chip-row" aria-label="repository metadata">
+            <span class="repo-chip">${repo.language || "Code"}</span>
+            <span class="repo-chip">${repo.stargazers_count}★</span>
+            <span class="repo-chip">${repo.fork ? "Fork" : "Source"}</span>
+          </div>
+          <p class="repo-meta">${formatRelativeRepoUpdate(repo.updated_at)}</p>
         </article>
       `
     )
@@ -2311,8 +2444,10 @@ function renderRepoGrid(reset = false) {
       const stats = computeRepoStats(repoStore);
       const langText = stats.topLangs.length ? ` • Top languages: ${stats.topLangs.join(", ")}` : "";
       metaLine.textContent = `Showing ${repoRenderCount} of ${stats.total} repos${langText}`;
+      updateRepoOverview(stats);
     } else {
       metaLine.textContent = "No public repos found yet.";
+      updateRepoOverview(null);
     }
   }
 
@@ -2353,6 +2488,7 @@ async function loadRepos() {
       grid.removeAttribute("aria-busy");
       grid.innerHTML = "<p>No public repos found yet. Check back soon.</p>";
       if (metaLine) metaLine.textContent = "No public repos found yet.";
+      updateRepoOverview(null);
       return;
     }
 
@@ -2364,6 +2500,7 @@ async function loadRepos() {
     grid.removeAttribute("aria-busy");
     grid.innerHTML = '<p>Could not load live repos now. Visit <a href="https://github.com/DevXtechnic" target="_blank" rel="noopener noreferrer">GitHub profile</a>.</p>';
     if (metaLine) metaLine.textContent = "Live repo fetch failed. Visit GitHub profile.";
+    updateRepoOverview(null);
   }
 }
 
@@ -2752,22 +2889,27 @@ function toggleFunkAudio() {
   if (funkTimer) {
     stopFunkAudio();
     showToast("Funk reactor off.");
+    updateOpsDeck("Chill music offline");
   } else {
     startFunkAudio();
     spawnSparks(22);
     showToast("Funk reactor online.");
+    updateOpsDeck("Chill music online");
   }
 }
 
 function toggleISTJMode() {
   document.body.classList.toggle("istj-mode");
-  showToast(document.body.classList.contains("istj-mode") ? "ISTJ grid enabled." : "ISTJ grid disabled.");
+  const enabled = document.body.classList.contains("istj-mode");
+  showToast(enabled ? "ISTJ grid enabled." : "ISTJ grid disabled.");
+  updateOpsDeck(enabled ? "ISTJ grid enabled" : "ISTJ grid disabled");
 }
 
 function toggleElonMode() {
   document.body.classList.toggle("elon-mode");
   spawnSparks(14);
   showToast("Elon warp toggled.");
+  updateOpsDeck(document.body.classList.contains("elon-mode") ? "Elon warp enabled" : "Elon warp disabled");
 }
 
 function toggleMatrixMode() {
@@ -2776,14 +2918,17 @@ function toggleMatrixMode() {
       startMatrixRain(true);
     }
     showToast("Matrix locked. Drop Insight to reset.");
+    updateOpsDeck("Matrix locked");
     return;
   }
   if (document.body.classList.contains("matrix-mode")) {
     stopMatrixRain();
     showToast("Matrix rain disabled.");
+    updateOpsDeck("Matrix rain disabled");
   } else {
     startMatrixRain();
     showToast("Matrix rain enabled.");
+    updateOpsDeck("Matrix rain enabled");
   }
 }
 
@@ -2820,6 +2965,7 @@ function resetPulseChain() {
   if (funkTimer) {
     stopFunkAudio();
   }
+  updateOpsDeck("Pulse chain reset");
 }
 
 document.getElementById("funk-toggle")?.addEventListener("click", toggleFunkAudio);
